@@ -1,8 +1,10 @@
-import { menu } from '@kewinmarchand/css/reference/markup.ts'
-import { Menu as ReactMenu } from '@kewinmarchand/react'
-import { Menu as VueMenu } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { menu } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Menu as ReactMenu } from '@kewinmarchand/react'
+import { Menu as VueMenu } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

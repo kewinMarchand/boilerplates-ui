@@ -1,10 +1,4 @@
-import '@fontsource-variable/inter'
-import '@kewinmarchand/tokens/tokens.css'
-import '@kewinmarchand/css'
-import './preview.css'
-
 import { setIconSprite as setReferenceSprite } from '@kewinmarchand/css/reference/markup.ts'
-import { setIconSprite as setReactSprite } from '@kewinmarchand/react'
 import {
   initMenus,
   initModals,
@@ -14,11 +8,18 @@ import {
   initTooltips,
   setToastIconSprite,
 } from '@kewinmarchand/vanilla'
+
+import { setIconSprite as setReactSprite } from '@kewinmarchand/react'
 import { setIconSprite as setVueSprite } from '@kewinmarchand/vue'
 
 import { applyTheme } from '../stories/support/theme'
 
 import type { Preview } from '@storybook/html-vite'
+
+import '@fontsource-variable/inter'
+import '@kewinmarchand/tokens/tokens.css'
+import '@kewinmarchand/css'
+import './preview.css'
 
 // Chemin relatif à iframe.html : le sprite suit le Storybook sous un sous-chemin (GitHub Pages).
 const ICON_SPRITE = 'icons.svg'

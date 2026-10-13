@@ -1,8 +1,10 @@
-import { accordion } from '@kewinmarchand/css/reference/markup.ts'
-import { Accordion as ReactAccordion } from '@kewinmarchand/react'
-import { Accordion as VueAccordion } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { accordion } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Accordion as ReactAccordion } from '@kewinmarchand/react'
+import { Accordion as VueAccordion } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

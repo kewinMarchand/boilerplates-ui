@@ -1,12 +1,14 @@
+import { createElement, useState } from 'react'
+import { defineComponent, h, ref } from 'vue'
+
 import { drawer, modal } from '@kewinmarchand/css/reference/markup.ts'
+
 import {
   Button as ReactButton,
   Drawer as ReactDrawer,
   Modal as ReactModal,
 } from '@kewinmarchand/react'
 import { Button as VueButton, Drawer as VueDrawer, Modal as VueModal } from '@kewinmarchand/vue'
-import { createElement, useState } from 'react'
-import { defineComponent, h, ref } from 'vue'
 
 /** Démonstrations communes à la modale et au tiroir : un déclencheur, un titre, un texte, deux actions. */
 export interface DialogArgs {

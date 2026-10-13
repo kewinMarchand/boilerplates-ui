@@ -1,12 +1,14 @@
+import { createElement, useState } from 'react'
+import { defineComponent, h, ref } from 'vue'
+
 import {
   type SortDirection,
   table,
   type TableOptions,
 } from '@kewinmarchand/css/reference/markup.ts'
+
 import { Table as ReactTable } from '@kewinmarchand/react'
 import { Table as VueTable } from '@kewinmarchand/vue'
-import { createElement, useState } from 'react'
-import { defineComponent, h, ref } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

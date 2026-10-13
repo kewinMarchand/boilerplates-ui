@@ -1,8 +1,10 @@
-import { avatar, type AvatarOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { Avatar as ReactAvatar } from '@kewinmarchand/react'
-import { Avatar as VueAvatar } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { avatar, type AvatarOptions } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Avatar as ReactAvatar } from '@kewinmarchand/react'
+import { Avatar as VueAvatar } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { defined, grid, OVERVIEW } from './support/grid'

@@ -1,12 +1,14 @@
 // @vitest-environment jsdom
-import * as ref from '@kewinmarchand/css/reference/markup.ts'
-import * as R from '@kewinmarchand/react'
-import * as V from '@kewinmarchand/vue'
 import { createElement as r, type ReactElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { createSSRApp, h, type VNode } from 'vue'
 import { renderToString } from 'vue/server-renderer'
+
+import * as ref from '@kewinmarchand/css/reference/markup.ts'
+
+import * as R from '@kewinmarchand/react'
+import * as V from '@kewinmarchand/vue'
 
 /**
  * Forme canonique d'un fragment HTML : attributs `data-bui-*` (branchements du JS vanilla, absents

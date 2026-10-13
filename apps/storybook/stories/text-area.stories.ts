@@ -1,8 +1,10 @@
-import { textArea, type TextAreaOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { TextArea as ReactTextArea } from '@kewinmarchand/react'
-import { TextArea as VueTextArea } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { textArea, type TextAreaOptions } from '@kewinmarchand/css/reference/markup.ts'
+
+import { TextArea as ReactTextArea } from '@kewinmarchand/react'
+import { TextArea as VueTextArea } from '@kewinmarchand/vue'
 
 import { FIELD_ARG_TYPES, fieldRows } from './support/fields'
 import { mountReact, mountVue } from './support/frameworks'

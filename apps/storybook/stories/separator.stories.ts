@@ -1,8 +1,10 @@
-import { separator } from '@kewinmarchand/css/reference/markup.ts'
-import { Separator as ReactSeparator } from '@kewinmarchand/react'
-import { Separator as VueSeparator } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { separator } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Separator as ReactSeparator } from '@kewinmarchand/react'
+import { Separator as VueSeparator } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

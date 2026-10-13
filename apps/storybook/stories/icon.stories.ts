@@ -1,8 +1,10 @@
-import { icon, type IconOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { Icon as ReactIcon, ICON_NAMES, type IconName } from '@kewinmarchand/react'
-import { Icon as VueIcon } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { icon, type IconOptions } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Icon as ReactIcon, ICON_NAMES, type IconName } from '@kewinmarchand/react'
+import { Icon as VueIcon } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { defined, grid, OVERVIEW } from './support/grid'

@@ -1,8 +1,10 @@
-import { skeleton, type SkeletonOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { Skeleton as ReactSkeleton } from '@kewinmarchand/react'
-import { Skeleton as VueSkeleton } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { skeleton, type SkeletonOptions } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Skeleton as ReactSkeleton } from '@kewinmarchand/react'
+import { Skeleton as VueSkeleton } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

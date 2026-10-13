@@ -1,8 +1,10 @@
-import { switchControl, type SwitchOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { Switch as ReactSwitch } from '@kewinmarchand/react'
-import { Switch as VueSwitch } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { switchControl, type SwitchOptions } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Switch as ReactSwitch } from '@kewinmarchand/react'
+import { Switch as VueSwitch } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW, uid } from './support/grid'

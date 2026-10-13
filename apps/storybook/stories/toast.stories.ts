@@ -1,17 +1,19 @@
+import { createElement } from 'react'
+import { defineComponent, h } from 'vue'
+
 import { TOAST_VARIANTS, toaster, type ToastOptions } from '@kewinmarchand/css/reference/markup.ts'
+import { showToast } from '@kewinmarchand/vanilla'
+
 import {
   Button as ReactButton,
   Toaster as ReactToaster,
   useToaster as useReactToaster,
 } from '@kewinmarchand/react'
-import { showToast } from '@kewinmarchand/vanilla'
 import {
   Button as VueButton,
   Toaster as VueToaster,
   useToaster as useVueToaster,
 } from '@kewinmarchand/vue'
-import { createElement } from 'react'
-import { defineComponent, h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

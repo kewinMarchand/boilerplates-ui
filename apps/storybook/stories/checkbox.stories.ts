@@ -1,8 +1,10 @@
-import { checkbox, type CheckboxOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { Checkbox as ReactCheckbox } from '@kewinmarchand/react'
-import { Checkbox as VueCheckbox } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { checkbox, type CheckboxOptions } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Checkbox as ReactCheckbox } from '@kewinmarchand/react'
+import { Checkbox as VueCheckbox } from '@kewinmarchand/vue'
 
 import { FIELD_ARG_TYPES, fieldRows } from './support/fields'
 import { mountReact, mountVue } from './support/frameworks'

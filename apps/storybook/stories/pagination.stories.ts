@@ -1,8 +1,10 @@
-import { pagination } from '@kewinmarchand/css/reference/markup.ts'
-import { Pagination as ReactPagination } from '@kewinmarchand/react'
-import { Pagination as VuePagination } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { pagination } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Pagination as ReactPagination } from '@kewinmarchand/react'
+import { Pagination as VuePagination } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

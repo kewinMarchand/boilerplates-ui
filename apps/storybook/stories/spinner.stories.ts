@@ -1,8 +1,10 @@
-import { spinner, type SpinnerOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { Spinner as ReactSpinner } from '@kewinmarchand/react'
-import { Spinner as VueSpinner } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { spinner, type SpinnerOptions } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Spinner as ReactSpinner } from '@kewinmarchand/react'
+import { Spinner as VueSpinner } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

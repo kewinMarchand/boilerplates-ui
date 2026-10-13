@@ -1,8 +1,10 @@
-import { tabs } from '@kewinmarchand/css/reference/markup.ts'
-import { Tabs as ReactTabs } from '@kewinmarchand/react'
-import { Tabs as VueTabs } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { tabs } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Tabs as ReactTabs } from '@kewinmarchand/react'
+import { Tabs as VueTabs } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'

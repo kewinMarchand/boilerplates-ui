@@ -24,4 +24,5 @@ Bibliothèque de composants personnelle, commune aux cinq boilerplates. Les conv
 
 - `vue/require-default-prop` désactivée sur les `.vue` : les props optionnelles sont typées et `undefined` est la valeur voulue (attribut absent du balisage). Une valeur par défaut factice casserait la parité avec React.
 - Les composants Vue gardent des noms courts à l'import (`Button`) comme en React, et déclarent un nom multi-mots par `defineOptions({ name: 'BuiButton' })` pour respecter `vue/multi-word-component-names` sans désactiver la règle.
+- `simple-import-sort/imports` en erreur, groupes de `standards-front` adaptés : tiers, socle (`@kewinmarchand/tokens`, `css`, `vanilla`), modules (`@kewinmarchand/react`, `vue`), relatifs, types, puis styles et autres effets de bord. Pas de bibliothèque commune ni de vues dans ce dépôt. Corrigé par `make lint-fix`.
 - `no-console` est coupée dans `tools/` et `packages/tokens/scripts/` : ce sont des scripts en ligne de commande qui rendent compte de ce qu'ils écrivent.

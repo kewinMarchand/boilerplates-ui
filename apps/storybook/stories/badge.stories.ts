@@ -1,8 +1,10 @@
-import { badge, type BadgeOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { Badge as ReactBadge } from '@kewinmarchand/react'
-import { Badge as VueBadge } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
+
+import { badge, type BadgeOptions } from '@kewinmarchand/css/reference/markup.ts'
+
+import { Badge as ReactBadge } from '@kewinmarchand/react'
+import { Badge as VueBadge } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
