@@ -1,0 +1,47 @@
+import { icon } from '@kewinmarchand/css/reference/markup.ts'
+
+import { familyOverview, OVERVIEW_PAGE } from './support/overview'
+
+import type { Meta, StoryObj } from '@storybook/html-vite'
+
+const meta: Meta = { title: 'Fondations/Vue d’ensemble', parameters: OVERVIEW_PAGE }
+export default meta
+
+const SWATCHES = [
+  'primary',
+  'primary-dark',
+  'secondary',
+  'text',
+  'text-muted',
+  'border',
+  'error',
+  'success',
+  'warning',
+  'info',
+]
+
+export const VueDEnsemble: StoryObj = {
+  name: 'Vue d’ensemble',
+  render: () =>
+    familyOverview(
+      'Fondations',
+      'Les valeurs partagées par tous les composants : tokens et icônes.',
+      [
+        {
+          title: 'Tokens',
+          story: 'fondations-tokens--tokens',
+          demo: SWATCHES.map(
+            (name) =>
+              `<span title="${name}" style="display:inline-block;width:40px;height:40px;border-radius:var(--bui-radius-md);border:1px solid var(--bui-color-border-subtle);background:var(--bui-color-${name})"></span>`,
+          ).join(''),
+        },
+        {
+          title: 'Icône',
+          story: 'fondations-icône--toutes-les-variantes',
+          demo: ['info', 'circle-check', 'triangle-alert', 'circle-alert', 'mail', 'plus', 'x']
+            .map((name) => icon(name, undefined, { size: 'lg' }))
+            .join(''),
+        },
+      ],
+    ),
+}

@@ -34,6 +34,15 @@ initTooltips()
 initToasts()
 initTables()
 
+/** Plan de travail blanc (surface des tokens) sur le fond gris de l'aperçu. */
+const workbench = (content: unknown) => {
+  const bench = document.createElement('div')
+  bench.className = 'sb-workbench'
+  if (content instanceof Node) bench.append(content)
+  else bench.innerHTML = String(content)
+  return bench
+}
+
 /** Bandeau d'avertissement de contraste, hors de la zone de l'histoire. */
 const showWarnings = (warnings: string[]) => {
   document.getElementById('sb-contrast-warning')?.remove()
@@ -73,7 +82,7 @@ const preview: Preview = {
           enhanced,
         ),
       )
-      return story()
+      return workbench(story())
     },
   ],
   parameters: {
@@ -84,13 +93,19 @@ const preview: Preview = {
         order: [
           'Introduction',
           'Fondations',
-          ['Tokens', 'Icône'],
+          ['Vue d’ensemble', 'Tokens', 'Icône'],
           'Actions',
+          ['Vue d’ensemble', '*'],
           'Formulaire',
+          ['Vue d’ensemble', '*'],
           'Affichage',
+          ['Vue d’ensemble', '*'],
           'Navigation',
+          ['Vue d’ensemble', '*'],
           'Retours',
+          ['Vue d’ensemble', '*'],
           'Superpositions',
+          ['Vue d’ensemble', '*'],
         ],
       },
     },

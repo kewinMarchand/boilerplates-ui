@@ -4,7 +4,7 @@
     height: 0;
     margin: var(--bui-space-4) 0;
     border: 0;
-    border-top: 1px solid var(--bui-color-border-subtle);
+    border-top: 1px solid var(--bui-color-border);
   }
 
   .bui-separator--vertical {
@@ -13,6 +13,6 @@
     height: auto;
     margin: 0 var(--bui-space-2);
     border-top: 0;
-    border-left: 1px solid var(--bui-color-border-subtle);
+    border-left: 1px solid var(--bui-color-border);
   }
 }

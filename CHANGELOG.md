@@ -20,7 +20,14 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Ver
 - `box-sizing: border-box` sur les blocs `bui-*` : champs et boutons en lien gardaient 44 px de contenu plus leur marge intérieure sans reset du site.
 - Espace avant « (obligatoire) » sur la case à cocher.
 
+### Storybook
+
+- Plan de travail blanc (surface des tokens) sur le fond gris de l'aperçu, en mode standard et renforcé.
+- Une vue d'ensemble par famille, en tête de la famille, avec un lien vers chaque page détaillée (vérifié par un test).
+
 ### Modifié
+
+- Séparateur : trait en `--bui-color-border` (4,8:1 sur blanc) au lieu de `border-subtle` (1,2:1), pour passer le critère WCAG 1.4.11.
 
 - Champ `files` : ajoute `packages/css/reference` (cité par le README) et les types vanilla.
 
