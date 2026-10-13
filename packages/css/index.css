@@ -18,3 +18,12 @@
 @import './components/spinner.css';
 @import './components/skeleton.css';
 @import './components/avatar.css';
+@import './components/drawer.css';
+@import './components/toast.css';
+@import './components/tabs.css';
+@import './components/accordion.css';
+@import './components/tooltip.css';
+@import './components/menu.css';
+@import './components/breadcrumb.css';
+@import './components/pagination.css';
+@import './components/table.css';

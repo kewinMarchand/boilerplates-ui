@@ -12,6 +12,8 @@ Bibliothèque de composants personnelle, commune aux cinq boilerplates. Les conv
 - **Storybook** : un seul, `@storybook/html-vite`. Histoires HTML par état, une histoire React et une histoire Vue par composant (montées par `stories/support/frameworks.ts`). Bascule de mode dans la barre d'outils (`a11yMode`). Survol et focus forcés par `storybook-addon-pseudo-states`.
 - **Sprite d'icônes** : `/icons.svg` par défaut, changé par `setIconSprite()` (exporté par `react`, `vue` et `css/reference/markup.ts`). Le Storybook passe un chemin relatif, `icons.svg`, pour fonctionner sous `/boilerplates-ui/` sur GitHub Pages (job `pages` de la CI, sur `main` seulement).
 - **Champs** : zone de texte et liste déroulante réutilisent le bloc `bui-field` (composant interne `Field` en React et Vue). Le groupe de boutons radio compose `Fieldset` et `Radio`. L'interrupteur est une case à cocher native avec `role="switch"`.
+- **Branchements vanilla** : les attributs `data-bui-*` n'existent que dans le balisage de référence et le HTML servi tel quel. React et Vue ne les posent pas, pour qu'un `initX()` vanilla ne pilote jamais un DOM tenu par un framework. Le test de parité les ignore.
+- **Tests de comportement** : `tests/a11y/behavior.a11y.ts` vérifie au clavier modale, tiroir, onglets, menu, info-bulle, toast et tri du tableau, sur l'histoire HTML, React et Vue. Il tourne avec `make test-a11y`.
 - **Tests axe** : `tests/a11y/stories.a11y.ts` lit `storybook-static/index.json` et teste chaque histoire dans les deux modes. Il faut `make storybook-build` avant `make test-a11y`. L'addon a11y lance aussi axe dans l'iframe : le test relance son analyse par `expect.toPass()` tant que le passage de l'addon n'est pas fini.
 
 ## Règles de lint désactivées ou ajoutées

@@ -1,3 +1,4 @@
+import { cx } from './cx'
 import { Icon } from './Icon'
 import { useModal } from './useModal'
 
@@ -10,6 +11,8 @@ export interface ModalProps {
   onClose: () => void
   footer?: ReactNode
   closeLabel?: string
+  /** Tiroir latéral : la modale s'ouvre contre le bord indiqué. */
+  side?: 'start' | 'end' | undefined
   children: ReactNode
 }
 
@@ -20,12 +23,22 @@ export const Modal = ({
   onClose,
   footer,
   closeLabel = 'Fermer',
+  side,
   children,
 }: ModalProps) => {
   const ref = useModal(open, onClose)
 
   return (
-    <dialog ref={ref} className="bui-modal" id={id} aria-labelledby={`${id}-title`}>
+    <dialog
+      ref={ref}
+      className={cx(
+        'bui-modal',
+        side && 'bui-modal--drawer',
+        side === 'start' && 'bui-modal--start',
+      )}
+      id={id}
+      aria-labelledby={`${id}-title`}
+    >
       <div className="bui-modal__header">
         <h2 className="bui-modal__title" id={`${id}-title`}>
           {title}
@@ -34,7 +47,6 @@ export const Modal = ({
           type="button"
           className="bui-modal__close"
           aria-label={closeLabel}
-          data-bui-modal-close=""
           onClick={() => ref.current?.close()}
         >
           <Icon name="x" />

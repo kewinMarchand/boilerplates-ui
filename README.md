@@ -6,12 +6,12 @@ Bibliothèque de composants commune aux cinq boilerplates (Next et MUI, Nuxt et 
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `packages/tokens`  | Source `src/tokens.ts`, fichiers générés dans `generated/` : `tokens.css`, `tokens.json`, `mui.json`, `vuetify.json`, `tailwind.css`        |
 | `packages/css`     | Un fichier CSS par composant (`components/`), `index.css`, sprite d'icônes Lucide (`icons/`), balisage de référence (`reference/markup.ts`) |
-| `packages/vanilla` | Comportement natif sans dépendance (modale sur `<dialog>`)                                                                                  |
+| `packages/vanilla` | Comportement natif sans dépendance (modale et tiroir sur `<dialog>`, onglets, menu, info-bulle, toast, tri de tableau)                      |
 | `packages/react`   | Composants React typés                                                                                                                      |
 | `packages/vue`     | Composants Vue typés                                                                                                                        |
 | `apps/storybook`   | Storybook de démonstration et documentation des tokens                                                                                      |
 
-Composants disponibles : bouton, bouton icône, lien, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, séparateur, indicateur de chargement, squelette, avatar, icône.
+Composants disponibles : bouton, bouton icône, lien, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, tiroir, toast, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, séparateur, indicateur de chargement, squelette, avatar, icône.
 
 Le Storybook est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
 
@@ -61,23 +61,23 @@ En attendant la publication npm, la dépendance est le dépôt git sur une étiq
 
 Créer une version : `git tag v0.1.0 && git push origin v0.1.0`. Monter de version dans un boilerplate : changer l'étiquette, puis `make install`.
 
-| Import                                               | Contenu                                                       |
-| ---------------------------------------------------- | ------------------------------------------------------------- |
-| `@kewinmarchand/boilerplates-ui/tokens/tokens.css`   | Variables `--bui-*`, mode renforcé compris                    |
-| `@kewinmarchand/boilerplates-ui/tokens/tailwind.css` | Thème Tailwind v4 (`@theme inline`) branché sur les variables |
-| `@kewinmarchand/boilerplates-ui/tokens/mui.json`     | Options de `createTheme`                                      |
-| `@kewinmarchand/boilerplates-ui/tokens/vuetify.json` | Options de thème Vuetify, thèmes `light` et `enhanced`        |
-| `@kewinmarchand/boilerplates-ui/css`                 | CSS de tous les composants                                    |
-| `@kewinmarchand/boilerplates-ui/vanilla`             | `initModals()`, `openModal()`                                 |
-| `@kewinmarchand/boilerplates-ui/react`               | Composants React                                              |
-| `@kewinmarchand/boilerplates-ui/vue`                 | Composants Vue                                                |
+| Import                                               | Contenu                                                                                                        |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@kewinmarchand/boilerplates-ui/tokens/tokens.css`   | Variables `--bui-*`, mode renforcé compris                                                                     |
+| `@kewinmarchand/boilerplates-ui/tokens/tailwind.css` | Thème Tailwind v4 (`@theme inline`) branché sur les variables                                                  |
+| `@kewinmarchand/boilerplates-ui/tokens/mui.json`     | Options de `createTheme`                                                                                       |
+| `@kewinmarchand/boilerplates-ui/tokens/vuetify.json` | Options de thème Vuetify, thèmes `light` et `enhanced`                                                         |
+| `@kewinmarchand/boilerplates-ui/css`                 | CSS de tous les composants                                                                                     |
+| `@kewinmarchand/boilerplates-ui/vanilla`             | `initModals()`, `initTabs()`, `initMenus()`, `initTooltips()`, `initToasts()` et `showToast()`, `initTables()` |
+| `@kewinmarchand/boilerplates-ui/react`               | Composants React                                                                                               |
+| `@kewinmarchand/boilerplates-ui/vue`                 | Composants Vue                                                                                                 |
 
 Par stack :
 
 - **Next et MUI** : `transpilePackages: ['@kewinmarchand/boilerplates-ui']` dans `next.config.ts`, importer `tokens.css` puis `css` dans le layout racine, `createTheme(deepmerge(muiOptions, options propres))` si l'on reprend l'adaptateur.
 - **Nuxt et Vuetify** : `build: { transpile: ['@kewinmarchand/boilerplates-ui'] }`, les deux CSS dans `css`, les options de `vuetify.json` dans `createVuetify`. Le thème `enhanced` se sélectionne avec le mode renforcé.
-- **SvelteKit et Tailwind** : `@import` de `tokens.css`, puis `tailwindcss`, puis `tokens/tailwind.css` et `css`. Les composants Svelte recopient le balisage de `packages/css/reference/markup.ts` et appellent `initModals()`.
-- **Symfony et Twig, HTML vanilla** : mêmes CSS, balisage recopié dans des partials, `initModals()` au chargement.
+- **SvelteKit et Tailwind** : `@import` de `tokens.css`, puis `tailwindcss`, puis `tokens/tailwind.css` et `css`. Les composants Svelte recopient le balisage de `packages/css/reference/markup.ts` et appellent les `initX()` de vanilla.
+- **Symfony et Twig, HTML vanilla** : mêmes CSS, balisage recopié dans des partials, les `initX()` de vanilla au chargement.
 
 Le composant icône pointe vers `/icons.svg` : fusionner `packages/css/icons/icons.json` dans la liste d'icônes du boilerplate (section 17 de la spec commune). Sous un sous-chemin, appeler `setIconSprite('/sous-chemin/icons.svg')` au démarrage, exporté par `react`, `vue` et `css/reference/markup.ts`.
 

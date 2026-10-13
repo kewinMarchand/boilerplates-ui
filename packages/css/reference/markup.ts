@@ -58,7 +58,7 @@ export const button = ({
     disabled,
     'aria-disabled': loading ? 'true' : undefined,
   })}>${loading ? icon('loader-circle', 'bui-button__spinner') : iconName ? icon(iconName) : ''}${escape(label)}${
-    loading ? '<span class="bui-visually-hidden">(chargement en cours)</span>' : ''
+    loading ? '<span class="bui-visually-hidden"> (chargement en cours)</span>' : ''
   }</button>`
 
 interface FieldOptions {
@@ -81,33 +81,27 @@ const errorMessage = (block: string, id: string, error?: string) =>
 const hintMessage = (block: string, id: string, hint?: string) =>
   hint ? `<p class="${block}__hint" id="${id}-hint">${escape(hint)}</p>` : ''
 
+const fieldControlAttributes = ({ id, hint, error, required, disabled }: FieldOptions) => ({
+  id,
+  required,
+  disabled,
+  'aria-invalid': error ? 'true' : undefined,
+  'aria-describedby': describedBy(hint && `${id}-hint`, error && `${id}-error`),
+})
+
+const field = (options: FieldOptions, control: string) =>
+  `<div class="bui-field"><label class="bui-field__label" for="${options.id}">${escape(options.label)}${requiredMark('bui-field', options.required)}</label>${hintMessage('bui-field', options.id, options.hint)}${control}${errorMessage('bui-field', options.id, options.error)}</div>`
+
 export interface TextFieldOptions extends FieldOptions {
   type?: 'text' | 'email' | 'tel' | 'url' | 'password' | 'search'
   autocomplete?: string
 }
 
-export const textField = ({
-  id,
-  label,
-  hint,
-  error,
-  required,
-  disabled,
-  type = 'text',
-  autocomplete,
-}: TextFieldOptions) =>
-  `<div class="bui-field"><label class="bui-field__label" for="${id}">${escape(label)}${requiredMark('bui-field', required)}</label>${hintMessage('bui-field', id, hint)}<input${attributes(
-    {
-      class: 'bui-field__input',
-      id,
-      type,
-      autocomplete,
-      required,
-      disabled,
-      'aria-invalid': error ? 'true' : undefined,
-      'aria-describedby': describedBy(hint && `${id}-hint`, error && `${id}-error`),
-    },
-  )}>${errorMessage('bui-field', id, error)}</div>`
+export const textField = ({ type = 'text', autocomplete, ...options }: TextFieldOptions) =>
+  field(
+    options,
+    `<input${attributes({ class: 'bui-field__input', type, autocomplete, ...fieldControlAttributes(options) })}>`,
+  )
 
 export interface CheckboxOptions extends FieldOptions {
   checked?: boolean
@@ -171,10 +165,12 @@ export interface ModalOptions {
   body: string
   footer?: string
   closeLabel?: string
+  /** Tiroir latéral : la modale s'ouvre contre le bord indiqué. */
+  side?: 'start' | 'end'
 }
 
-export const modal = ({ id, title, body, footer, closeLabel = 'Fermer' }: ModalOptions) =>
-  `<dialog class="bui-modal" id="${id}" aria-labelledby="${id}-title"><div class="bui-modal__header"><h2 class="bui-modal__title" id="${id}-title">${escape(title)}</h2><button${attributes(
+export const modal = ({ id, title, body, footer, closeLabel = 'Fermer', side }: ModalOptions) =>
+  `<dialog class="${classes('bui-modal', side && 'bui-modal--drawer', side === 'start' && 'bui-modal--start')}" id="${id}" aria-labelledby="${id}-title"><div class="bui-modal__header"><h2 class="bui-modal__title" id="${id}-title">${escape(title)}</h2><button${attributes(
     {
       type: 'button',
       class: 'bui-modal__close',
@@ -229,17 +225,6 @@ export const link = ({ href, label, external }: LinkOptions) =>
       ? `${icon('external-link', 'bui-link__icon')}<span class="bui-visually-hidden"> (nouvelle fenêtre)</span>`
       : ''
   }</a>`
-
-const fieldControlAttributes = ({ id, hint, error, required, disabled }: FieldOptions) => ({
-  id,
-  required,
-  disabled,
-  'aria-invalid': error ? 'true' : undefined,
-  'aria-describedby': describedBy(hint && `${id}-hint`, error && `${id}-error`),
-})
-
-const field = (options: FieldOptions, control: string) =>
-  `<div class="bui-field"><label class="bui-field__label" for="${options.id}">${escape(options.label)}${requiredMark('bui-field', options.required)}</label>${hintMessage('bui-field', options.id, options.hint)}${control}${errorMessage('bui-field', options.id, options.error)}</div>`
 
 export interface TextAreaOptions extends FieldOptions {
   rows?: number
@@ -431,3 +416,192 @@ export const avatar = ({ name, src, size = 'md', decorative }: AvatarOptions) =>
     'aria-hidden': decorative ? 'true' : undefined,
   })}>${escape(initials(name))}</span>`
 }
+
+export const drawer = (options: Omit<ModalOptions, 'side'> & { side?: 'start' | 'end' }) =>
+  modal({ ...options, side: options.side ?? 'end' })
+
+export const TOAST_VARIANTS = {
+  info: { icon: 'info', prefix: 'Information :', role: 'status' },
+  success: { icon: 'circle-check', prefix: 'Succès :', role: 'status' },
+  warning: { icon: 'triangle-alert', prefix: 'Attention :', role: 'alert' },
+  error: { icon: 'circle-alert', prefix: 'Erreur :', role: 'alert' },
+} as const
+
+export interface ToastOptions {
+  id: string
+  message: string
+  variant?: keyof typeof TOAST_VARIANTS
+}
+
+export const toast = ({ id, message, variant = 'info' }: ToastOptions) =>
+  `<div class="bui-toast bui-toast--${variant}" id="${id}" role="${TOAST_VARIANTS[variant].role}">${icon(TOAST_VARIANTS[variant].icon, 'bui-toast__icon')}<p class="bui-toast__message"><span class="bui-visually-hidden">${TOAST_VARIANTS[variant].prefix} </span>${escape(message)}</p><button type="button" class="bui-toast__close" aria-label="Fermer la notification" data-bui-toast-close>${icon('x')}</button></div>`
+
+export const toaster = (toasts: ToastOptions[] = []) =>
+  `<div class="bui-toaster" data-bui-toaster>${toasts.map(toast).join('')}</div>`
+
+export interface TabsOptions {
+  id: string
+  label: string
+  tabs: { id: string; label: string; body: string }[]
+  selected?: string
+}
+
+export const tabs = ({ id, label, tabs: items, selected = items[0]?.id }: TabsOptions) =>
+  `<div class="bui-tabs" data-bui-tabs><div class="bui-tabs__list" role="tablist" aria-label="${escape(label)}">${items
+    .map(
+      (tab) =>
+        `<button${attributes({
+          type: 'button',
+          class: 'bui-tabs__tab',
+          role: 'tab',
+          id: `${id}-tab-${tab.id}`,
+          'aria-controls': `${id}-panel-${tab.id}`,
+          'aria-selected': String(tab.id === selected),
+          tabindex: tab.id === selected ? '0' : '-1',
+        })}>${escape(tab.label)}</button>`,
+    )
+    .join('')}</div>${items
+    .map(
+      (tab) =>
+        `<div${attributes({
+          class: 'bui-tabs__panel',
+          role: 'tabpanel',
+          id: `${id}-panel-${tab.id}`,
+          'aria-labelledby': `${id}-tab-${tab.id}`,
+          tabindex: '0',
+          hidden: tab.id !== selected,
+        })}>${tab.body}</div>`,
+    )
+    .join('')}</div>`
+
+export interface AccordionOptions {
+  /** Nom commun des `<details>` : un seul panneau ouvert à la fois. */
+  name?: string
+  items: { title: string; body: string; open?: boolean }[]
+}
+
+export const accordion = ({ name, items }: AccordionOptions) =>
+  `<div class="bui-accordion">${items
+    .map(
+      (item) =>
+        `<details${attributes({ class: 'bui-accordion__item', name, open: item.open })}><summary class="bui-accordion__summary">${escape(item.title)}${icon('chevron-down', 'bui-accordion__icon')}</summary><div class="bui-accordion__content">${item.body}</div></details>`,
+    )
+    .join('')}</div>`
+
+export interface TooltipOptions {
+  id: string
+  text: string
+  /** Déclencheur focalisable, qui porte `aria-describedby` vers l'info-bulle. */
+  trigger: string
+}
+
+export const tooltip = ({ id, text, trigger }: TooltipOptions) =>
+  `<span class="bui-tooltip" data-bui-tooltip>${trigger}<span class="bui-tooltip__bubble" role="tooltip" id="${id}">${escape(text)}</span></span>`
+
+export interface MenuOptions {
+  id: string
+  label: string
+  items: { id: string; label: string }[]
+}
+
+export const menu = ({ id, label, items }: MenuOptions) =>
+  `<div class="bui-menu" data-bui-menu><button${attributes({
+    type: 'button',
+    class: 'bui-button bui-button--outline bui-menu__trigger',
+    id: `${id}-trigger`,
+    'aria-haspopup': 'menu',
+    'aria-expanded': 'false',
+    'aria-controls': `${id}-list`,
+  })}>${escape(label)}${icon('chevron-down')}</button><ul class="bui-menu__list" role="menu" id="${id}-list" aria-labelledby="${id}-trigger" hidden>${items
+    .map(
+      (item) =>
+        `<li role="none"><button type="button" class="bui-menu__item" role="menuitem" tabindex="-1" data-bui-menu-item="${escape(item.id)}">${escape(item.label)}</button></li>`,
+    )
+    .join('')}</ul></div>`
+
+export interface BreadcrumbOptions {
+  /** Le dernier élément est la page courante. */
+  items: { label: string; href?: string }[]
+}
+
+export const breadcrumb = ({ items }: BreadcrumbOptions) =>
+  `<nav class="bui-breadcrumb" aria-label="Fil d’Ariane"><ol class="bui-breadcrumb__list">${items
+    .map((item, index) =>
+      index === items.length - 1
+        ? `<li class="bui-breadcrumb__item"><span class="bui-breadcrumb__current" aria-current="page">${escape(item.label)}</span></li>`
+        : `<li class="bui-breadcrumb__item"><a class="bui-link" href="${escape(item.href ?? '#')}">${escape(item.label)}</a></li>`,
+    )
+    .join('')}</ol></nav>`
+
+/** Pages affichées : toutes jusqu'à 7, sinon la première, la dernière et les voisines de la courante. */
+export const pageItems = (page: number, count: number): (number | 'ellipsis')[] => {
+  if (count <= 7) return Array.from({ length: count }, (_, index) => index + 1)
+  const pages = [1, page - 1, page, page + 1, count].filter((p) => p >= 1 && p <= count)
+  return [...new Set(pages)].flatMap((p, index, list) =>
+    index > 0 && p - list[index - 1]! > 1 ? (['ellipsis', p] as const) : [p],
+  )
+}
+
+export interface PaginationOptions {
+  page: number
+  count: number
+  href: (page: number) => string
+}
+
+export const pagination = ({ page, count, href }: PaginationOptions) => {
+  const link = (target: number, content: string, extra: Record<string, string> = {}) =>
+    `<a${attributes({ class: 'bui-pagination__link', href: href(target), ...extra })}>${content}</a>`
+  const items = pageItems(page, count).map((item) =>
+    item === 'ellipsis'
+      ? '<li class="bui-pagination__ellipsis" aria-hidden="true">…</li>'
+      : `<li>${link(item, `<span class="bui-visually-hidden">Page </span>${item}`, item === page ? { 'aria-current': 'page' } : {})}</li>`,
+  )
+  return `<nav class="bui-pagination" aria-label="Pagination"><ul class="bui-pagination__list">${
+    page > 1
+      ? `<li>${link(page - 1, `${icon('chevron-left')}Précédent`, { rel: 'prev' })}</li>`
+      : ''
+  }${items.join('')}${
+    page < count
+      ? `<li>${link(page + 1, `Suivant${icon('chevron-right')}`, { rel: 'next' })}</li>`
+      : ''
+  }</ul></nav>`
+}
+
+export type SortDirection = 'ascending' | 'descending'
+
+export interface TableOptions {
+  id: string
+  caption: string
+  columns: { key: string; label: string; sortable?: boolean }[]
+  /** La première colonne sert d'en-tête de ligne. */
+  rows: Record<string, string>[]
+  sort?: { key: string; direction: SortDirection }
+}
+
+export const SORT_ICONS = {
+  ascending: 'arrow-up',
+  descending: 'arrow-down',
+  none: 'arrow-up-down',
+} as const
+
+export const table = ({ id, caption, columns, rows, sort }: TableOptions) =>
+  `<div class="bui-table" role="region" aria-labelledby="${id}-caption" tabindex="0"><table class="bui-table__table"><caption class="bui-table__caption" id="${id}-caption">${escape(caption)}</caption><thead><tr>${columns
+    .map((column) => {
+      const direction = sort?.key === column.key ? sort.direction : undefined
+      const content = column.sortable
+        ? `<button type="button" class="bui-table__sort" data-bui-sort="${escape(column.key)}">${escape(column.label)}${icon(SORT_ICONS[direction ?? 'none'])}</button>`
+        : escape(column.label)
+      return `<th${attributes({ scope: 'col', 'aria-sort': direction })}>${content}</th>`
+    })
+    .join('')}</tr></thead><tbody>${rows
+    .map(
+      (row) =>
+        `<tr>${columns
+          .map((column, index) =>
+            index === 0
+              ? `<th scope="row">${escape(row[column.key] ?? '')}</th>`
+              : `<td>${escape(row[column.key] ?? '')}</td>`,
+          )
+          .join('')}</tr>`,
+    )
+    .join('')}</tbody></table></div>`

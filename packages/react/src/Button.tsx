@@ -53,7 +53,7 @@ export const Button = ({
         icon && <Icon name={icon} />
       )}
       {children}
-      {loading && <span className="bui-visually-hidden">(chargement en cours)</span>}
+      {loading && <span className="bui-visually-hidden"> (chargement en cours)</span>}
     </button>
   )
 }

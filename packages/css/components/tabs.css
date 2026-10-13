@@ -1,0 +1,40 @@
+@layer components {
+  .bui-tabs__list {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--bui-color-border-subtle);
+  }
+
+  .bui-tabs__tab {
+    flex-shrink: 0;
+    min-height: var(--bui-size-touch);
+    padding: var(--bui-space-2) var(--bui-space-4);
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: var(--bui-color-text-muted);
+    font: inherit;
+    font-weight: var(--bui-font-weight-medium);
+    cursor: pointer;
+  }
+
+  .bui-tabs__tab:hover {
+    color: var(--bui-color-text);
+    background: var(--bui-color-hover-overlay);
+  }
+
+  .bui-tabs__tab[aria-selected='true'] {
+    border-bottom-color: var(--bui-color-primary);
+    color: var(--bui-color-primary);
+  }
+
+  .bui-tabs__tab:focus-visible,
+  .bui-tabs__panel:focus-visible {
+    outline: var(--bui-focus-width) solid var(--bui-color-primary);
+    outline-offset: calc(-1 * var(--bui-focus-width));
+  }
+
+  .bui-tabs__panel {
+    padding: var(--bui-space-4) 0;
+  }
+}

@@ -10,7 +10,9 @@ const props = defineProps<{
   id: string
   title: string
   open: boolean
-  closeLabel?: string
+  closeLabel?: string | undefined
+  /** Tiroir latéral : la modale s'ouvre contre le bord indiqué. */
+  side?: 'start' | 'end' | undefined
 }>()
 
 const emit = defineEmits<{ close: [] }>()
@@ -27,14 +29,18 @@ useModal(
 </script>
 
 <template>
-  <dialog :id="id" ref="dialog" class="bui-modal" :aria-labelledby="`${id}-title`">
+  <dialog
+    :id="id"
+    ref="dialog"
+    :class="['bui-modal', side && 'bui-modal--drawer', side === 'start' && 'bui-modal--start']"
+    :aria-labelledby="`${id}-title`"
+  >
     <div class="bui-modal__header">
       <h2 :id="`${id}-title`" class="bui-modal__title">{{ title }}</h2>
       <button
         type="button"
         class="bui-modal__close"
         :aria-label="closeLabel ?? 'Fermer'"
-        data-bui-modal-close
         @click="dialog?.close()"
       >
         <Icon name="x" />

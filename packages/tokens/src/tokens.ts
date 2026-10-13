@@ -61,8 +61,21 @@ export const tokens = {
   },
   focus: { width: '3px', offset: '2px' },
   motion: { duration: '150ms' },
-  container: { content: '1440px', prose: '720px', form: '560px', modal: '560px' },
-  'z-index': { dropdown: '1000', overlay: '1100', modal: '1200', 'skip-link': '1500' },
+  container: {
+    content: '1440px',
+    prose: '720px',
+    form: '560px',
+    modal: '560px',
+    drawer: '360px',
+    tooltip: '280px',
+  },
+  'z-index': {
+    dropdown: '1000',
+    overlay: '1100',
+    modal: '1200',
+    toast: '1300',
+    'skip-link': '1500',
+  },
   breakpoint: { sm: '640px', md: '768px', lg: '1024px', xl: '1280px' },
 } as const
 

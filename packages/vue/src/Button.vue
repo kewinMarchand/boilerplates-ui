@@ -47,6 +47,6 @@ const handleClick = (event: MouseEvent) => {
     <Icon v-if="loading" name="loader-circle" class="bui-button__spinner" />
     <Icon v-else-if="icon" :name="icon" />
     <slot />
-    <span v-if="loading" class="bui-visually-hidden">(chargement en cours)</span>
+    <span v-if="loading" class="bui-visually-hidden"> (chargement en cours)</span>
   </button>
 </template>

@@ -9,7 +9,8 @@ import { createSSRApp, h, type VNode } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 
 /**
- * Forme canonique d'un fragment HTML : commentaires retirés (marqueurs de fragments Vue et React),
+ * Forme canonique d'un fragment HTML : attributs `data-bui-*` (branchements du JS vanilla, absents
+ * de React et Vue pour ne pas mêler deux comportements) et commentaires retirés (marqueurs de fragments Vue et React),
  * textes adjacents fusionnés et espaces normalisés, attributs et classes triés.
  * Deux balisages égaux sous cette forme produisent le même DOM pour le CSS et l'accessibilité.
  */
@@ -27,6 +28,7 @@ const canonical = (html: string) => {
       return (node.textContent ?? '').replace(/\s+/g, ' ').trim()
     if (!(node instanceof Element)) return ''
     const attrs = [...node.attributes]
+      .filter(({ name }) => !name.startsWith('data-bui-'))
       .map(({ name, value }) =>
         name === 'class'
           ? `class="${value.split(/\s+/).filter(Boolean).sort().join(' ')}"`
@@ -45,6 +47,35 @@ const OPTIONS = [
   { value: 'fr', label: 'France' },
   { value: 'be', label: 'Belgique' },
 ]
+
+const TOASTS = [
+  { id: 't1', message: 'Enregistré', variant: 'success' as const },
+  { id: 't2', message: 'Échec de l’envoi', variant: 'error' as const },
+]
+const MENU = [
+  { id: 'modifier', label: 'Modifier' },
+  { id: 'supprimer', label: 'Supprimer' },
+]
+const CRUMBS = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Catalogue', href: '/catalogue' },
+  { label: 'Vélo' },
+]
+const HREF = (page: number) => `?page=${page}`
+const TABLE = {
+  id: 'produits',
+  caption: 'Produits',
+  columns: [
+    { key: 'nom', label: 'Nom', sortable: true },
+    { key: 'prix', label: 'Prix', sortable: true },
+    { key: 'stock', label: 'Stock' },
+  ],
+  rows: [
+    { nom: 'Vélo', prix: '300 €', stock: '4' },
+    { nom: 'Casque', prix: '40 €', stock: '12' },
+  ],
+  sort: { key: 'prix', direction: 'descending' as const },
+}
 
 interface Case {
   name: string
@@ -420,6 +451,146 @@ const CASES: Case[] = [
     reference: ref.avatar({ name: 'Kewin Marchand', src: '/a.webp', decorative: true }),
     react: r(R.Avatar, { name: 'Kewin Marchand', src: '/a.webp', decorative: true }),
     vue: () => h(V.Avatar, { name: 'Kewin Marchand', src: '/a.webp', decorative: true }),
+  },
+  {
+    name: 'tiroir',
+    reference: ref.drawer({ id: 'filtres', title: 'Filtres', body: '<p>Texte</p>', side: 'start' }),
+    react: r(R.Drawer, {
+      id: 'filtres',
+      title: 'Filtres',
+      open: false,
+      onClose: () => {},
+      side: 'start',
+      children: r('p', null, 'Texte'),
+    }),
+    vue: () =>
+      h(
+        V.Drawer,
+        { id: 'filtres', title: 'Filtres', open: false, side: 'start' },
+        { default: () => h('p', 'Texte') },
+      ),
+  },
+  {
+    name: 'file de toasts',
+    reference: ref.toaster(TOASTS),
+    react: r(R.Toaster, { toasts: TOASTS, onClose: () => {} }),
+    vue: () => h(V.Toaster, { toasts: TOASTS }),
+  },
+  {
+    name: 'onglets',
+    reference: ref.tabs({
+      id: 'fiche',
+      label: 'Fiche',
+      selected: 'b',
+      tabs: [
+        { id: 'a', label: 'A', body: '<p>Un</p>' },
+        { id: 'b', label: 'B', body: '<p>Deux</p>' },
+      ],
+    }),
+    react: r(R.Tabs, {
+      id: 'fiche',
+      label: 'Fiche',
+      defaultTab: 'b',
+      tabs: [
+        { id: 'a', label: 'A', content: r('p', null, 'Un') },
+        { id: 'b', label: 'B', content: r('p', null, 'Deux') },
+      ],
+    }),
+    vue: () =>
+      h(
+        V.Tabs,
+        {
+          id: 'fiche',
+          label: 'Fiche',
+          defaultTab: 'b',
+          tabs: [
+            { id: 'a', label: 'A' },
+            { id: 'b', label: 'B' },
+          ],
+        },
+        { a: () => h('p', 'Un'), b: () => h('p', 'Deux') },
+      ),
+  },
+  {
+    name: 'accordéon',
+    reference: ref.accordion({
+      name: 'faq',
+      items: [
+        { title: 'Q1', body: '<p>R1</p>', open: true },
+        { title: 'Q2', body: '<p>R2</p>' },
+      ],
+    }),
+    react: r(R.Accordion, {
+      name: 'faq',
+      items: [
+        { id: 'q1', title: 'Q1', content: r('p', null, 'R1'), open: true },
+        { id: 'q2', title: 'Q2', content: r('p', null, 'R2') },
+      ],
+    }),
+    vue: () =>
+      h(
+        V.Accordion,
+        {
+          name: 'faq',
+          items: [
+            { id: 'q1', title: 'Q1', open: true },
+            { id: 'q2', title: 'Q2' },
+          ],
+        },
+        { q1: () => h('p', 'R1'), q2: () => h('p', 'R2') },
+      ),
+  },
+  {
+    name: 'info-bulle',
+    reference: ref.tooltip({
+      id: 'aide',
+      text: 'Texte d’aide',
+      trigger: '<button type="button" aria-describedby="aide">Aide</button>',
+    }),
+    react: r(R.Tooltip, {
+      id: 'aide',
+      text: 'Texte d’aide',
+      children: (describedBy: string) =>
+        r('button', { type: 'button', 'aria-describedby': describedBy }, 'Aide'),
+    }),
+    vue: () =>
+      h(
+        V.Tooltip,
+        { id: 'aide', text: 'Texte d’aide' },
+        {
+          default: ({ describedBy }: { describedBy: string }) =>
+            h('button', { type: 'button', 'aria-describedby': describedBy }, 'Aide'),
+        },
+      ),
+  },
+  {
+    name: 'menu déroulant',
+    reference: ref.menu({ id: 'actions', label: 'Actions', items: MENU }),
+    react: r(R.Menu, { id: 'actions', label: 'Actions', items: MENU, onSelect: () => {} }),
+    vue: () => h(V.Menu, { id: 'actions', label: 'Actions', items: MENU }),
+  },
+  {
+    name: 'fil d’Ariane',
+    reference: ref.breadcrumb({ items: CRUMBS }),
+    react: r(R.Breadcrumb, { items: CRUMBS }),
+    vue: () => h(V.Breadcrumb, { items: CRUMBS }),
+  },
+  ...(
+    [
+      [1, 5],
+      [6, 12],
+    ] as const
+  ).map(([page, count]) => ({
+    name: `pagination ${page} sur ${count}`,
+    reference: ref.pagination({ page, count, href: HREF }),
+    react: r(R.Pagination, { page, count, href: HREF }),
+    vue: () => h(V.Pagination, { page, count, href: HREF }),
+  })),
+  {
+    name: 'tableau trié',
+    reference: ref.table(TABLE),
+    react: r(R.Table, TABLE),
+    vue: () => h(V.Table, TABLE),
   },
 ]
 

@@ -1,0 +1,23 @@
+@layer components {
+  .bui-modal--drawer {
+    width: min(var(--bui-container-drawer), 100%);
+    height: 100%;
+    max-height: none;
+    margin: 0 0 0 auto;
+    border-radius: 0;
+  }
+
+  .bui-modal--drawer[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bui-modal--drawer .bui-modal__body {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .bui-modal--start {
+    margin: 0 auto 0 0;
+  }
+}

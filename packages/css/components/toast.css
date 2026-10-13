@@ -1,0 +1,85 @@
+@layer components {
+  .bui-toaster {
+    position: fixed;
+    inset-block-end: var(--bui-space-4);
+    inset-inline: var(--bui-space-4);
+    z-index: var(--bui-z-index-toast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--bui-space-2);
+    pointer-events: none;
+  }
+
+  .bui-toast {
+    display: flex;
+    gap: var(--bui-space-3);
+    align-items: flex-start;
+    padding: var(--bui-space-3) var(--bui-space-2) var(--bui-space-3) var(--bui-space-4);
+    border-left: 4px solid currentColor;
+    border-radius: var(--bui-radius-md);
+    box-shadow: var(--bui-shadow-xl);
+    pointer-events: auto;
+  }
+
+  .bui-toast__icon {
+    margin-top: var(--bui-space-3);
+    font-size: var(--bui-size-icon);
+  }
+
+  .bui-toast__message {
+    flex: 1;
+    margin: 0;
+    padding-block: var(--bui-space-2);
+  }
+
+  .bui-toast__close {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: var(--bui-size-touch);
+    height: var(--bui-size-touch);
+    border: 0;
+    border-radius: var(--bui-radius-md);
+    background: transparent;
+    color: inherit;
+    font-size: var(--bui-size-icon);
+    cursor: pointer;
+  }
+
+  .bui-toast__close:hover {
+    background: var(--bui-color-hover-overlay);
+  }
+
+  .bui-toast__close:focus-visible {
+    outline: var(--bui-focus-width) solid currentColor;
+    outline-offset: calc(-1 * var(--bui-focus-width));
+  }
+
+  .bui-toast--info {
+    background: var(--bui-color-info-surface);
+    color: var(--bui-color-info);
+  }
+
+  .bui-toast--success {
+    background: var(--bui-color-success-surface);
+    color: var(--bui-color-success);
+  }
+
+  .bui-toast--warning {
+    background: var(--bui-color-warning-surface);
+    color: var(--bui-color-warning);
+  }
+
+  .bui-toast--error {
+    background: var(--bui-color-error-surface);
+    color: var(--bui-color-error);
+  }
+
+  @media (min-width: 768px) {
+    .bui-toaster {
+      inset-inline-start: auto;
+      width: var(--bui-container-form);
+    }
+  }
+}
