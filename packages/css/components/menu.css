@@ -36,7 +36,7 @@
   }
 
   .bui-menu__item:hover {
-    background: var(--bui-color-info-surface);
+    background: var(--bui-color-primary-surface-subtle);
   }
 
   .bui-menu__item:focus-visible {

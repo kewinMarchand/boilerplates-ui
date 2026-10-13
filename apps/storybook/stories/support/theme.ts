@@ -49,6 +49,7 @@ export interface ThemeColors {
 const VARIABLES = [
   'primary',
   'primary-dark',
+  'primary-surface-subtle',
   'primary-surface',
   'primary-surface-strong',
   'secondary',
@@ -69,6 +70,7 @@ export const applyTheme = (colors: ThemeColors, enhanced: boolean) => {
     const primary = enhanced ? darkenUntil(colors.primary, 7) : colors.primary
     style.setProperty('--bui-color-primary', primary)
     style.setProperty('--bui-color-primary-dark', mix(primary, BLACK, 0.3))
+    style.setProperty('--bui-color-primary-surface-subtle', mix(primary, WHITE, 0.94))
     style.setProperty('--bui-color-primary-surface', mix(primary, WHITE, 0.85))
     style.setProperty('--bui-color-primary-surface-strong', mix(primary, WHITE, 0.72))
     const ratio = contrast(primary, '#ffffff')

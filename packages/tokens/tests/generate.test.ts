@@ -22,6 +22,7 @@ const PAIRS = [
   ['primary', 'surface'],
   ['on-primary', 'primary'],
   ['on-primary', 'primary-dark'],
+  ['primary', 'primary-surface-subtle'],
   ['primary-dark', 'primary-surface'],
   ['primary-dark', 'primary-surface-strong'],
   ['error', 'surface'],

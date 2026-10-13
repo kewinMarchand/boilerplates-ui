@@ -24,7 +24,7 @@
   }
 
   .bui-pagination__link:hover {
-    background: var(--bui-color-info-surface);
+    background: var(--bui-color-primary-surface-subtle);
   }
 
   .bui-pagination__link:focus-visible {

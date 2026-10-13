@@ -41,7 +41,7 @@
 
   .bui-button--outline:not(:disabled, [aria-disabled='true']):hover {
     border-color: var(--bui-color-primary);
-    background: var(--bui-color-info-surface);
+    background: var(--bui-color-primary-surface-subtle);
   }
 
   .bui-button--secondary {
