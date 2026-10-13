@@ -13,6 +13,8 @@ export interface GridRow {
   label: string
   cells: string[]
   state?: ForcedState
+  /** Cellules sur fond primaire, pour les variantes faites pour un fond sombre. */
+  dark?: boolean
 }
 
 export const grid = (caption: string, columns: (GridColumn | string)[], rows: GridRow[]) => {
@@ -24,7 +26,7 @@ export const grid = (caption: string, columns: (GridColumn | string)[], rows: Gr
         `<tr><th scope="row">${row.label}</th>${row.cells
           .map((cell, index) => {
             const state = cols[index]?.state ?? row.state
-            return `<td><div class="sb-cell"${state ? ` data-sb-state="${state}"` : ''}>${cell}</div></td>`
+            return `<td><div class="sb-cell${row.dark ? ' sb-cell--dark' : ''}"${state ? ` data-sb-state="${state}"` : ''}>${cell}</div></td>`
           })
           .join('')}</tr>`,
     )
@@ -39,7 +41,9 @@ export const OVERVIEW = {
   controls: { disable: true },
   pseudo: {
     hover: ['[data-sb-state="hover"] *'],
-    focusVisible: ['[data-sb-state="focus"] *'],
+    focusVisible: [
+      '[data-sb-state="focus"] :is(a, button, input, select, textarea, summary, [tabindex])',
+    ],
     focusWithin: ['[data-sb-state="focus-within"]', '[data-sb-state="focus-within"] *'],
   },
 }

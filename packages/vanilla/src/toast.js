@@ -3,6 +3,9 @@
  * automatique (WCAG 2.2.1). `role="alert"` pour un avertissement ou une erreur, `status` sinon.
  */
 
+/** @typedef {'info' | 'success' | 'warning' | 'error'} ToastVariant */
+
+/** @type {Record<ToastVariant, { icon: string, prefix: string, role: 'status' | 'alert' }>} */
 const VARIANTS = {
   info: { icon: 'info', prefix: 'Information :', role: 'status' },
   success: { icon: 'circle-check', prefix: 'Succès :', role: 'status' },
@@ -33,7 +36,7 @@ const icon = (name, className) => {
 /**
  * Ajoute un toast en bas de la file et renvoie son élément.
  * @param {HTMLElement} toaster élément `[data-bui-toaster]`
- * @param {{ message: string, variant?: keyof typeof VARIANTS }} options
+ * @param {{ message: string, variant?: ToastVariant }} options
  */
 export const showToast = (toaster, { message, variant = 'info' }) => {
   const { role, prefix } = VARIANTS[variant]

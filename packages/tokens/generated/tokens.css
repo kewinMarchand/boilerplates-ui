@@ -15,6 +15,7 @@
   --bui-color-border-subtle: #e5e7eb;
   --bui-color-backdrop: rgb(0 0 0 / 0.5);
   --bui-color-hover-overlay: rgb(0 0 0 / 0.05);
+  --bui-color-on-primary-overlay: rgb(255 255 255 / 0.15);
   --bui-color-error: #b91c1c;
   --bui-color-error-surface: #fef2f2;
   --bui-color-success: #166534;
@@ -46,7 +47,9 @@
   --bui-size-touch: 44px;
   --bui-size-control-sm: 36px;
   --bui-size-control-lg: 52px;
+  --bui-size-icon-sm: 16px;
   --bui-size-icon: 20px;
+  --bui-size-icon-lg: 24px;
   --bui-size-avatar-lg: 64px;
   --bui-radius-md: 8px;
   --bui-radius-full: 9999px;

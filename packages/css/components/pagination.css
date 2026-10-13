@@ -23,11 +23,11 @@
     text-underline-offset: 0.2em;
   }
 
-  .bui-pagination__link:hover {
+  .bui-pagination__link:is(:hover, .bui-is-hover) {
     background: var(--bui-color-primary-surface-subtle);
   }
 
-  .bui-pagination__link:focus-visible {
+  .bui-pagination__link:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: var(--bui-focus-offset);
   }

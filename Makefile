@@ -24,6 +24,9 @@ storybook-build: ## Construit le Storybook statique dans apps/storybook/storyboo
 tokens: ## Génère les variables CSS et les adaptateurs MUI, Vuetify et Tailwind depuis les tokens
 	$(RUN) yarn tokens
 
+vanilla-types: ## Génère les déclarations TypeScript du paquet vanilla depuis ses JSDoc
+	$(RUN) yarn vanilla:types
+
 icons: ## Génère le sprite et le type des noms d'icônes depuis packages/css/icons/icons.json
 	$(RUN) yarn icons
 
@@ -33,4 +36,4 @@ lint-staged: ## Vérifie les fichiers indexés (appelé par le hook pre-commit)
 down: ## Arrête les conteneurs
 	docker compose down --remove-orphans
 
-.PHONY: help install up storybook-build tokens icons lint-staged down
+.PHONY: help install up storybook-build tokens vanilla-types icons lint-staged down

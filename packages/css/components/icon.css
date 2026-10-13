@@ -5,4 +5,19 @@
     height: 1em;
     vertical-align: -0.125em;
   }
+
+  .bui-icon--sm {
+    width: var(--bui-size-icon-sm);
+    height: var(--bui-size-icon-sm);
+  }
+
+  .bui-icon--md {
+    width: var(--bui-size-icon);
+    height: var(--bui-size-icon);
+  }
+
+  .bui-icon--lg {
+    width: var(--bui-size-icon-lg);
+    height: var(--bui-size-icon-lg);
+  }
 }

@@ -98,6 +98,92 @@ const CASES: Case[] = [
     vue: () => h(V.Button, { variant: 'secondary' }, { default: () => 'En savoir plus' }),
   },
   {
+    name: 'bouton inverse, icône après le libellé',
+    reference: ref.button({
+      label: 'Suivant',
+      variant: 'inverse',
+      icon: 'chevron-right',
+      iconPosition: 'end',
+    }),
+    react: r(
+      R.Button,
+      { variant: 'inverse', icon: 'chevron-right', iconPosition: 'end' },
+      'Suivant',
+    ),
+    vue: () =>
+      h(
+        V.Button,
+        { variant: 'inverse', icon: 'chevron-right', iconPosition: 'end' },
+        { default: () => 'Suivant' },
+      ),
+  },
+  {
+    name: 'bouton lien',
+    reference: ref.button({
+      label: 'Voir le catalogue',
+      href: '/catalogue',
+      icon: 'chevron-right',
+      iconPosition: 'end',
+    }),
+    react: r(
+      R.Button,
+      { href: '/catalogue', icon: 'chevron-right', iconPosition: 'end' },
+      'Voir le catalogue',
+    ),
+    vue: () =>
+      h(
+        V.Button,
+        { href: '/catalogue', icon: 'chevron-right', iconPosition: 'end' },
+        { default: () => 'Voir le catalogue' },
+      ),
+  },
+  {
+    name: 'bouton lien désactivé',
+    reference: ref.button({
+      label: 'Voir',
+      href: '/catalogue',
+      variant: 'outline',
+      disabled: true,
+    }),
+    react: r(R.Button, { href: '/catalogue', variant: 'outline', disabled: true }, 'Voir'),
+    vue: () =>
+      h(
+        V.Button,
+        { href: '/catalogue', variant: 'outline', disabled: true },
+        { default: () => 'Voir' },
+      ),
+  },
+  {
+    name: 'icône porteuse de sens, taille fixe',
+    reference: ref.icon('circle-check', undefined, { label: 'Validé', size: 'lg' }),
+    react: r(R.Icon, { name: 'circle-check', label: 'Validé', size: 'lg' }),
+    vue: () => h(V.Icon, { name: 'circle-check', label: 'Validé', size: 'lg' }),
+  },
+  {
+    name: 'alerte avec action',
+    reference: ref.alert({
+      variant: 'error',
+      body: 'Envoi impossible.',
+      action:
+        '<button type="button" class="bui-button bui-button--outline bui-button--sm">Réessayer</button>',
+    }),
+    react: r(R.Alert, {
+      variant: 'error',
+      action: r(R.Button, { variant: 'outline', size: 'sm' }, 'Réessayer'),
+      children: 'Envoi impossible.',
+    }),
+    vue: () =>
+      h(
+        V.Alert,
+        { variant: 'error' },
+        {
+          default: () => 'Envoi impossible.',
+          action: () =>
+            h(V.Button, { variant: 'outline', size: 'sm' }, { default: () => 'Réessayer' }),
+        },
+      ),
+  },
+  {
     name: 'bouton contour petit avec icône',
     reference: ref.button({ label: 'Ajouter', variant: 'outline', size: 'sm', icon: 'plus' }),
     react: r(R.Button, { variant: 'outline', size: 'sm', icon: 'plus' }, 'Ajouter'),

@@ -39,7 +39,7 @@ const toCss = () =>
   ].join('\n')
 
 const toTailwind = () => {
-  const { color, font, radius, shadow, size } = tokens
+  const { color, container, font, radius, shadow, size } = tokens
   const lines = [
     ...Object.keys(color).map((name) => `  --color-${name}: var(${cssVar(`color-${name}`)});`),
     `  --font-sans: var(${cssVar('font-family')});`,
@@ -49,6 +49,9 @@ const toTailwind = () => {
     ...Object.keys(radius).map((name) => `  --radius-${name}: var(${cssVar(`radius-${name}`)});`),
     ...Object.keys(shadow).map((name) => `  --shadow-${name}: var(${cssVar(`shadow-${name}`)});`),
     ...Object.keys(size).map((name) => `  --spacing-${name}: var(${cssVar(`size-${name}`)});`),
+    ...Object.keys(container).map(
+      (name) => `  --container-${name}: var(${cssVar(`container-${name}`)});`,
+    ),
     ...flatten(tokens.breakpoint).map(([name, value]) => `  --breakpoint-${name}: ${value};`),
   ]
   return [

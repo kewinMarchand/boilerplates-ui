@@ -5,3 +5,4 @@ playwright-report
 yarn.lock
 packages/tokens/generated
 packages/css/icons/icons.svg
+packages/vanilla/types

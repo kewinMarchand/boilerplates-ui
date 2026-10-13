@@ -13,6 +13,7 @@ export default defineConfig(
       '**/node_modules/',
       '**/storybook-static/',
       'packages/tokens/generated/',
+      'packages/vanilla/types/',
       'test-results/',
       'playwright-report/',
     ],

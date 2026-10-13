@@ -1,4 +1,9 @@
 @layer components {
+  /* Boîte bordée pour tous les blocs, sans dépendre d'un reset du site (preflight Tailwind par exemple). */
+  :where([class^='bui-'], [class*=' bui-']) {
+    box-sizing: border-box;
+  }
+
   .bui-visually-hidden {
     position: absolute;
     width: 1px;

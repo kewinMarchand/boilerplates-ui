@@ -26,17 +26,33 @@ const classes = (...names: (string | false | undefined)[]) => names.filter(Boole
 const describedBy = (...ids: (string | false | undefined)[]) =>
   ids.filter(Boolean).join(' ') || undefined
 
-export const icon = (name: string, className?: string) =>
-  `<svg${attributes({ class: classes('bui-icon', className), 'aria-hidden': 'true' })}><use href="${iconSprite}#${name}"></use></svg>`
+export interface IconOptions {
+  /** Nom accessible d'une icône porteuse de sens. Sans lui, l'icône est décorative. */
+  label?: string
+  /** Taille fixe, sinon la taille du texte (1em). */
+  size?: 'sm' | 'md' | 'lg'
+}
+
+export const icon = (name: string, className?: string, { label, size }: IconOptions = {}) =>
+  `<svg${attributes({
+    class: classes('bui-icon', size && `bui-icon--${size}`, className),
+    role: label ? 'img' : undefined,
+    'aria-label': label,
+    'aria-hidden': label ? undefined : 'true',
+  })}><use href="${iconSprite}#${name}"></use></svg>`
 
 export interface ButtonOptions {
   label: string
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  /** `inverse` : sur fond sombre ou primaire (header, héros). */
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse'
   size?: 'sm' | 'md' | 'lg'
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
   loading?: boolean
   icon?: string
+  iconPosition?: 'start' | 'end'
+  /** Rend un lien `<a>` à l'apparence de bouton. Désactivé, il perd son `href`. */
+  href?: string
 }
 
 export const button = ({
@@ -47,19 +63,31 @@ export const button = ({
   disabled,
   loading,
   icon: iconName,
-}: ButtonOptions) =>
-  `<button${attributes({
+  iconPosition = 'start',
+  href,
+}: ButtonOptions) => {
+  const className = classes(
+    'bui-button',
+    variant !== 'primary' && `bui-button--${variant}`,
+    size !== 'md' && `bui-button--${size}`,
+  )
+  const start = loading
+    ? icon('loader-circle', 'bui-button__spinner')
+    : iconName && iconPosition === 'start'
+      ? icon(iconName)
+      : ''
+  const end = !loading && iconName && iconPosition === 'end' ? icon(iconName) : ''
+  if (href !== undefined)
+    return `<a${attributes({ class: className, href: disabled ? undefined : href, 'aria-disabled': disabled ? 'true' : undefined })}>${start}${escape(label)}${end}</a>`
+  return `<button${attributes({
     type,
-    class: classes(
-      'bui-button',
-      variant !== 'primary' && `bui-button--${variant}`,
-      size !== 'md' && `bui-button--${size}`,
-    ),
+    class: className,
     disabled,
     'aria-disabled': loading ? 'true' : undefined,
-  })}>${loading ? icon('loader-circle', 'bui-button__spinner') : iconName ? icon(iconName) : ''}${escape(label)}${
+  })}>${start}${escape(label)}${end}${
     loading ? '<span class="bui-visually-hidden"> (chargement en cours)</span>' : ''
   }</button>`
+}
 
 interface FieldOptions {
   id: string
@@ -139,12 +167,14 @@ export interface AlertOptions {
   title?: string
   body: string
   role?: 'alert' | 'status'
+  /** Action proposée, par exemple un bouton « Réessayer ». */
+  action?: string
 }
 
-export const alert = ({ variant = 'info', title, body, role }: AlertOptions) =>
+export const alert = ({ variant = 'info', title, body, role, action }: AlertOptions) =>
   `<div${attributes({ class: `bui-alert bui-alert--${variant}`, role })}>${icon(ALERT_VARIANTS[variant].icon, 'bui-alert__icon')}<div class="bui-alert__content"><span class="bui-visually-hidden">${ALERT_VARIANTS[variant].prefix}</span>${
     title ? `<p class="bui-alert__title">${escape(title)}</p>` : ''
-  }<div class="bui-alert__body">${body}</div></div></div>`
+  }<div class="bui-alert__body">${body}</div></div>${action ? `<div class="bui-alert__action">${action}</div>` : ''}</div>`
 
 export interface CardOptions {
   title: string

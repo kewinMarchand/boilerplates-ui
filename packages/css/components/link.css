@@ -6,12 +6,12 @@
     text-underline-offset: 0.2em;
   }
 
-  .bui-link:hover {
+  .bui-link:is(:hover, .bui-is-hover) {
     color: var(--bui-color-primary-dark);
     text-decoration-thickness: 2px;
   }
 
-  .bui-link:focus-visible {
+  .bui-link:is(:focus-visible, .bui-is-focus) {
     border-radius: 2px;
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: var(--bui-focus-offset);

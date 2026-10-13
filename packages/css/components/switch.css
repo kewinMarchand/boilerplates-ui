@@ -40,7 +40,7 @@
     translate: calc(var(--bui-size-touch) - var(--bui-space-6)) 0;
   }
 
-  .bui-switch__input:focus-visible {
+  .bui-switch__input:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: var(--bui-focus-offset);
   }

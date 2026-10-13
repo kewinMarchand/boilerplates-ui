@@ -9,12 +9,14 @@ defineProps<{
   name: IconName
   /** Nom accessible d'une icône porteuse de sens. Sans lui, l'icône est décorative. */
   label?: string
+  /** Taille fixe, sinon la taille du texte (1em). */
+  size?: 'sm' | 'md' | 'lg'
 }>()
 </script>
 
 <template>
   <svg
-    class="bui-icon"
+    :class="['bui-icon', size && `bui-icon--${size}`]"
     :role="label ? 'img' : undefined"
     :aria-label="label"
     :aria-hidden="label ? undefined : 'true'"

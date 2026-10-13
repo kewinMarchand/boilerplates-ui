@@ -2,30 +2,89 @@ import { cx } from './cx'
 import { Icon } from './Icon'
 
 import type { IconName } from './iconNames'
-import type { ButtonHTMLAttributes, MouseEvent } from 'react'
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, MouseEvent, ReactNode } from 'react'
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost'
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonBaseProps {
+  /** `inverse` : sur fond sombre ou primaire (header, héros). */
   variant?: ButtonVariant
   size?: ButtonSize
-  /** Garde le bouton focalisable (aria-disabled) et ignore les clics pendant le chargement. */
-  loading?: boolean
   icon?: IconName
+  iconPosition?: 'start' | 'end'
+  className?: string
+  children?: ReactNode
 }
 
-export const Button = ({
-  variant = 'primary',
-  size = 'md',
-  loading = false,
-  icon,
-  type = 'button',
-  className,
-  onClick,
-  children,
-  ...rest
-}: ButtonProps) => {
+interface NativeButtonProps
+  extends ButtonBaseProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonBaseProps> {
+  href?: undefined
+  /** Garde le bouton focalisable (aria-disabled) et ignore les clics pendant le chargement. */
+  loading?: boolean
+}
+
+interface LinkButtonProps
+  extends ButtonBaseProps, Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonBaseProps> {
+  /** Rend un lien `<a>` à l'apparence de bouton. Désactivé, il perd son `href`. */
+  href: string
+  disabled?: boolean
+}
+
+export type ButtonProps = NativeButtonProps | LinkButtonProps
+
+const classNameOf = (
+  variant: ButtonVariant = 'primary',
+  size: ButtonSize = 'md',
+  className?: string,
+) =>
+  cx(
+    'bui-button',
+    variant !== 'primary' && `bui-button--${variant}`,
+    size !== 'md' && `bui-button--${size}`,
+    className,
+  )
+
+export const Button = (props: ButtonProps) => {
+  if (typeof props.href === 'string') {
+    const {
+      variant,
+      size,
+      icon,
+      iconPosition = 'start',
+      className,
+      children,
+      href,
+      disabled,
+      ...rest
+    } = props
+    return (
+      <a
+        className={classNameOf(variant, size, className)}
+        href={disabled ? undefined : href}
+        aria-disabled={disabled ? 'true' : undefined}
+        {...rest}
+      >
+        {icon && iconPosition === 'start' && <Icon name={icon} />}
+        {children}
+        {icon && iconPosition === 'end' && <Icon name={icon} />}
+      </a>
+    )
+  }
+
+  const {
+    variant,
+    size,
+    icon,
+    iconPosition = 'start',
+    className,
+    children,
+    loading = false,
+    type = 'button',
+    onClick,
+    ...rest
+  } = props
+
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (loading) {
       event.preventDefault()
@@ -37,12 +96,7 @@ export const Button = ({
   return (
     <button
       type={type}
-      className={cx(
-        'bui-button',
-        variant !== 'primary' && `bui-button--${variant}`,
-        size !== 'md' && `bui-button--${size}`,
-        className,
-      )}
+      className={classNameOf(variant, size, className)}
       aria-disabled={loading ? 'true' : undefined}
       onClick={handleClick}
       {...rest}
@@ -50,9 +104,10 @@ export const Button = ({
       {loading ? (
         <Icon name="loader-circle" className="bui-button__spinner" />
       ) : (
-        icon && <Icon name={icon} />
+        icon && iconPosition === 'start' && <Icon name={icon} />
       )}
       {children}
+      {!loading && icon && iconPosition === 'end' && <Icon name={icon} />}
       {loading && <span className="bui-visually-hidden"> (chargement en cours)</span>}
     </button>
   )

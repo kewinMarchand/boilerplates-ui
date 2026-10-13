@@ -17,10 +17,12 @@ export interface AlertProps {
   title?: string
   /** `alert` ou `status` seulement pour une alerte injectée après le chargement de la page. */
   role?: 'alert' | 'status'
+  /** Action proposée, par exemple un bouton « Réessayer ». */
+  action?: ReactNode
   children: ReactNode
 }
 
-export const Alert = ({ variant = 'info', title, role, children }: AlertProps) => (
+export const Alert = ({ variant = 'info', title, role, action, children }: AlertProps) => (
   <div className={`bui-alert bui-alert--${variant}`} role={role}>
     <Icon name={VARIANTS[variant].icon} className="bui-alert__icon" />
     <div className="bui-alert__content">
@@ -28,5 +30,6 @@ export const Alert = ({ variant = 'info', title, role, children }: AlertProps) =
       {title && <p className="bui-alert__title">{title}</p>}
       <div className="bui-alert__body">{children}</div>
     </div>
+    {action && <div className="bui-alert__action">{action}</div>}
   </div>
 )

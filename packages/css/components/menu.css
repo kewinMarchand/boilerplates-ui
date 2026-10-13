@@ -35,11 +35,11 @@
     cursor: pointer;
   }
 
-  .bui-menu__item:hover {
+  .bui-menu__item:is(:hover, .bui-is-hover) {
     background: var(--bui-color-primary-surface-subtle);
   }
 
-  .bui-menu__item:focus-visible {
+  .bui-menu__item:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: calc(-1 * var(--bui-focus-width));
   }

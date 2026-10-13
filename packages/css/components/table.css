@@ -6,7 +6,7 @@
     border-radius: var(--bui-radius-md);
   }
 
-  .bui-table:focus-visible {
+  .bui-table:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: var(--bui-focus-offset);
   }
@@ -54,11 +54,11 @@
     cursor: pointer;
   }
 
-  .bui-table__sort:hover {
+  .bui-table__sort:is(:hover, .bui-is-hover) {
     background: var(--bui-color-hover-overlay);
   }
 
-  .bui-table__sort:focus-visible {
+  .bui-table__sort:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: calc(-1 * var(--bui-focus-width));
   }

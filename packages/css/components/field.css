@@ -32,7 +32,7 @@
     font-size: var(--bui-font-size-body);
   }
 
-  .bui-field__input:focus-visible {
+  .bui-field__input:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: var(--bui-focus-offset);
   }

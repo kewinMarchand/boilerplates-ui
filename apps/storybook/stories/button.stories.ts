@@ -21,12 +21,26 @@ const SIZES = { sm: 'Petit', md: 'Moyen', lg: 'Grand' } as const
 
 const meta: Meta<Args> = {
   title: 'Actions/Bouton',
-  args: { label: 'Envoyer', variant: 'primary', size: 'md', disabled: false, loading: false },
+  args: {
+    label: 'Envoyer',
+    variant: 'primary',
+    size: 'md',
+    iconPosition: 'start',
+    disabled: false,
+    loading: false,
+  },
   argTypes: {
     label: { control: 'text', description: 'Texte du bouton' },
     variant: { control: 'select', options: Object.keys(VARIANTS) },
     size: { control: 'select', options: Object.keys(SIZES) },
     icon: { control: 'select', options: ['aucune', ...ICON_NAMES], mapping: { aucune: undefined } },
+    iconPosition: { control: 'select', options: ['start', 'end'] },
+    href: {
+      control: 'select',
+      options: ['aucun', '#catalogue'],
+      mapping: { aucun: undefined },
+      description: 'Rend un lien <a> à l’apparence de bouton',
+    },
     disabled: { control: 'boolean' },
     loading: { control: 'boolean', description: 'aria-disabled, icône animée, texte masqué' },
     type: { control: 'select', options: ['button', 'submit', 'reset'] },
@@ -54,6 +68,7 @@ export const ToutesLesVariantes: Story = {
           const v = variant as ButtonOptions['variant'] & string
           return {
             label,
+            dark: v === 'inverse',
             cells: [
               button({ label: 'Envoyer', variant: v }),
               button({ label: 'Envoyer', variant: v }),
@@ -65,13 +80,20 @@ export const ToutesLesVariantes: Story = {
         }),
       ),
       grid(
-        'Tailles et icône',
-        ['Texte seul', 'Avec icône'],
+        'Tailles, icône et lien',
+        ['Texte seul', 'Icône avant', 'Icône après', 'Lien (href)'],
         Object.entries(SIZES).map(([size, label]) => ({
           label,
           cells: [
             button({ label: 'Ajouter', size: size as 'sm' }),
             button({ label: 'Ajouter', size: size as 'sm', icon: 'plus' }),
+            button({
+              label: 'Suivant',
+              size: size as 'sm',
+              icon: 'chevron-right',
+              iconPosition: 'end',
+            }),
+            button({ label: 'Catalogue', size: size as 'sm', href: '#catalogue' }),
           ],
         })),
       ),

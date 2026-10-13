@@ -9,7 +9,12 @@
     color: var(--bui-color-text);
   }
 
-  .bui-card__media > img {
+  .bui-card__media > picture {
+    display: block;
+  }
+
+  .bui-card__media > img,
+  .bui-card__media > picture > img {
     display: block;
     width: 100%;
     height: auto;

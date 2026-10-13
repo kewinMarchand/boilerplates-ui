@@ -18,7 +18,7 @@
     cursor: pointer;
   }
 
-  .bui-tabs__tab:hover {
+  .bui-tabs__tab:is(:hover, .bui-is-hover) {
     color: var(--bui-color-text);
     background: var(--bui-color-hover-overlay);
   }
@@ -28,8 +28,8 @@
     color: var(--bui-color-primary);
   }
 
-  .bui-tabs__tab:focus-visible,
-  .bui-tabs__panel:focus-visible {
+  .bui-tabs__tab:is(:focus-visible, .bui-is-focus),
+  .bui-tabs__panel:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: calc(-1 * var(--bui-focus-width));
   }

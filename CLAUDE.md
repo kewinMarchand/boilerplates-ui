@@ -14,6 +14,9 @@ Bibliothèque de composants personnelle, commune aux cinq boilerplates. Les conv
 - **Champs** : zone de texte et liste déroulante réutilisent le bloc `bui-field` (composant interne `Field` en React et Vue). Le groupe de boutons radio compose `Fieldset` et `Radio`. L'interrupteur est une case à cocher native avec `role="switch"`.
 - **Branchements vanilla** : les attributs `data-bui-*` n'existent que dans le balisage de référence et le HTML servi tel quel. React et Vue ne les posent pas, pour qu'un `initX()` vanilla ne pilote jamais un DOM tenu par un framework. Le test de parité les ignore.
 - **Tests de comportement** : `tests/a11y/behavior.a11y.ts` vérifie au clavier modale, tiroir, onglets, menu, info-bulle, toast et tri du tableau, sur l'histoire HTML, React et Vue. Il tourne avec `make test-a11y`.
+- **Types vanilla** : `packages/vanilla/types/*.d.ts` sont générés par `tsc -p packages/vanilla` depuis les JSDoc (`make vanilla-types`) et versionnés. `make qa` échoue s'ils sont périmés.
+- **Boîte bordée** : `base.css` pose `box-sizing: border-box` sur tout élément `bui-*`, pour ne pas dépendre d'un reset du site.
+- **États forcés** : chaque `:hover`, `:focus-visible` et `:active` des composants a son pendant `bui-is-hover`, `bui-is-focus`, `bui-is-active`. Une nouvelle règle d'état garde ce pendant.
 - **Tests axe** : `tests/a11y/stories.a11y.ts` lit `storybook-static/index.json` et teste chaque histoire dans les deux modes. Il faut `make storybook-build` avant `make test-a11y`. L'addon a11y lance aussi axe dans l'iframe : le test relance son analyse par `expect.toPass()` tant que le passage de l'addon n'est pas fini.
 
 ## Règles de lint désactivées ou ajoutées

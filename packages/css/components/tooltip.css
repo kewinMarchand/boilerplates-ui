@@ -20,7 +20,8 @@
     visibility: hidden;
   }
 
-  .bui-tooltip:is(:hover, :focus-within):not([data-dismissed]) .bui-tooltip__bubble {
+  .bui-tooltip:is(:hover, :focus-within, .bui-is-hover, .bui-is-focus):not([data-dismissed])
+    .bui-tooltip__bubble {
     visibility: visible;
   }
 }

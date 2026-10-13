@@ -45,11 +45,11 @@
     cursor: pointer;
   }
 
-  .bui-modal__close:hover {
+  .bui-modal__close:is(:hover, .bui-is-hover) {
     background: var(--bui-color-hover-overlay);
   }
 
-  .bui-modal__close:focus-visible {
+  .bui-modal__close:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: calc(-1 * var(--bui-focus-width));
   }

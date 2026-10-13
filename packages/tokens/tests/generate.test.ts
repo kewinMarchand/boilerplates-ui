@@ -54,6 +54,7 @@ describe('générateur de tokens', () => {
     expect(mui.palette.primary.main).toBe(tokens.color.primary)
     expect(vuetify.theme.themes.enhanced.colors.primary).toBe(enhanced.color.primary)
     expect(output['tailwind.css']).toContain('--color-primary: var(--bui-color-primary);')
+    expect(output['tailwind.css']).toContain('--container-content: var(--bui-container-content);')
   })
 
   it.each(PAIRS)('contraste AA de %s sur %s en mode standard', (fg, bg) => {

@@ -20,6 +20,8 @@ const { variant = 'info' } = defineProps<{
   /** `alert` ou `status` seulement pour une alerte injectée après le chargement de la page. */
   role?: 'alert' | 'status'
 }>()
+
+defineSlots<{ default(): unknown; action?(): unknown }>()
 </script>
 
 <template>
@@ -30,5 +32,6 @@ const { variant = 'info' } = defineProps<{
       <p v-if="title" class="bui-alert__title">{{ title }}</p>
       <div class="bui-alert__body"><slot /></div>
     </div>
+    <div v-if="$slots.action" class="bui-alert__action"><slot name="action" /></div>
   </div>
 </template>

@@ -14,7 +14,7 @@
     cursor: pointer;
   }
 
-  .bui-checkbox__input:focus-visible {
+  .bui-checkbox__input:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: var(--bui-focus-offset);
   }
@@ -33,6 +33,7 @@
   }
 
   .bui-checkbox__required {
+    margin-inline-start: 0.25em;
     color: var(--bui-color-text-muted);
   }
 

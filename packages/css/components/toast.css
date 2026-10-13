@@ -47,11 +47,11 @@
     cursor: pointer;
   }
 
-  .bui-toast__close:hover {
+  .bui-toast__close:is(:hover, .bui-is-hover) {
     background: var(--bui-color-hover-overlay);
   }
 
-  .bui-toast__close:focus-visible {
+  .bui-toast__close:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid currentColor;
     outline-offset: calc(-1 * var(--bui-focus-width));
   }

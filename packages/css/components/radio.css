@@ -13,7 +13,7 @@
     cursor: pointer;
   }
 
-  .bui-radio__input:focus-visible {
+  .bui-radio__input:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: var(--bui-focus-offset);
   }

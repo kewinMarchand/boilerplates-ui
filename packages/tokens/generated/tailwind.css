@@ -16,6 +16,7 @@
   --color-border-subtle: var(--bui-color-border-subtle);
   --color-backdrop: var(--bui-color-backdrop);
   --color-hover-overlay: var(--bui-color-hover-overlay);
+  --color-on-primary-overlay: var(--bui-color-on-primary-overlay);
   --color-error: var(--bui-color-error);
   --color-error-surface: var(--bui-color-error-surface);
   --color-success: var(--bui-color-success);
@@ -37,8 +38,16 @@
   --spacing-touch: var(--bui-size-touch);
   --spacing-control-sm: var(--bui-size-control-sm);
   --spacing-control-lg: var(--bui-size-control-lg);
+  --spacing-icon-sm: var(--bui-size-icon-sm);
   --spacing-icon: var(--bui-size-icon);
+  --spacing-icon-lg: var(--bui-size-icon-lg);
   --spacing-avatar-lg: var(--bui-size-avatar-lg);
+  --container-content: var(--bui-container-content);
+  --container-prose: var(--bui-container-prose);
+  --container-form: var(--bui-container-form);
+  --container-modal: var(--bui-container-modal);
+  --container-drawer: var(--bui-container-drawer);
+  --container-tooltip: var(--bui-container-tooltip);
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;

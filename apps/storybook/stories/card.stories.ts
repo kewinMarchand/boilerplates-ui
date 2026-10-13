@@ -72,6 +72,12 @@ export const ToutesLesVariantes: Story = {
           cells: [`<div style="max-width: 320px">${html({ ...args, media: false })}</div>`],
         },
         {
+          label: 'Image en <picture>',
+          cells: [
+            `<div style="max-width: 320px">${card({ title: args.title, headingLevel: args.headingLevel, body: `<p>${args.text}</p>`, media: `<picture><source srcset="${IMAGE.src}" type="image/svg+xml">${img}</picture>` })}</div>`,
+          ],
+        },
+        {
           label: 'Minimale',
           cells: [
             `<div style="max-width: 320px">${html({ ...args, media: false, action: '' })}</div>`,

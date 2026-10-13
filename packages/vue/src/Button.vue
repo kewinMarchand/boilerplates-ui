@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Icon from './Icon.vue'
 
-defineOptions({ name: 'BuiButton' })
-
 import type { IconName } from './iconNames'
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost'
+defineOptions({ name: 'BuiButton' })
+
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 const {
@@ -13,13 +13,19 @@ const {
   size = 'md',
   type = 'button',
   loading = false,
+  iconPosition = 'start',
 } = defineProps<{
+  /** `inverse` : sur fond sombre ou primaire (header, héros). */
   variant?: ButtonVariant
   size?: ButtonSize
   type?: 'button' | 'submit' | 'reset'
   /** Garde le bouton focalisable (aria-disabled) et ignore les clics pendant le chargement. */
   loading?: boolean
   icon?: IconName
+  iconPosition?: 'start' | 'end'
+  /** Rend un lien `<a>` à l'apparence de bouton. Désactivé, il perd son `href`. */
+  href?: string
+  disabled?: boolean
 }>()
 
 const emit = defineEmits<{ click: [event: MouseEvent] }>()
@@ -31,22 +37,38 @@ const handleClick = (event: MouseEvent) => {
   }
   emit('click', event)
 }
+
+const classes = () => [
+  'bui-button',
+  variant !== 'primary' && `bui-button--${variant}`,
+  size !== 'md' && `bui-button--${size}`,
+]
 </script>
 
 <template>
+  <a
+    v-if="href !== undefined"
+    :class="classes()"
+    :href="disabled ? undefined : href"
+    :aria-disabled="disabled ? 'true' : undefined"
+    @click="emit('click', $event)"
+  >
+    <Icon v-if="icon && iconPosition === 'start'" :name="icon" />
+    <slot />
+    <Icon v-if="icon && iconPosition === 'end'" :name="icon" />
+  </a>
   <button
+    v-else
     :type="type"
-    :class="[
-      'bui-button',
-      variant !== 'primary' && `bui-button--${variant}`,
-      size !== 'md' && `bui-button--${size}`,
-    ]"
+    :class="classes()"
+    :disabled="disabled"
     :aria-disabled="loading ? 'true' : undefined"
     @click="handleClick"
   >
     <Icon v-if="loading" name="loader-circle" class="bui-button__spinner" />
-    <Icon v-else-if="icon" :name="icon" />
+    <Icon v-else-if="icon && iconPosition === 'start'" :name="icon" />
     <slot />
+    <Icon v-if="!loading && icon && iconPosition === 'end'" :name="icon" />
     <span v-if="loading" class="bui-visually-hidden"> (chargement en cours)</span>
   </button>
 </template>

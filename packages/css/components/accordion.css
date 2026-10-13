@@ -23,7 +23,7 @@
     display: none;
   }
 
-  .bui-accordion__summary:focus-visible {
+  .bui-accordion__summary:is(:focus-visible, .bui-is-focus) {
     outline: var(--bui-focus-width) solid var(--bui-color-primary);
     outline-offset: var(--bui-focus-offset);
   }

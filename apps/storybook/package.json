@@ -1,6 +1,6 @@
 {
   "name": "@kewinmarchand/storybook",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -17,10 +17,10 @@
     "vite": "^8.3.4"
   },
   "dependencies": {
-    "@kewinmarchand/css": "0.1.0",
-    "@kewinmarchand/react": "0.1.0",
-    "@kewinmarchand/tokens": "0.1.0",
-    "@kewinmarchand/vanilla": "0.1.0",
-    "@kewinmarchand/vue": "0.1.0"
+    "@kewinmarchand/css": "0.2.0",
+    "@kewinmarchand/react": "0.2.0",
+    "@kewinmarchand/tokens": "0.2.0",
+    "@kewinmarchand/vanilla": "0.2.0",
+    "@kewinmarchand/vue": "0.2.0"
   }
 }

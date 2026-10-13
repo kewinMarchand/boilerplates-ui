@@ -81,6 +81,28 @@ Par stack :
 
 Le composant icône pointe vers `/icons.svg` : fusionner `packages/css/icons/icons.json` dans la liste d'icônes du boilerplate (section 17 de la spec commune). Sous un sous-chemin, appeler `setIconSprite('/sous-chemin/icons.svg')` au démarrage, exporté par `react`, `vue` et `css/reference/markup.ts`.
 
+## États forcés hors Storybook
+
+Pour montrer un état dans une charte graphique, poser une classe sur l'élément interactif. Elles ne s'appliquent que si on les pose :
+
+| Classe          | Effet                  |
+| --------------- | ---------------------- |
+| `bui-is-hover`  | Rendu de survol        |
+| `bui-is-focus`  | Rendu de focus visible |
+| `bui-is-active` | Rendu d'appui (bouton) |
+
+```html
+<button type="button" class="bui-button bui-is-hover">Envoyer</button>
+```
+
+## Points d'API à connaître
+
+- **Bouton** : `variant` (`primary`, `secondary`, `outline`, `ghost`, `inverse` pour un fond sombre ou primaire), `size`, `icon` et `iconPosition` (`start` ou `end`), `href` pour rendre un `<a>` à l'apparence de bouton (désactivé, il perd son `href` et porte `aria-disabled`).
+- **Alerte** : `action` (HTML dans la référence, `ReactNode` en React, slot `action` en Vue) pour un bouton « Réessayer ».
+- **Icône** : `label` pour une icône porteuse de sens (`role="img"`), `size` (`sm`, `md`, `lg`, sinon 1em).
+- **Carte** : `.bui-card__media` accepte une `<img>` ou une `<picture>`.
+- **Vanilla** : déclarations TypeScript publiées dans `packages/vanilla/types`, générées depuis les JSDoc par `make vanilla-types` et vérifiées par `make qa`.
+
 ## Dépendances
 
 Aucune dépendance d'exécution. React (19 ou plus) et Vue (3.5 ou plus) sont des dépendances pairs optionnelles. Poids livré : CSS des composants 9,5 ko (1,7 ko en gzip), `tokens.css` 2,8 ko (0,9 ko en gzip), JS vanilla 1,3 ko (0,6 ko en gzip).

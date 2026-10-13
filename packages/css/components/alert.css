@@ -2,6 +2,7 @@
   .bui-alert {
     display: flex;
     gap: var(--bui-space-3);
+    flex-wrap: wrap;
     align-items: flex-start;
     padding: var(--bui-space-3) var(--bui-space-4);
     border-left: 4px solid currentColor;
@@ -15,9 +16,15 @@
 
   .bui-alert__content {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: var(--bui-space-1);
     min-width: 0;
+  }
+
+  .bui-alert__action {
+    flex-shrink: 0;
+    align-self: center;
   }
 
   .bui-alert__title {
