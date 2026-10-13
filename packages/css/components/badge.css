@@ -1,0 +1,35 @@
+@layer components {
+  .bui-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--bui-space-2);
+    border: 1px solid currentColor;
+    border-radius: var(--bui-radius-full);
+    background: var(--bui-color-surface-muted);
+    color: var(--bui-color-text);
+    font-size: var(--bui-font-size-body-sm);
+    font-weight: var(--bui-font-weight-semibold);
+    line-height: var(--bui-font-line-height-normal);
+    white-space: nowrap;
+  }
+
+  .bui-badge--info {
+    background: var(--bui-color-info-surface);
+    color: var(--bui-color-info);
+  }
+
+  .bui-badge--success {
+    background: var(--bui-color-success-surface);
+    color: var(--bui-color-success);
+  }
+
+  .bui-badge--warning {
+    background: var(--bui-color-warning-surface);
+    color: var(--bui-color-warning);
+  }
+
+  .bui-badge--error {
+    background: var(--bui-color-error-surface);
+    color: var(--bui-color-error);
+  }
+}

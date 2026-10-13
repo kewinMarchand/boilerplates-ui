@@ -26,10 +26,15 @@ for (const mode of MODES) {
           await expect(page.locator('html')).toHaveAttribute('data-a11y-mode', 'enhanced')
         if (/ouverte/i.test(story.name)) await expect(page.locator('dialog[open]')).toBeVisible()
 
-        const { violations } = await new AxeBuilder({ page })
-          .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-          .analyze()
-        expect(violations.map(({ id, nodes }) => `${id} (${nodes.length})`)).toEqual([])
+        // L'addon a11y lance aussi axe dans l'iframe : on relance tant que son passage n'est pas fini.
+        let violations: string[] = []
+        await expect(async () => {
+          const results = await new AxeBuilder({ page })
+            .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+            .analyze()
+          violations = results.violations.map(({ id, nodes }) => `${id} (${nodes.length})`)
+        }).toPass()
+        expect(violations).toEqual([])
       })
     }
   })

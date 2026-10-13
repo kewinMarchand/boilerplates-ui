@@ -1,0 +1,7 @@
+@layer components {
+  .bui-field__input--multiline {
+    min-height: calc(4 * var(--bui-size-touch) / 2);
+    resize: vertical;
+    line-height: var(--bui-font-line-height-normal);
+  }
+}

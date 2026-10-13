@@ -1,1 +1,14 @@
-["circle-alert", "circle-check", "info", "loader-circle", "mail", "plus", "triangle-alert", "x"]
+[
+  "chevron-down",
+  "circle-alert",
+  "circle-check",
+  "external-link",
+  "info",
+  "loader-circle",
+  "mail",
+  "pencil",
+  "plus",
+  "trash",
+  "triangle-alert",
+  "x"
+]

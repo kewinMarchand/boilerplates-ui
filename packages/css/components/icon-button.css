@@ -1,0 +1,11 @@
+@layer components {
+  .bui-button--icon {
+    width: var(--bui-size-touch);
+    padding: 0;
+    font-size: var(--bui-size-icon);
+  }
+
+  .bui-button--icon.bui-button--sm {
+    width: var(--bui-size-control-sm);
+  }
+}

@@ -10,7 +10,9 @@ Bibliothèque de composants personnelle, commune aux cinq boilerplates. Les conv
 - **Unité** : `px` partout. Points de rupture en dur dans les media queries (768 px = token `breakpoint-md`), une variable CSS ne fonctionne pas dans une media query.
 - **Mode renforcé** : surcharges de tokens sous `[data-a11y-mode="enhanced"]` uniquement, aucune logique dupliquée. Animations coupées par `--bui-motion-duration: 0s` et par une règle explicite pour les animations à images clés.
 - **Storybook** : un seul, `@storybook/html-vite`. Histoires HTML par état, une histoire React et une histoire Vue par composant (montées par `stories/support/frameworks.ts`). Bascule de mode dans la barre d'outils (`a11yMode`). Survol et focus forcés par `storybook-addon-pseudo-states`.
-- **Tests axe** : `tests/a11y/stories.a11y.ts` lit `storybook-static/index.json` et teste chaque histoire dans les deux modes. Il faut `make storybook-build` avant `make test-a11y`.
+- **Sprite d'icônes** : `/icons.svg` par défaut, changé par `setIconSprite()` (exporté par `react`, `vue` et `css/reference/markup.ts`). Le Storybook passe un chemin relatif, `icons.svg`, pour fonctionner sous `/boilerplates-ui/` sur GitHub Pages (job `pages` de la CI, sur `main` seulement).
+- **Champs** : zone de texte et liste déroulante réutilisent le bloc `bui-field` (composant interne `Field` en React et Vue). Le groupe de boutons radio compose `Fieldset` et `Radio`. L'interrupteur est une case à cocher native avec `role="switch"`.
+- **Tests axe** : `tests/a11y/stories.a11y.ts` lit `storybook-static/index.json` et teste chaque histoire dans les deux modes. Il faut `make storybook-build` avant `make test-a11y`. L'addon a11y lance aussi axe dans l'iframe : le test relance son analyse par `expect.toPass()` tant que le passage de l'addon n'est pas fini.
 
 ## Règles de lint désactivées ou ajoutées
 

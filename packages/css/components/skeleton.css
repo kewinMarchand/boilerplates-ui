@@ -1,0 +1,36 @@
+@layer components {
+  .bui-skeleton {
+    display: block;
+    width: 100%;
+    height: var(--bui-space-12);
+    border-radius: var(--bui-radius-md);
+    background: var(--bui-color-border-subtle);
+    animation: bui-pulse 2s ease-in-out infinite;
+  }
+
+  .bui-skeleton--text {
+    height: 1em;
+  }
+
+  .bui-skeleton--circle {
+    width: var(--bui-size-touch);
+    height: var(--bui-size-touch);
+    border-radius: var(--bui-radius-full);
+  }
+
+  @keyframes bui-pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bui-skeleton {
+      animation: none;
+    }
+  }
+
+  [data-a11y-mode='enhanced'] .bui-skeleton {
+    animation: none;
+  }
+}

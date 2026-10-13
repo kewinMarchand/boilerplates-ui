@@ -48,7 +48,13 @@ export const tokens = {
     '8': '32px',
     '12': '48px',
   },
-  size: { touch: '44px', 'control-sm': '36px', 'control-lg': '52px', icon: '20px' },
+  size: {
+    touch: '44px',
+    'control-sm': '36px',
+    'control-lg': '52px',
+    icon: '20px',
+    'avatar-lg': '64px',
+  },
   radius: { md: '8px', full: '9999px' },
   shadow: {
     xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',

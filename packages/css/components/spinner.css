@@ -1,0 +1,25 @@
+@layer components {
+  .bui-spinner {
+    display: inline-flex;
+    color: var(--bui-color-primary);
+    font-size: var(--bui-size-icon);
+  }
+
+  .bui-spinner--lg {
+    font-size: var(--bui-size-touch);
+  }
+
+  .bui-spinner__icon {
+    animation: bui-spin 1s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bui-spinner__icon {
+      animation: none;
+    }
+  }
+
+  [data-a11y-mode='enhanced'] .bui-spinner__icon {
+    animation: none;
+  }
+}

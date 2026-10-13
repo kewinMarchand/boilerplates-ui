@@ -1,0 +1,23 @@
+@layer components {
+  .bui-link {
+    color: var(--bui-color-primary);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .bui-link:hover {
+    color: var(--bui-color-primary-dark);
+    text-decoration-thickness: 2px;
+  }
+
+  .bui-link:focus-visible {
+    border-radius: 2px;
+    outline: var(--bui-focus-width) solid var(--bui-color-primary);
+    outline-offset: var(--bui-focus-offset);
+  }
+
+  .bui-link__icon {
+    margin-inline-start: 0.25em;
+  }
+}

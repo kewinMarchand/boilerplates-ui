@@ -1,0 +1,60 @@
+@layer components {
+  .bui-switch {
+    display: flex;
+    gap: var(--bui-space-3);
+    align-items: center;
+  }
+
+  .bui-switch__input {
+    position: relative;
+    flex-shrink: 0;
+    width: var(--bui-size-touch);
+    height: var(--bui-space-6);
+    margin: 0;
+    border: 1px solid var(--bui-color-border);
+    border-radius: var(--bui-radius-full);
+    background: var(--bui-color-border);
+    appearance: none;
+    cursor: pointer;
+    transition: background-color var(--bui-motion-duration);
+  }
+
+  .bui-switch__input::before {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: var(--bui-size-icon);
+    height: var(--bui-size-icon);
+    border-radius: var(--bui-radius-full);
+    background: var(--bui-color-surface);
+    content: '';
+    transition: translate var(--bui-motion-duration);
+  }
+
+  .bui-switch__input:checked {
+    border-color: var(--bui-color-primary);
+    background: var(--bui-color-primary);
+  }
+
+  .bui-switch__input:checked::before {
+    translate: calc(var(--bui-size-touch) - var(--bui-space-6)) 0;
+  }
+
+  .bui-switch__input:focus-visible {
+    outline: var(--bui-focus-width) solid var(--bui-color-primary);
+    outline-offset: var(--bui-focus-offset);
+  }
+
+  .bui-switch__input:disabled,
+  .bui-switch__input:disabled + .bui-switch__label {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .bui-switch__label {
+    display: flex;
+    align-items: center;
+    min-height: var(--bui-size-touch);
+    cursor: pointer;
+  }
+}

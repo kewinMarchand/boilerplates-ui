@@ -15,7 +15,7 @@ type Story = StoryObj
 
 const TITLE = 'Randonnée dans les calanques'
 const TEXT = 'Trois itinéraires balisés, de une à quatre heures de marche.'
-const IMAGE = { src: '/carte.svg', alt: '', width: 640, height: 360 }
+const IMAGE = { src: 'carte.svg', alt: '', width: 640, height: 360 }
 
 const grid = (html: string) => `<div class="sb-stack" style="max-width: 360px">${html}</div>`
 

@@ -1,0 +1,33 @@
+@layer components {
+  .bui-avatar {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: var(--bui-size-touch);
+    height: var(--bui-size-touch);
+    overflow: hidden;
+    border-radius: var(--bui-radius-full);
+    background: var(--bui-color-primary);
+    color: var(--bui-color-on-primary);
+    font-size: var(--bui-font-size-body-sm);
+    font-weight: var(--bui-font-weight-semibold);
+  }
+
+  .bui-avatar--sm {
+    width: var(--bui-size-control-sm);
+    height: var(--bui-size-control-sm);
+  }
+
+  .bui-avatar--lg {
+    width: var(--bui-size-avatar-lg);
+    height: var(--bui-size-avatar-lg);
+    font-size: var(--bui-font-size-title);
+  }
+
+  .bui-avatar__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

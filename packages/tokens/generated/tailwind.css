@@ -35,6 +35,7 @@
   --spacing-control-sm: var(--bui-size-control-sm);
   --spacing-control-lg: var(--bui-size-control-lg);
   --spacing-icon: var(--bui-size-icon);
+  --spacing-avatar-lg: var(--bui-size-avatar-lg);
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;

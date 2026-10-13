@@ -22,7 +22,8 @@ Forces en présence :
 5. **Le balisage de référence est du code** : `packages/css/reference/markup.ts` produit le HTML de chaque composant et état. Il nourrit les histoires HTML et le test de parité, qui compare le rendu serveur React et Vue à cette référence après normalisation (attributs et classes triés, commentaires de fragments retirés).
 6. **Un seul Storybook HTML (`@storybook/html-vite`)** : les histoires HTML et vanilla sont la référence, React et Vue sont montés dans une histoire par framework avec `createRoot` et `createApp`. Le mode renforcé est une variable globale de la barre d'outils qui pose `data-a11y-mode` sur `<html>`. Les états survol et focus passent par `storybook-addon-pseudo-states`. Les tests axe parcourent l'index du build et passent chaque histoire dans les deux modes avec Playwright.
 7. **Comportement natif d'abord** : la modale s'appuie sur `<dialog>` et `showModal()`, qui rendent le reste de la page inerte et ferment sur Échap. Le code ajoute seulement l'ouverture, la fermeture et le retour du focus au déclencheur.
-8. **CSS en `@layer components`, classes BEM préfixées `bui-`**, variables `--bui-*` seulement. La couche s'insère dans l'ordre des couches de Tailwind v4 et reste en dessous du CSS non étagé des applications.
+8. **Points de rupture de Tailwind pour tous** : 640, 768, 1024 et 1280 px (décision de Kewin du 13/10/2026). L'adaptateur MUI les adopte, le boilerplate Next quitte ses valeurs 600, 1024, 1200 et 1440 quand il reprend l'adaptateur.
+9. **CSS en `@layer components`, classes BEM préfixées `bui-`**, variables `--bui-*` seulement. La couche s'insère dans l'ordre des couches de Tailwind v4 et reste en dessous du CSS non étagé des applications.
 
 ## Alternatives envisagées
 
@@ -38,8 +39,8 @@ Forces en présence :
 
 - Les consommateurs Next et Nuxt doivent déclarer la transpilation du paquet. SvelteKit, Symfony et vanilla consomment le CSS, les tokens et le JS natif sans transpilation.
 - Les composants React et Vue ne peuvent pas s'importer entre paquets (la consommation git ne crée pas les liens de workspace) : le type des noms d'icônes est généré dans chacun.
-- Le composant icône utilise `/icons.svg` à la racine du site : le consommateur fusionne `packages/css/icons/icons.json` dans sa propre liste.
-- Les points de rupture des tokens reprennent ceux de Tailwind (SvelteKit). Le thème MUI actuel en utilise d'autres (600, 1024, 1200, 1440) : l'adaptateur MUI les remplace si le boilerplate le reprend tel quel.
+- Le composant icône utilise `/icons.svg` par défaut : le consommateur fusionne `packages/css/icons/icons.json` dans sa propre liste. Un site servi sous un sous-chemin appelle `setIconSprite()` (le Storybook publié sur GitHub Pages le fait).
+- Le boilerplate Next change de points de rupture en reprenant l'adaptateur MUI : ses mises en page à 600, 1200 et 1440 px sont à revoir à ce moment-là.
 - Toute modification du balisage se fait en trois endroits (référence, React, Vue), et le test de parité refuse un écart.
 - La racine est `private` (exigence des workspaces Yarn) : la publication npm se fera paquet par paquet.
 
@@ -49,4 +50,4 @@ Forces en présence :
 
 ## Statut
 
-Proposée
+Acceptée le 13/10/2026

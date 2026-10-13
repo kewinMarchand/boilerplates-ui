@@ -1,0 +1,21 @@
+@layer components {
+  .bui-select {
+    position: relative;
+    display: grid;
+  }
+
+  .bui-select__control {
+    padding-inline-end: calc(var(--bui-space-3) * 2 + var(--bui-size-icon));
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .bui-select__icon {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: var(--bui-space-3);
+    height: 100%;
+    font-size: var(--bui-size-icon);
+    pointer-events: none;
+  }
+}

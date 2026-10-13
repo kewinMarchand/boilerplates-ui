@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ICON_SPRITE } from './iconSprite'
-
-defineOptions({ name: 'BuiIcon' })
+import { iconHref } from './iconSprite'
 
 import type { IconName } from './iconNames'
+
+defineOptions({ name: 'BuiIcon' })
 
 defineProps<{
   name: IconName
@@ -19,6 +19,6 @@ defineProps<{
     :aria-label="label"
     :aria-hidden="label ? undefined : 'true'"
   >
-    <use :href="`${ICON_SPRITE}#${name}`" />
+    <use :href="iconHref(name)" />
   </svg>
 </template>

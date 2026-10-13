@@ -30,7 +30,9 @@ const canonical = (html: string) => {
       .map(({ name, value }) =>
         name === 'class'
           ? `class="${value.split(/\s+/).filter(Boolean).sort().join(' ')}"`
-          : `${name}="${value}"`,
+          : name === 'style' && node instanceof HTMLElement
+            ? `style="${node.style.cssText}"`
+            : `${name}="${value}"`,
       )
       .sort()
     const children = [...node.childNodes].map(serialize).join('')
@@ -38,6 +40,11 @@ const canonical = (html: string) => {
   }
   return [...template.content.childNodes].map(serialize).join('')
 }
+
+const OPTIONS = [
+  { value: 'fr', label: 'France' },
+  { value: 'be', label: 'Belgique' },
+]
 
 interface Case {
   name: string
@@ -218,6 +225,201 @@ const CASES: Case[] = [
         { id: 'confirmation', title: 'Confirmer', open: false },
         { default: () => h('p', 'Texte'), footer: () => h('button', { type: 'button' }, 'OK') },
       ),
+  },
+  {
+    name: 'bouton icône',
+    reference: ref.iconButton({ label: 'Supprimer', icon: 'trash', variant: 'ghost', size: 'sm' }),
+    react: r(R.IconButton, { label: 'Supprimer', icon: 'trash', variant: 'ghost', size: 'sm' }),
+    vue: () => h(V.IconButton, { label: 'Supprimer', icon: 'trash', variant: 'ghost', size: 'sm' }),
+  },
+  {
+    name: 'bouton icône désactivé',
+    reference: ref.iconButton({ label: 'Modifier', icon: 'pencil', disabled: true }),
+    react: r(R.IconButton, { label: 'Modifier', icon: 'pencil', disabled: true }),
+    vue: () => h(V.IconButton, { label: 'Modifier', icon: 'pencil', disabled: true }),
+  },
+  {
+    name: 'lien',
+    reference: ref.link({ href: '/contact', label: 'Contact' }),
+    react: r(R.Link, { href: '/contact', children: 'Contact' }),
+    vue: () => h(V.Link, { href: '/contact' }, { default: () => 'Contact' }),
+  },
+  {
+    name: 'lien externe',
+    reference: ref.link({ href: 'https://example.org', label: 'Documentation', external: true }),
+    react: r(R.Link, { href: 'https://example.org', external: true, children: 'Documentation' }),
+    vue: () =>
+      h(
+        V.Link,
+        { href: 'https://example.org', external: true },
+        { default: () => 'Documentation' },
+      ),
+  },
+  {
+    name: 'zone de texte en erreur',
+    reference: ref.textArea({
+      id: 'msg',
+      label: 'Message',
+      hint: 'Aide',
+      error: 'Trop court',
+      required: true,
+      rows: 6,
+    }),
+    react: r(R.TextArea, {
+      id: 'msg',
+      label: 'Message',
+      hint: 'Aide',
+      error: 'Trop court',
+      required: true,
+      rows: 6,
+    }),
+    vue: () =>
+      h(V.TextArea, {
+        id: 'msg',
+        label: 'Message',
+        hint: 'Aide',
+        error: 'Trop court',
+        required: true,
+        rows: 6,
+      }),
+  },
+  {
+    name: 'zone de texte désactivée',
+    reference: ref.textArea({ id: 'note', label: 'Note', disabled: true }),
+    react: r(R.TextArea, { id: 'note', label: 'Note', disabled: true }),
+    vue: () => h(V.TextArea, { id: 'note', label: 'Note', disabled: true }),
+  },
+  {
+    name: 'liste déroulante',
+    reference: ref.select({
+      id: 'pays',
+      label: 'Pays',
+      placeholder: 'Choisir',
+      options: OPTIONS,
+      hint: 'Aide',
+      error: 'Requis',
+      required: true,
+    }),
+    react: r(R.Select, {
+      id: 'pays',
+      label: 'Pays',
+      placeholder: 'Choisir',
+      options: OPTIONS,
+      hint: 'Aide',
+      error: 'Requis',
+      required: true,
+    }),
+    vue: () =>
+      h(V.Select, {
+        id: 'pays',
+        label: 'Pays',
+        placeholder: 'Choisir',
+        options: OPTIONS,
+        hint: 'Aide',
+        error: 'Requis',
+        required: true,
+      }),
+  },
+  {
+    name: 'bouton radio seul',
+    reference: ref.radio({ id: 'r1', name: 'r', value: 'a', label: 'A', disabled: true }),
+    react: r(R.Radio, { id: 'r1', name: 'r', value: 'a', label: 'A', disabled: true }),
+    vue: () => h(V.Radio, { id: 'r1', name: 'r', value: 'a', label: 'A', disabled: true }),
+  },
+  {
+    name: 'groupe de boutons radio',
+    reference: ref.radioGroup({
+      id: 'livraison',
+      name: 'livraison',
+      legend: 'Livraison',
+      options: OPTIONS,
+      value: 'be',
+      hint: 'Aide',
+      error: 'Choisir',
+      required: true,
+    }),
+    react: r(R.RadioGroup, {
+      id: 'livraison',
+      name: 'livraison',
+      legend: 'Livraison',
+      options: OPTIONS,
+      defaultValue: 'be',
+      hint: 'Aide',
+      error: 'Choisir',
+      required: true,
+    }),
+    vue: () =>
+      h(V.RadioGroup, {
+        id: 'livraison',
+        name: 'livraison',
+        legend: 'Livraison',
+        options: OPTIONS,
+        modelValue: 'be',
+        hint: 'Aide',
+        error: 'Choisir',
+        required: true,
+      }),
+  },
+  {
+    name: 'groupe de champs',
+    reference: ref.fieldset({ id: 'contact', legend: 'Contact', body: '<p>Contenu</p>' }),
+    react: r(R.Fieldset, { id: 'contact', legend: 'Contact', children: r('p', null, 'Contenu') }),
+    vue: () =>
+      h(V.Fieldset, { id: 'contact', legend: 'Contact' }, { default: () => h('p', 'Contenu') }),
+  },
+  {
+    name: 'interrupteur activé',
+    reference: ref.switchControl({ id: 'notif', label: 'Notifications', checked: true }),
+    react: r(R.Switch, { id: 'notif', label: 'Notifications', defaultChecked: true }),
+    vue: () => h(V.Switch, { id: 'notif', label: 'Notifications', modelValue: true }),
+  },
+  {
+    name: 'interrupteur désactivé',
+    reference: ref.switchControl({ id: 'off', label: 'Mode avion', disabled: true }),
+    react: r(R.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
+    vue: () => h(V.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
+  },
+  ...(['neutral', 'info', 'success', 'warning', 'error'] as const).map((variant) => ({
+    name: `badge ${variant}`,
+    reference: ref.badge({ label: 'Nouveau', variant }),
+    react: r(R.Badge, { variant, children: 'Nouveau' }),
+    vue: () => h(V.Badge, { variant }, { default: () => 'Nouveau' }),
+  })),
+  ...(['horizontal', 'vertical'] as const).map((orientation) => ({
+    name: `séparateur ${orientation}`,
+    reference: ref.separator({ orientation }),
+    react: r(R.Separator, { orientation }),
+    vue: () => h(V.Separator, { orientation }),
+  })),
+  {
+    name: 'indicateur de chargement',
+    reference: ref.spinner({ size: 'lg', label: 'Envoi en cours' }),
+    react: r(R.Spinner, { size: 'lg', label: 'Envoi en cours' }),
+    vue: () => h(V.Spinner, { size: 'lg', label: 'Envoi en cours' }),
+  },
+  {
+    name: 'squelette texte',
+    reference: ref.skeleton({ variant: 'text', width: '60%' }),
+    react: r(R.Skeleton, { variant: 'text', width: '60%' }),
+    vue: () => h(V.Skeleton, { variant: 'text', width: '60%' }),
+  },
+  {
+    name: 'squelette cercle',
+    reference: ref.skeleton({ variant: 'circle' }),
+    react: r(R.Skeleton, { variant: 'circle' }),
+    vue: () => h(V.Skeleton, { variant: 'circle' }),
+  },
+  {
+    name: 'avatar initiales',
+    reference: ref.avatar({ name: 'Kewin Marchand', size: 'lg' }),
+    react: r(R.Avatar, { name: 'Kewin Marchand', size: 'lg' }),
+    vue: () => h(V.Avatar, { name: 'Kewin Marchand', size: 'lg' }),
+  },
+  {
+    name: 'avatar image décoratif',
+    reference: ref.avatar({ name: 'Kewin Marchand', src: '/a.webp', decorative: true }),
+    react: r(R.Avatar, { name: 'Kewin Marchand', src: '/a.webp', decorative: true }),
+    vue: () => h(V.Avatar, { name: 'Kewin Marchand', src: '/a.webp', decorative: true }),
   },
 ]
 

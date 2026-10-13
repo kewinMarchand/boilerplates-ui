@@ -11,7 +11,11 @@ Bibliothèque de composants commune aux cinq boilerplates (Next et MUI, Nuxt et 
 | `packages/vue`     | Composants Vue typés                                                                                                                        |
 | `apps/storybook`   | Storybook de démonstration et documentation des tokens                                                                                      |
 
-Composants du lot 1 : bouton, champ texte, case à cocher, alerte, carte, modale, et l'icône dont ils ont besoin.
+Composants disponibles : bouton, bouton icône, lien, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, séparateur, indicateur de chargement, squelette, avatar, icône.
+
+Le Storybook est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
+
+Points de rupture : 640, 768, 1024 et 1280 px (ceux de Tailwind), repris par l'adaptateur MUI.
 
 ## Prérequis
 
@@ -75,7 +79,7 @@ Par stack :
 - **SvelteKit et Tailwind** : `@import` de `tokens.css`, puis `tailwindcss`, puis `tokens/tailwind.css` et `css`. Les composants Svelte recopient le balisage de `packages/css/reference/markup.ts` et appellent `initModals()`.
 - **Symfony et Twig, HTML vanilla** : mêmes CSS, balisage recopié dans des partials, `initModals()` au chargement.
 
-Le composant icône pointe vers `/icons.svg` : fusionner `packages/css/icons/icons.json` dans la liste d'icônes du boilerplate (section 17 de la spec commune).
+Le composant icône pointe vers `/icons.svg` : fusionner `packages/css/icons/icons.json` dans la liste d'icônes du boilerplate (section 17 de la spec commune). Sous un sous-chemin, appeler `setIconSprite('/sous-chemin/icons.svg')` au démarrage, exporté par `react`, `vue` et `css/reference/markup.ts`.
 
 ## Dépendances
 

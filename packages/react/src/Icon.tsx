@@ -2,7 +2,12 @@ import { cx } from './cx'
 
 import type { IconName } from './iconNames'
 
-export const ICON_SPRITE = '/icons.svg'
+let iconSprite = '/icons.svg'
+
+/** Chemin du sprite, à changer quand le site est servi sous un sous-chemin. */
+export const setIconSprite = (url: string) => {
+  iconSprite = url
+}
 
 export interface IconProps {
   name: IconName
@@ -16,6 +21,6 @@ export const Icon = ({ name, label, className }: IconProps) => (
     className={cx('bui-icon', className)}
     {...(label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true' })}
   >
-    <use href={`${ICON_SPRITE}#${name}`} />
+    <use href={`${iconSprite}#${name}`} />
   </svg>
 )
