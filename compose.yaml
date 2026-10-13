@@ -1,0 +1,23 @@
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        PLAYWRIGHT_VERSION: ${PLAYWRIGHT_VERSION:-}
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    user: '${UID:-1000}:${GID:-1000}'
+    init: true
+    ipc: host
+    ports:
+      - '${STORYBOOK_PORT:-6006}:6006'
+    environment:
+      HOME: /tmp
+      CI: ${CI:-}
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:

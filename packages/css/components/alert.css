@@ -1,0 +1,47 @@
+@layer components {
+  .bui-alert {
+    display: flex;
+    gap: var(--bui-space-3);
+    align-items: flex-start;
+    padding: var(--bui-space-3) var(--bui-space-4);
+    border-left: 4px solid currentColor;
+    border-radius: var(--bui-radius-md);
+  }
+
+  .bui-alert__icon {
+    margin-top: 0.15em;
+    font-size: var(--bui-size-icon);
+  }
+
+  .bui-alert__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bui-space-1);
+    min-width: 0;
+  }
+
+  .bui-alert__title {
+    margin: 0;
+    font-weight: var(--bui-font-weight-semibold);
+  }
+
+  .bui-alert--info {
+    background: var(--bui-color-info-surface);
+    color: var(--bui-color-info);
+  }
+
+  .bui-alert--success {
+    background: var(--bui-color-success-surface);
+    color: var(--bui-color-success);
+  }
+
+  .bui-alert--warning {
+    background: var(--bui-color-warning-surface);
+    color: var(--bui-color-warning);
+  }
+
+  .bui-alert--error {
+    background: var(--bui-color-error-surface);
+    color: var(--bui-color-error);
+  }
+}

@@ -1,0 +1,91 @@
+/* Généré par `make tokens` depuis packages/tokens/src/tokens.ts, ne pas modifier à la main. */
+:root {
+  --bui-color-primary: #1d4ed8;
+  --bui-color-primary-dark: #1e3a8a;
+  --bui-color-on-primary: #ffffff;
+  --bui-color-secondary: #7c3aed;
+  --bui-color-text: #111827;
+  --bui-color-text-muted: #4b5563;
+  --bui-color-surface: #ffffff;
+  --bui-color-surface-muted: #f5f5f5;
+  --bui-color-border: #6b7280;
+  --bui-color-border-subtle: #e5e7eb;
+  --bui-color-backdrop: rgb(0 0 0 / 0.5);
+  --bui-color-hover-overlay: rgb(0 0 0 / 0.05);
+  --bui-color-error: #b91c1c;
+  --bui-color-error-surface: #fef2f2;
+  --bui-color-success: #166534;
+  --bui-color-success-surface: #f0fdf4;
+  --bui-color-info: #1e40af;
+  --bui-color-info-surface: #eff6ff;
+  --bui-color-warning: #92400e;
+  --bui-color-warning-surface: #fffbeb;
+  --bui-font-family: 'Inter Variable', 'Inter Fallback', system-ui, sans-serif;
+  --bui-font-size-overline: 14px;
+  --bui-font-size-h1: 40px;
+  --bui-font-size-h2: 28px;
+  --bui-font-size-title: 20px;
+  --bui-font-size-body: 16px;
+  --bui-font-size-body-sm: 14px;
+  --bui-font-weight-regular: 400;
+  --bui-font-weight-medium: 500;
+  --bui-font-weight-semibold: 600;
+  --bui-font-weight-bold: 700;
+  --bui-font-line-height-tight: 1.2;
+  --bui-font-line-height-normal: 1.5;
+  --bui-space-1: 4px;
+  --bui-space-2: 8px;
+  --bui-space-3: 12px;
+  --bui-space-4: 16px;
+  --bui-space-6: 24px;
+  --bui-space-8: 32px;
+  --bui-space-12: 48px;
+  --bui-size-touch: 44px;
+  --bui-size-control-sm: 36px;
+  --bui-size-control-lg: 52px;
+  --bui-size-icon: 20px;
+  --bui-radius-md: 8px;
+  --bui-radius-full: 9999px;
+  --bui-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --bui-focus-width: 3px;
+  --bui-focus-offset: 2px;
+  --bui-motion-duration: 150ms;
+  --bui-container-content: 1440px;
+  --bui-container-prose: 720px;
+  --bui-container-form: 560px;
+  --bui-container-modal: 560px;
+  --bui-z-index-dropdown: 1000;
+  --bui-z-index-overlay: 1100;
+  --bui-z-index-modal: 1200;
+  --bui-z-index-skip-link: 1500;
+  --bui-breakpoint-sm: 640px;
+  --bui-breakpoint-md: 768px;
+  --bui-breakpoint-lg: 1024px;
+  --bui-breakpoint-xl: 1280px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --bui-motion-duration: 0s;
+  }
+}
+
+[data-a11y-mode="enhanced"] {
+  --bui-color-primary: #1e3a8a;
+  --bui-color-primary-dark: #172554;
+  --bui-color-text: #000000;
+  --bui-color-text-muted: #1f2937;
+  --bui-color-surface: #ffffff;
+  --bui-color-error: #7f1d1d;
+  --bui-color-success: #14532d;
+  --bui-color-info: #172554;
+  --bui-color-warning: #78350f;
+  --bui-font-size-overline: 18px;
+  --bui-font-size-h1: 50px;
+  --bui-font-size-h2: 35px;
+  --bui-font-size-title: 25px;
+  --bui-font-size-body: 20px;
+  --bui-font-size-body-sm: 18px;
+  --bui-focus-width: 4px;
+  --bui-motion-duration: 0s;
+}

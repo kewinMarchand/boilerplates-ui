@@ -1,0 +1,90 @@
+/**
+ * Source unique des tokens. Les valeurs reprennent le thème actuel des boilerplates
+ * (thème Tailwind du boilerplate SvelteKit, thème MUI du boilerplate Next) : ce n'est pas une nouvelle charte.
+ * `enhanced` ne liste que ce que le mode accessibilité renforcée surcharge (section 4 de la spec commune).
+ */
+export const tokens = {
+  color: {
+    primary: '#1d4ed8',
+    'primary-dark': '#1e3a8a',
+    'on-primary': '#ffffff',
+    secondary: '#7c3aed',
+    text: '#111827',
+    'text-muted': '#4b5563',
+    surface: '#ffffff',
+    'surface-muted': '#f5f5f5',
+    border: '#6b7280',
+    'border-subtle': '#e5e7eb',
+    backdrop: 'rgb(0 0 0 / 0.5)',
+    'hover-overlay': 'rgb(0 0 0 / 0.05)',
+    error: '#b91c1c',
+    'error-surface': '#fef2f2',
+    success: '#166534',
+    'success-surface': '#f0fdf4',
+    info: '#1e40af',
+    'info-surface': '#eff6ff',
+    warning: '#92400e',
+    'warning-surface': '#fffbeb',
+  },
+  font: {
+    family: "'Inter Variable', 'Inter Fallback', system-ui, sans-serif",
+    size: {
+      overline: '14px',
+      h1: '40px',
+      h2: '28px',
+      title: '20px',
+      body: '16px',
+      'body-sm': '14px',
+    },
+    weight: { regular: '400', medium: '500', semibold: '600', bold: '700' },
+    'line-height': { tight: '1.2', normal: '1.5' },
+  },
+  space: {
+    '1': '4px',
+    '2': '8px',
+    '3': '12px',
+    '4': '16px',
+    '6': '24px',
+    '8': '32px',
+    '12': '48px',
+  },
+  size: { touch: '44px', 'control-sm': '36px', 'control-lg': '52px', icon: '20px' },
+  radius: { md: '8px', full: '9999px' },
+  shadow: {
+    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+  },
+  focus: { width: '3px', offset: '2px' },
+  motion: { duration: '150ms' },
+  container: { content: '1440px', prose: '720px', form: '560px', modal: '560px' },
+  'z-index': { dropdown: '1000', overlay: '1100', modal: '1200', 'skip-link': '1500' },
+  breakpoint: { sm: '640px', md: '768px', lg: '1024px', xl: '1280px' },
+} as const
+
+export const enhanced = {
+  color: {
+    primary: '#1e3a8a',
+    'primary-dark': '#172554',
+    text: '#000000',
+    'text-muted': '#1f2937',
+    surface: '#ffffff',
+    error: '#7f1d1d',
+    success: '#14532d',
+    info: '#172554',
+    warning: '#78350f',
+  },
+  font: {
+    size: {
+      overline: '18px',
+      h1: '50px',
+      h2: '35px',
+      title: '25px',
+      body: '20px',
+      'body-sm': '18px',
+    },
+  },
+  focus: { width: '4px' },
+  motion: { duration: '0s' },
+} as const
+
+export const A11Y_MODE_SELECTOR = '[data-a11y-mode="enhanced"]'
+export const PREFIX = 'bui'

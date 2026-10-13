@@ -1,0 +1,88 @@
+@layer components {
+  .bui-button {
+    display: inline-flex;
+    gap: var(--bui-space-2);
+    align-items: center;
+    justify-content: center;
+    min-height: var(--bui-size-touch);
+    padding: var(--bui-space-2) var(--bui-space-4);
+    border: 1px solid var(--bui-color-primary);
+    border-radius: var(--bui-radius-md);
+    background: var(--bui-color-primary);
+    color: var(--bui-color-on-primary);
+    font: inherit;
+    font-size: var(--bui-font-size-body);
+    font-weight: var(--bui-font-weight-medium);
+    line-height: var(--bui-font-line-height-tight);
+    text-decoration: none;
+    cursor: pointer;
+    transition-duration: var(--bui-motion-duration);
+    transition-property: background-color, border-color, color;
+  }
+
+  .bui-button:focus-visible {
+    outline: var(--bui-focus-width) solid var(--bui-color-primary);
+    outline-offset: var(--bui-focus-offset);
+  }
+
+  .bui-button:not(:disabled, [aria-disabled='true']):hover {
+    border-color: var(--bui-color-primary-dark);
+    background: var(--bui-color-primary-dark);
+  }
+
+  .bui-button:not(:disabled, [aria-disabled='true']):active {
+    translate: 0 1px;
+  }
+
+  .bui-button--outline {
+    background: var(--bui-color-surface);
+    color: var(--bui-color-primary);
+  }
+
+  .bui-button--outline:not(:disabled, [aria-disabled='true']):hover {
+    border-color: var(--bui-color-primary);
+    background: var(--bui-color-info-surface);
+  }
+
+  .bui-button--ghost {
+    border-color: transparent;
+    background: transparent;
+    color: inherit;
+  }
+
+  .bui-button--ghost:not(:disabled, [aria-disabled='true']):hover {
+    border-color: transparent;
+    background: var(--bui-color-hover-overlay);
+  }
+
+  .bui-button--sm {
+    min-height: var(--bui-size-control-sm);
+    padding: var(--bui-space-1) var(--bui-space-3);
+    font-size: var(--bui-font-size-body-sm);
+  }
+
+  .bui-button--lg {
+    min-height: var(--bui-size-control-lg);
+    padding: var(--bui-space-3) var(--bui-space-6);
+  }
+
+  .bui-button:disabled,
+  .bui-button[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .bui-button__spinner {
+    animation: bui-spin 1s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bui-button__spinner {
+      animation: none;
+    }
+  }
+
+  [data-a11y-mode='enhanced'] .bui-button__spinner {
+    animation: none;
+  }
+}

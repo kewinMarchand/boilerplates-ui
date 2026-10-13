@@ -1,0 +1,26 @@
+{
+  "name": "@kewinmarchand/storybook",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev --port 6006",
+    "build": "storybook build --output-dir storybook-static",
+    "preview": "vite preview --outDir storybook-static --strictPort"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@storybook/addon-a11y": "10.6.2",
+    "@storybook/html-vite": "10.6.2",
+    "storybook": "10.6.2",
+    "storybook-addon-pseudo-states": "10.6.2",
+    "vite": "^8.3.4"
+  },
+  "dependencies": {
+    "@kewinmarchand/css": "0.1.0",
+    "@kewinmarchand/react": "0.1.0",
+    "@kewinmarchand/tokens": "0.1.0",
+    "@kewinmarchand/vanilla": "0.1.0",
+    "@kewinmarchand/vue": "0.1.0"
+  }
+}

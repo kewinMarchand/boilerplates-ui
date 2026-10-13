@@ -1,0 +1,86 @@
+@layer components {
+  .bui-modal {
+    width: min(var(--bui-container-modal), calc(100% - 2 * var(--bui-space-4)));
+    max-height: calc(100% - 2 * var(--bui-space-4));
+    padding: 0;
+    border: 0;
+    border-radius: var(--bui-radius-md);
+    background: var(--bui-color-surface);
+    color: var(--bui-color-text);
+    box-shadow: var(--bui-shadow-xl);
+  }
+
+  .bui-modal::backdrop {
+    background: var(--bui-color-backdrop);
+  }
+
+  .bui-modal__header {
+    display: flex;
+    gap: var(--bui-space-2);
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--bui-space-2) var(--bui-space-2) var(--bui-space-2) var(--bui-space-4);
+    border-bottom: 1px solid var(--bui-color-border-subtle);
+  }
+
+  .bui-modal__title {
+    margin: 0;
+    font-size: var(--bui-font-size-title);
+    font-weight: var(--bui-font-weight-semibold);
+    line-height: var(--bui-font-line-height-tight);
+  }
+
+  .bui-modal__close {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: var(--bui-size-touch);
+    height: var(--bui-size-touch);
+    border: 0;
+    border-radius: var(--bui-radius-md);
+    background: transparent;
+    color: inherit;
+    font-size: var(--bui-size-icon);
+    cursor: pointer;
+  }
+
+  .bui-modal__close:hover {
+    background: var(--bui-color-hover-overlay);
+  }
+
+  .bui-modal__close:focus-visible {
+    outline: var(--bui-focus-width) solid var(--bui-color-primary);
+    outline-offset: calc(-1 * var(--bui-focus-width));
+  }
+
+  .bui-modal__body {
+    padding: var(--bui-space-4);
+  }
+
+  .bui-modal__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--bui-space-2);
+    justify-content: flex-end;
+    padding: 0 var(--bui-space-4) var(--bui-space-4);
+  }
+
+  :root:has(.bui-modal[open]) {
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .bui-modal__header {
+      padding-left: var(--bui-space-6);
+    }
+
+    .bui-modal__body {
+      padding: var(--bui-space-6);
+    }
+
+    .bui-modal__footer {
+      padding: 0 var(--bui-space-6) var(--bui-space-6);
+    }
+  }
+}

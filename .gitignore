@@ -1,0 +1,17 @@
+# dépendances
+node_modules/
+
+# builds
+storybook-static/
+dist/
+
+# qa
+/test-results/
+/playwright-report/
+/blob-report/
+/coverage/
+
+# divers
+.DS_Store
+*.log
+.env*

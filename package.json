@@ -1,0 +1,101 @@
+{
+  "name": "@kewinmarchand/boilerplates-ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bibliothèque de composants commune aux boilerplates : tokens, CSS, comportement natif, React et Vue",
+  "license": "MIT",
+  "author": "Kewin Marchand <kewin.marchand@gmail.com>",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "exports": {
+    "./tokens/*": "./packages/tokens/generated/*",
+    "./css": "./packages/css/index.css",
+    "./css/*": "./packages/css/*",
+    "./vanilla": "./packages/vanilla/src/index.js",
+    "./react": "./packages/react/src/index.ts",
+    "./vue": "./packages/vue/src/index.ts"
+  },
+  "files": [
+    "packages/*/package.json",
+    "packages/tokens/generated",
+    "packages/css/index.css",
+    "packages/css/base.css",
+    "packages/css/components",
+    "packages/css/icons",
+    "packages/vanilla/src",
+    "packages/react/src",
+    "packages/vue/src"
+  ],
+  "peerDependencies": {
+    "react": ">=19",
+    "vue": ">=3.5"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "vue-tsc --noEmit",
+    "test:unit": "vitest run",
+    "test:a11y": "playwright test",
+    "tokens": "node packages/tokens/scripts/tokens.ts",
+    "tokens:check": "node packages/tokens/scripts/tokens.ts --check",
+    "icons": "node tools/icons.ts",
+    "icons:check": "node tools/icons.ts --check",
+    "storybook": "yarn workspace @kewinmarchand/storybook dev",
+    "storybook:build": "yarn workspace @kewinmarchand/storybook build"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@eslint/js": "^10.0.1",
+    "@iconify-json/lucide": "^1.2.143",
+    "@playwright/test": "1.64.0",
+    "@types/node": "^24",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "eslint-plugin-vue": "^10.11.1",
+    "globals": "^17.13.0",
+    "jsdom": "^29",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "svgstore": "^3.0.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4",
+    "vue": "^3.5.44",
+    "vue-eslint-parser": "^10.4.1",
+    "vue-tsc": "^3.3.13"
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,vue,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,yml,yaml,html}": [
+      "prettier --write"
+    ]
+  }
+}

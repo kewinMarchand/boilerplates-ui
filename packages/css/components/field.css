@@ -1,0 +1,57 @@
+@layer components {
+  .bui-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bui-space-1);
+    max-width: var(--bui-container-form);
+  }
+
+  .bui-field__label {
+    font-weight: var(--bui-font-weight-medium);
+  }
+
+  .bui-field__required {
+    color: var(--bui-color-text-muted);
+    font-weight: var(--bui-font-weight-regular);
+  }
+
+  .bui-field__hint {
+    margin: 0;
+    color: var(--bui-color-text-muted);
+    font-size: var(--bui-font-size-body-sm);
+  }
+
+  .bui-field__input {
+    min-height: var(--bui-size-touch);
+    padding: var(--bui-space-2) var(--bui-space-3);
+    border: 1px solid var(--bui-color-border);
+    border-radius: var(--bui-radius-md);
+    background: var(--bui-color-surface);
+    color: var(--bui-color-text);
+    font: inherit;
+    font-size: var(--bui-font-size-body);
+  }
+
+  .bui-field__input:focus-visible {
+    outline: var(--bui-focus-width) solid var(--bui-color-primary);
+    outline-offset: var(--bui-focus-offset);
+  }
+
+  .bui-field__input[aria-invalid='true'] {
+    border: 2px solid var(--bui-color-error);
+  }
+
+  .bui-field__input:disabled {
+    background: var(--bui-color-surface-muted);
+    cursor: not-allowed;
+  }
+
+  .bui-field__error {
+    display: flex;
+    gap: var(--bui-space-1);
+    align-items: center;
+    margin: 0;
+    color: var(--bui-color-error);
+    font-size: var(--bui-font-size-body-sm);
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "@kewinmarchand/react",
+  "version": "0.1.0",
+  "description": "Composants React typés qui produisent le balisage de @kewinmarchand/css",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "react": ">=19"
+  }
+}

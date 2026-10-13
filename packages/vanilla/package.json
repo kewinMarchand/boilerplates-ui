@@ -1,0 +1,14 @@
+{
+  "name": "@kewinmarchand/vanilla",
+  "version": "0.1.0",
+  "description": "Comportement des composants interactifs en JavaScript natif, sans dépendance",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ],
+  "sideEffects": false
+}
