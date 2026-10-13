@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 40" width="220" height="40" role="img" aria-label="boilerplates-ui">
+  <rect width="40" height="40" rx="9" fill="#1d4ed8"/>
+  <path d="M9 31C9 17.5 17.5 9 31 9c0 13.5-8.5 22-22 22z" fill="#fff"/>
+  <path d="M9 31 26 14M15 25h6M19 21h5M15 25v-6M19 21v-5" fill="none" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/>
+  <text x="50" y="27" font-family="Inter, system-ui, sans-serif" font-size="19" font-weight="600" fill="#111827">boilerplates-ui</text>
+</svg>

@@ -1,96 +1,79 @@
-import { modal } from '@kewinmarchand/css/reference/markup.ts'
-import { Button as ReactButton, Modal as ReactModal } from '@kewinmarchand/react'
-import { Button as VueButton, Modal as VueModal } from '@kewinmarchand/vue'
-import { createElement, useState } from 'react'
-import { defineComponent, h, ref } from 'vue'
+import { createElement } from 'react'
 
+import {
+  DIALOG_ARG_TYPES,
+  type DialogArgs,
+  dialogHtml,
+  openWithTrigger,
+  ReactDialogDemo,
+  vueDialogDemo,
+} from './support/dialogs'
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Modale' }
+const meta: Meta<DialogArgs> = {
+  title: 'Superpositions/Modale',
+  args: {
+    trigger: 'Supprimer le brouillon',
+    title: 'Supprimer le brouillon ?',
+    text: 'Le brouillon sera définitivement supprimé. Cette action est irréversible.',
+    confirm: 'Supprimer',
+    closeLabel: 'Fermer',
+    side: 'end',
+  },
+  argTypes: { ...DIALOG_ARG_TYPES, side: { table: { disable: true } } },
+}
 export default meta
 
-type Story = StoryObj
+type Story = StoryObj<DialogArgs>
 
-const TITLE = 'Supprimer le brouillon ?'
-const TEXT = 'Le brouillon sera définitivement supprimé. Cette action est irréversible.'
-const TRIGGER = 'Supprimer le brouillon'
-
-const openWithTrigger: Story['play'] = ({ canvasElement }) => {
-  canvasElement.querySelector('button')?.click()
-}
-
-const html = () =>
-  `<button type="button" class="bui-button" data-bui-modal-open="brouillon">${TRIGGER}</button>${modal(
-    {
-      id: 'brouillon',
-      title: TITLE,
-      body: `<p>${TEXT}</p>`,
-      footer:
-        '<button type="button" class="bui-button bui-button--outline" data-bui-modal-close>Annuler</button>' +
-        '<button type="button" class="bui-button" data-bui-modal-close>Supprimer</button>',
-    },
-  )}`
-
-const ReactDemo = () => {
-  const [open, setOpen] = useState(false)
-  const close = () => setOpen(false)
-  return [
-    createElement(ReactButton, { key: 'trigger', onClick: () => setOpen(true) }, TRIGGER),
-    createElement(ReactModal, {
-      key: 'modal',
-      id: 'brouillon-react',
-      title: TITLE,
-      open,
-      onClose: close,
-      footer: [
-        createElement(
-          ReactButton,
-          { key: 'annuler', variant: 'outline', onClick: close },
-          'Annuler',
-        ),
-        createElement(ReactButton, { key: 'supprimer', onClick: close }, 'Supprimer'),
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: (args) =>
+    grid(
+      'Contenus (ouvrir pour voir la modale)',
+      ['Déclencheur'],
+      [
+        { label: 'Confirmation', cells: [dialogHtml('vue-confirmation', args, false)] },
+        {
+          label: 'Information',
+          cells: [
+            dialogHtml(
+              'vue-information',
+              {
+                ...args,
+                trigger: 'Voir les conditions',
+                title: 'Conditions',
+                text: 'Livraison offerte dès 50 €.',
+                confirm: 'Compris',
+              },
+              false,
+            ),
+          ],
+        },
       ],
-      children: createElement('p', null, TEXT),
-    }),
-  ]
+    ),
 }
 
-const VueDemo = defineComponent(() => {
-  const open = ref(false)
-  const close = () => {
-    open.value = false
-  }
-  return () => [
-    h(VueButton, { onClick: () => (open.value = true) }, { default: () => TRIGGER }),
-    h(
-      VueModal,
-      { id: 'brouillon-vue', title: TITLE, open: open.value, onClose: close },
-      {
-        default: () => h('p', TEXT),
-        footer: () => [
-          h(VueButton, { variant: 'outline', onClick: close }, { default: () => 'Annuler' }),
-          h(VueButton, { onClick: close }, { default: () => 'Supprimer' }),
-        ],
-      },
-    ),
-  ]
-})
-
-export const Fermee: Story = { name: 'Fermée (HTML et vanilla)', render: html }
+export const Fermee: Story = {
+  name: 'HTML et vanilla',
+  render: (args) => dialogHtml('brouillon', args, false),
+}
 export const Ouverte: Story = {
   name: 'Ouverte (HTML et vanilla)',
-  render: html,
+  render: (args) => dialogHtml('brouillon', args, false),
   play: openWithTrigger,
 }
 export const ReactOuverte: Story = {
   name: 'React ouverte',
-  render: () => mountReact(createElement(ReactDemo)),
+  render: (args) => mountReact(createElement(ReactDialogDemo, { args, isDrawer: false })),
   play: openWithTrigger,
 }
 export const VueOuverte: Story = {
   name: 'Vue ouverte',
-  render: () => mountVue(VueDemo),
+  render: (args) => mountVue(vueDialogDemo(args, false)),
   play: openWithTrigger,
 }

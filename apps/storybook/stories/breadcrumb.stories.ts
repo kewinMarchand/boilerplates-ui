@@ -5,29 +5,67 @@ import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Fil d’Ariane' }
-export default meta
+interface Args {
+  depth: number
+  current: string
+}
 
-type Story = StoryObj
-
-const ITEMS = [
+const PARENTS = [
   { label: 'Accueil', href: '#accueil' },
   { label: 'Catalogue', href: '#catalogue' },
   { label: 'Vélos', href: '#velos' },
-  { label: 'Vélo de ville' },
 ]
 
-export const Html: Story = { name: 'HTML', render: () => breadcrumb({ items: ITEMS }) }
-export const Focus: Story = {
-  render: () => breadcrumb({ items: ITEMS }),
-  parameters: { pseudo: { focusVisible: true } },
+const items = ({ depth, current }: Args) => [...PARENTS.slice(0, depth), { label: current }]
+
+const meta: Meta<Args> = {
+  title: 'Navigation/Fil d’Ariane',
+  args: { depth: 3, current: 'Vélo de ville' },
+  argTypes: {
+    depth: {
+      control: { type: 'range', min: 1, max: 3 },
+      description: 'Niveaux avant la page courante',
+    },
+    current: { control: 'text', description: 'Page courante (aria-current)' },
+  },
 }
+export default meta
+
+type Story = StoryObj<Args>
+
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: () =>
+    grid(
+      'Profondeurs et états',
+      ['Rendu'],
+      [
+        {
+          label: 'Un niveau',
+          cells: [breadcrumb({ items: items({ depth: 1, current: 'Catalogue' }) })],
+        },
+        {
+          label: 'Trois niveaux',
+          cells: [breadcrumb({ items: items({ depth: 3, current: 'Vélo de ville' }) })],
+        },
+        {
+          label: 'Focus',
+          state: 'focus',
+          cells: [breadcrumb({ items: items({ depth: 2, current: 'Vélos' }) })],
+        },
+      ],
+    ),
+}
+
+export const Html: Story = { name: 'HTML', render: (args) => breadcrumb({ items: items(args) }) }
 export const React: Story = {
-  render: () => mountReact(createElement(ReactBreadcrumb, { items: ITEMS })),
+  render: (args) => mountReact(createElement(ReactBreadcrumb, { items: items(args) })),
 }
 export const Vue: Story = {
-  render: () => mountVue({ render: () => h(VueBreadcrumb, { items: ITEMS }) }),
+  render: (args) => mountVue({ render: () => h(VueBreadcrumb, { items: items(args) }) }),
 }

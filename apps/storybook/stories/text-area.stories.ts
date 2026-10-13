@@ -4,50 +4,40 @@ import { TextArea as VueTextArea } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
 
+import { FIELD_ARG_TYPES, fieldRows } from './support/fields'
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Zone de texte' }
+const meta: Meta<TextAreaOptions> = {
+  title: 'Formulaire/Zone de texte',
+  args: {
+    id: 'message',
+    label: 'Message',
+    rows: 4,
+    hint: '',
+    error: '',
+    required: false,
+    disabled: false,
+  },
+  argTypes: { ...FIELD_ARG_TYPES, rows: { control: { type: 'number', min: 2, max: 12 } } },
+}
 export default meta
 
-type Story = StoryObj
+type Story = StoryObj<TextAreaOptions>
 
-const STATES: TextAreaOptions[] = [
-  { id: 'message', label: 'Message' },
-  { id: 'precisions', label: 'Précisions', hint: '500 caractères au plus' },
-  { id: 'motif', label: 'Motif', required: true, error: 'Décrire le motif en quelques mots' },
-  { id: 'archive', label: 'Archive', disabled: true },
-]
-
-export const Simple: Story = { render: () => textArea(STATES[0]!) }
-export const AvecAide: Story = { name: 'Avec aide', render: () => textArea(STATES[1]!) }
-export const Erreur: Story = { name: 'Requise en erreur', render: () => textArea(STATES[2]!) }
-export const Desactivee: Story = { name: 'Désactivée', render: () => textArea(STATES[3]!) }
-export const Focus: Story = {
-  render: () => textArea({ id: 'message-focus', label: 'Message' }),
-  parameters: { pseudo: { focusVisible: true } },
-}
-
-export const React: Story = {
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
   render: () =>
-    mountReact(
-      createElement(
-        'div',
-        { className: 'sb-column' },
-        STATES.map((props) => createElement(ReactTextArea, { key: props.id, ...props })),
-      ),
+    grid(
+      'États',
+      ['Rendu'],
+      fieldRows('message', (options) => textArea({ ...options, label: 'Message' })),
     ),
 }
 
-export const Vue: Story = {
-  render: () =>
-    mountVue({
-      render: () =>
-        h(
-          'div',
-          { class: 'sb-column' },
-          STATES.map((props) => h(VueTextArea, props)),
-        ),
-    }),
-}
+export const Html: Story = { name: 'HTML', render: (args) => textArea(args) }
+export const React: Story = { render: (args) => mountReact(createElement(ReactTextArea, args)) }
+export const Vue: Story = { render: (args) => mountVue({ render: () => h(VueTextArea, args) }) }

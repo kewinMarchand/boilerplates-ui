@@ -44,6 +44,17 @@
     background: var(--bui-color-info-surface);
   }
 
+  .bui-button--secondary {
+    border-color: var(--bui-color-primary-surface);
+    background: var(--bui-color-primary-surface);
+    color: var(--bui-color-primary-dark);
+  }
+
+  .bui-button--secondary:not(:disabled, [aria-disabled='true']):hover {
+    border-color: var(--bui-color-primary-surface-strong);
+    background: var(--bui-color-primary-surface-strong);
+  }
+
   .bui-button--ghost {
     border-color: transparent;
     background: transparent;

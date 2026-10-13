@@ -4,6 +4,8 @@
   --color-primary: var(--bui-color-primary);
   --color-primary-dark: var(--bui-color-primary-dark);
   --color-on-primary: var(--bui-color-on-primary);
+  --color-primary-surface: var(--bui-color-primary-surface);
+  --color-primary-surface-strong: var(--bui-color-primary-surface-strong);
   --color-secondary: var(--bui-color-secondary);
   --color-text: var(--bui-color-text);
   --color-text-muted: var(--bui-color-text-muted);

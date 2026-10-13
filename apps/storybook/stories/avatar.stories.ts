@@ -5,50 +5,50 @@ import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { defined, grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Avatar' }
+const SIZES = { sm: 'Petit', md: 'Moyen', lg: 'Grand' } as const
+
+const meta: Meta<AvatarOptions> = {
+  title: 'Affichage/Avatar',
+  args: { name: 'Camille Martin', size: 'md', decorative: false },
+  argTypes: {
+    name: { control: 'text', description: 'Nom accessible et initiales' },
+    src: { control: 'select', options: ['aucune', 'carte.svg'], mapping: { aucune: undefined } },
+    size: { control: 'select', options: Object.keys(SIZES) },
+    decorative: { control: 'boolean', description: 'Masqué aux aides techniques, à côté du nom' },
+  },
+}
 export default meta
 
-type Story = StoryObj
+type Story = StoryObj<AvatarOptions>
 
-const STATES: AvatarOptions[] = [
-  { name: 'Camille Martin', size: 'sm' },
-  { name: 'Camille Martin' },
-  { name: 'Camille Martin', size: 'lg' },
-  { name: 'Camille Martin', src: 'carte.svg' },
-]
-
-export const Initiales: Story = {
-  render: () => `<div class="sb-stack">${STATES.slice(0, 3).map(avatar).join('')}</div>`,
-}
-export const Image: Story = { render: () => avatar(STATES[3]!) }
-export const Decoratif: Story = {
-  name: 'Décoratif, à côté du nom',
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
   render: () =>
-    `<p class="sb-stack" style="align-items: center">${avatar({ name: 'Camille Martin', decorative: true })}<span>Camille Martin</span></p>`,
-}
-
-export const React: Story = {
-  render: () =>
-    mountReact(
-      createElement(
-        'div',
-        { className: 'sb-stack' },
-        STATES.map((props, index) => createElement(ReactAvatar, { key: index, ...props })),
-      ),
+    grid(
+      'Contenus et tailles',
+      Object.values(SIZES),
+      [
+        { label: 'Initiales', options: {} },
+        { label: 'Image', options: { src: 'carte.svg' } },
+        { label: 'Décoratif', options: { decorative: true } },
+      ].map(({ label, options }) => ({
+        label,
+        cells: Object.keys(SIZES).map((size) =>
+          avatar({ name: 'Camille Martin', size: size as 'md', ...options }),
+        ),
+      })),
     ),
 }
 
+export const Html: Story = { name: 'HTML', render: (args) => avatar(defined(args)) }
+export const React: Story = {
+  render: (args) => mountReact(createElement(ReactAvatar, defined(args))),
+}
 export const Vue: Story = {
-  render: () =>
-    mountVue({
-      render: () =>
-        h(
-          'div',
-          { class: 'sb-stack' },
-          STATES.map((props) => h(VueAvatar, props)),
-        ),
-    }),
+  render: (args) => mountVue({ render: () => h(VueAvatar, defined(args)) }),
 }

@@ -8,6 +8,8 @@ export const tokens = {
     primary: '#1d4ed8',
     'primary-dark': '#1e3a8a',
     'on-primary': '#ffffff',
+    'primary-surface': '#dbeafe',
+    'primary-surface-strong': '#bfdbfe',
     secondary: '#7c3aed',
     text: '#111827',
     'text-muted': '#4b5563',

@@ -13,7 +13,7 @@ Bibliothèque de composants commune aux cinq boilerplates (Next et MUI, Nuxt et 
 
 Composants disponibles : bouton, bouton icône, lien, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, tiroir, toast, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, séparateur, indicateur de chargement, squelette, avatar, icône.
 
-Le Storybook est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
+Le Storybook (vue d'ensemble de chaque composant, contrôles en direct, mode renforcé et couleurs globales dans la barre d'outils) est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
 
 Points de rupture : 640, 768, 1024 et 1280 px (ceux de Tailwind), repris par l'adaptateur MUI.
 
@@ -45,7 +45,7 @@ make test-a11y        # axe sur chaque histoire construite, en mode standard et 
 4. **Comportement** (si interactif) : `packages/vanilla/src/<composant>.js`, en s'appuyant d'abord sur `<dialog>`, `<details>` ou l'API Popover.
 5. **React et Vue** : `packages/react/src/<Composant>.tsx` et `packages/vue/src/<Composant>.vue`, exportés par leur `index.ts`. Une icône nouvelle va dans `packages/css/icons/icons.json`, puis `make icons`.
 6. **Parité** : ajouter les cas dans `tests/parity/parity.test.ts` (référence, React, Vue).
-7. **Histoires** : `apps/storybook/stories/<composant>.stories.ts`, une histoire HTML par état, une histoire React, une histoire Vue. `make storybook-build test-a11y` les passe à axe dans les deux modes sans autre déclaration.
+7. **Histoires** : `apps/storybook/stories/<composant>.stories.ts`, titre `Famille/Composant`, `args` et `argTypes` complets, une histoire « Toutes les variantes » en tête, puis HTML, React et Vue rendus depuis les `args`. `make storybook-build test-a11y` les passe à axe dans les deux modes sans autre déclaration.
 
 ## Consommer depuis un boilerplate
 

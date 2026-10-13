@@ -5,49 +5,52 @@ import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Badge' }
+const VARIANTS = {
+  neutral: 'Neutre',
+  info: 'Information',
+  success: 'Succès',
+  warning: 'Avertissement',
+  error: 'Erreur',
+} as const
+
+const meta: Meta<BadgeOptions> = {
+  title: 'Affichage/Badge',
+  args: { label: 'Nouveau', variant: 'info' },
+  argTypes: {
+    label: { control: 'text' },
+    variant: { control: 'select', options: Object.keys(VARIANTS) },
+  },
+}
 export default meta
 
-type Story = StoryObj
+type Story = StoryObj<BadgeOptions>
 
-const STATES: BadgeOptions[] = [
-  { label: 'Brouillon' },
-  { label: 'Nouveau', variant: 'info' },
-  { label: 'En stock', variant: 'success' },
-  { label: 'Stock faible', variant: 'warning' },
-  { label: 'Épuisé', variant: 'error' },
-]
-
-export const Variantes: Story = {
-  render: () => `<div class="sb-stack">${STATES.map(badge).join('')}</div>`,
-}
-
-export const React: Story = {
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
   render: () =>
-    mountReact(
-      createElement(
-        'div',
-        { className: 'sb-stack' },
-        STATES.map(({ label, variant }) =>
-          createElement(ReactBadge, { key: label, variant: variant ?? 'neutral', children: label }),
-        ),
-      ),
+    grid(
+      'Variantes',
+      ['Rendu'],
+      Object.entries(VARIANTS).map(([variant, label]) => ({
+        label,
+        cells: [badge({ label: 'En stock', variant: variant as 'info' })],
+      })),
     ),
 }
 
+export const Html: Story = { name: 'HTML', render: (args) => badge(args) }
+export const React: Story = {
+  render: ({ label, variant }) =>
+    mountReact(createElement(ReactBadge, { variant: variant ?? 'neutral', children: label })),
+}
 export const Vue: Story = {
-  render: () =>
+  render: ({ label, variant }) =>
     mountVue({
-      render: () =>
-        h(
-          'div',
-          { class: 'sb-stack' },
-          STATES.map(({ label, variant }) =>
-            h(VueBadge, { variant: variant ?? 'neutral' }, { default: () => label }),
-          ),
-        ),
+      render: () => h(VueBadge, { variant: variant ?? 'neutral' }, { default: () => label }),
     }),
 }

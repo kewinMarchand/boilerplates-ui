@@ -1,17 +1,18 @@
-import { tabs, type TabsOptions } from '@kewinmarchand/css/reference/markup.ts'
+import { tabs } from '@kewinmarchand/css/reference/markup.ts'
 import { Tabs as ReactTabs } from '@kewinmarchand/react'
 import { Tabs as VueTabs } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Onglets' }
-export default meta
-
-type Story = StoryObj
+interface Args {
+  label: string
+  selected: 'description' | 'caracteristiques' | 'avis'
+}
 
 const TABS = [
   { id: 'description', label: 'Description', text: 'Vélo de ville en acier, huit vitesses.' },
@@ -19,32 +20,68 @@ const TABS = [
   { id: 'avis', label: 'Avis', text: 'Note moyenne 4,6 sur 5.' },
 ]
 
-const options = (id: string, selected?: string): TabsOptions => ({
-  id,
-  label: 'Fiche produit',
-  tabs: TABS.map(({ id: tabId, label, text }) => ({ id: tabId, label, body: `<p>${text}</p>` })),
-  ...(selected ? { selected } : {}),
-})
+const html = (id: string, { label, selected }: Args) =>
+  tabs({
+    id,
+    label,
+    selected,
+    tabs: TABS.map(({ id: tabId, label: tabLabel, text }) => ({
+      id: tabId,
+      label: tabLabel,
+      body: `<p>${text}</p>`,
+    })),
+  })
 
-export const Html: Story = { name: 'HTML et vanilla', render: () => tabs(options('fiche')) }
-export const Selection: Story = {
-  name: 'Deuxième onglet sélectionné',
-  render: () => tabs(options('fiche-2', 'caracteristiques')),
+const meta: Meta<Args> = {
+  title: 'Navigation/Onglets',
+  args: { label: 'Fiche produit', selected: 'description' },
+  argTypes: {
+    label: { control: 'text', description: 'Nom accessible de la liste' },
+    selected: { control: 'select', options: TABS.map((tab) => tab.id) },
+  },
 }
-export const Focus: Story = {
-  render: () => tabs(options('fiche-focus')),
-  parameters: { pseudo: { focusVisible: true } },
+export default meta
+
+type Story = StoryObj<Args>
+
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: () =>
+    grid(
+      'États',
+      ['Rendu'],
+      [
+        {
+          label: 'Premier onglet',
+          cells: [html('vue-a', { label: 'Fiche A', selected: 'description' })],
+        },
+        {
+          label: 'Deuxième onglet',
+          cells: [html('vue-b', { label: 'Fiche B', selected: 'caracteristiques' })],
+        },
+        {
+          label: 'Focus',
+          state: 'focus',
+          cells: [html('vue-c', { label: 'Fiche C', selected: 'description' })],
+        },
+      ],
+    ),
 }
+
+export const Html: Story = { name: 'HTML et vanilla', render: (args) => html('fiche', args) }
 
 export const React: Story = {
-  render: () =>
+  render: ({ label, selected }) =>
     mountReact(
       createElement(ReactTabs, {
+        key: selected,
         id: 'fiche-react',
-        label: 'Fiche produit',
-        tabs: TABS.map(({ id, label, text }) => ({
+        label,
+        defaultTab: selected,
+        tabs: TABS.map(({ id, label: tabLabel, text }) => ({
           id,
-          label,
+          label: tabLabel,
           content: createElement('p', null, text),
         })),
       }),
@@ -52,15 +89,16 @@ export const React: Story = {
 }
 
 export const Vue: Story = {
-  render: () =>
+  render: ({ label, selected }) =>
     mountVue({
       render: () =>
         h(
           VueTabs,
           {
             id: 'fiche-vue',
-            label: 'Fiche produit',
-            tabs: TABS.map(({ id, label }) => ({ id, label })),
+            label,
+            defaultTab: selected,
+            tabs: TABS.map(({ id, label: tabLabel }) => ({ id, label: tabLabel })),
           },
           Object.fromEntries(TABS.map(({ id, text }) => [id, () => h('p', text)])),
         ),

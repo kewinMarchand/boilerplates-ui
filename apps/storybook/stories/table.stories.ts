@@ -9,15 +9,17 @@ import { createElement, useState } from 'react'
 import { defineComponent, h, ref } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Tableau' }
-export default meta
-
-type Story = StoryObj
-
 type Sort = { key: string; direction: SortDirection } | undefined
+
+interface Args {
+  caption: string
+  sortKey: 'aucun' | 'produit' | 'prix' | 'stock'
+  direction: SortDirection
+}
 
 const COLUMNS = [
   { key: 'produit', label: 'Produit', sortable: true },
@@ -32,15 +34,15 @@ const ROWS = [
   { produit: 'Antivol', categorie: 'Accessoires', prix: '29 €', stock: '32' },
 ]
 
+type Row = (typeof ROWS)[number]
+
 const sorted = (sort: Sort) =>
   sort
     ? [...ROWS].sort(
         (a, b) =>
-          (a[sort.key as keyof (typeof ROWS)[number]] ?? '').localeCompare(
-            b[sort.key as keyof (typeof ROWS)[number]] ?? '',
-            'fr',
-            { numeric: true },
-          ) * (sort.direction === 'ascending' ? 1 : -1),
+          (a[sort.key as keyof Row] ?? '').localeCompare(b[sort.key as keyof Row] ?? '', 'fr', {
+            numeric: true,
+          }) * (sort.direction === 'ascending' ? 1 : -1),
       )
     : ROWS
 
@@ -49,42 +51,92 @@ const nextSort = (sort: Sort, key: string): Sort => ({
   direction: sort?.key === key && sort.direction === 'ascending' ? 'descending' : 'ascending',
 })
 
-const options = (id: string, sort?: Sort): TableOptions => ({
+const toSort = ({ sortKey, direction }: Args): Sort =>
+  sortKey === 'aucun' ? undefined : { key: sortKey, direction }
+
+const options = (id: string, caption: string, sort: Sort): TableOptions => ({
   id,
-  caption: 'Stock des produits',
+  caption,
   columns: COLUMNS,
   rows: sorted(sort),
   ...(sort ? { sort } : {}),
 })
 
-export const Html: Story = { name: 'HTML et vanilla', render: () => table(options('stock')) }
-export const Trie: Story = {
-  name: 'Trié par prix décroissant',
-  render: () => table(options('stock-trie', { key: 'prix', direction: 'descending' })),
+const meta: Meta<Args> = {
+  title: 'Affichage/Tableau',
+  args: { caption: 'Stock des produits', sortKey: 'aucun', direction: 'ascending' },
+  argTypes: {
+    caption: { control: 'text' },
+    sortKey: {
+      control: 'select',
+      options: ['aucun', 'produit', 'prix', 'stock'],
+      description: 'Colonne triée au départ',
+    },
+    direction: { control: 'select', options: ['ascending', 'descending'] },
+  },
 }
-export const Etroit: Story = {
-  name: 'Défilement horizontal',
-  render: () => `<div style="max-width: 320px">${table(options('stock-etroit'))}</div>`,
+export default meta
+
+type Story = StoryObj<Args>
+
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: () =>
+    grid(
+      'États',
+      ['Rendu'],
+      [
+        { label: 'Non trié', cells: [table(options('vue-non-trie', 'Stock', undefined))] },
+        {
+          label: 'Trié par prix décroissant',
+          cells: [table(options('vue-trie', 'Stock', { key: 'prix', direction: 'descending' }))],
+        },
+        {
+          label: 'Défilement horizontal',
+          cells: [
+            `<div style="max-width: 280px">${table(options('vue-etroit', 'Stock', undefined))}</div>`,
+          ],
+        },
+        {
+          label: 'Focus de la zone',
+          state: 'focus',
+          cells: [table(options('vue-focus', 'Stock', undefined))],
+        },
+      ],
+    ),
 }
 
-const ReactDemo = () => {
-  const [sort, setSort] = useState<Sort>(undefined)
+export const Html: Story = {
+  name: 'HTML et vanilla',
+  render: (args) => table(options('stock', args.caption, toSort(args))),
+}
+
+const ReactDemo = ({ args }: { args: Args }) => {
+  const [sort, setSort] = useState<Sort>(toSort(args))
   return createElement(ReactTable, {
-    ...options('stock-react', sort),
+    ...options('stock-react', args.caption, sort),
     sort,
     onSort: (key: string) => setSort((current) => nextSort(current, key)),
   })
 }
 
-const VueDemo = defineComponent(() => {
-  const sort = ref<Sort>(undefined)
-  return () =>
-    h(VueTable, {
-      ...options('stock-vue', sort.value),
-      sort: sort.value,
-      onSort: (key: string) => (sort.value = nextSort(sort.value, key)),
-    })
-})
+export const React: Story = {
+  render: (args) =>
+    mountReact(createElement(ReactDemo, { args, key: `${args.sortKey}-${args.direction}` })),
+}
 
-export const React: Story = { render: () => mountReact(createElement(ReactDemo)) }
-export const Vue: Story = { render: () => mountVue(VueDemo) }
+export const Vue: Story = {
+  render: (args) =>
+    mountVue(
+      defineComponent(() => {
+        const sort = ref<Sort>(toSort(args))
+        return () =>
+          h(VueTable, {
+            ...options('stock-vue', args.caption, sort.value),
+            sort: sort.value,
+            onSort: (key: string) => (sort.value = nextSort(sort.value, key)),
+          })
+      }),
+    ),
+}

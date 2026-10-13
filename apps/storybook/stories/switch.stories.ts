@@ -5,51 +5,59 @@ import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW, uid } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Interrupteur' }
+const meta: Meta<SwitchOptions> = {
+  title: 'Formulaire/Interrupteur',
+  args: { id: 'notifications', label: 'Notifications par e-mail', checked: false, disabled: false },
+  argTypes: {
+    id: { control: 'text' },
+    label: { control: 'text' },
+    checked: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+  },
+}
 export default meta
 
-type Story = StoryObj
+type Story = StoryObj<SwitchOptions>
 
-const STATES: SwitchOptions[] = [
-  { id: 'notifications', label: 'Notifications par e-mail' },
-  { id: 'sombre', label: 'Thème sombre', checked: true },
-  { id: 'avion', label: 'Mode hors ligne', disabled: true },
-]
+const item = (options: Partial<SwitchOptions>) =>
+  switchControl({ id: uid('notif'), label: 'Notifications', ...options })
 
-export const Inactif: Story = { render: () => switchControl(STATES[0]!) }
-export const Actif: Story = { render: () => switchControl(STATES[1]!) }
-export const Desactive: Story = { name: 'Désactivé', render: () => switchControl(STATES[2]!) }
-export const Focus: Story = {
-  render: () => switchControl({ id: 'focus', label: 'Notifications par e-mail' }),
-  parameters: { pseudo: { focusVisible: true } },
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: () =>
+    grid(
+      'États',
+      ['Inactif', 'Actif'],
+      [
+        { label: 'Normal', cells: [item({}), item({ checked: true })] },
+        { label: 'Focus', state: 'focus', cells: [item({}), item({ checked: true })] },
+        {
+          label: 'Désactivé',
+          cells: [item({ disabled: true }), item({ checked: true, disabled: true })],
+        },
+      ],
+    ),
 }
 
+export const Html: Story = { name: 'HTML', render: (args) => switchControl(args) }
+
 export const React: Story = {
-  render: () =>
+  render: ({ checked, ...props }) =>
     mountReact(
-      createElement(
-        'div',
-        { className: 'sb-column' },
-        STATES.map(({ checked, ...props }) =>
-          createElement(ReactSwitch, { key: props.id, ...props, defaultChecked: checked }),
-        ),
-      ),
+      createElement(ReactSwitch, {
+        ...props,
+        defaultChecked: Boolean(checked),
+        key: String(checked),
+      }),
     ),
 }
 
 export const Vue: Story = {
-  render: () =>
-    mountVue({
-      render: () =>
-        h(
-          'div',
-          { class: 'sb-column' },
-          STATES.map(({ checked, ...props }) =>
-            h(VueSwitch, { ...props, modelValue: checked ?? false }),
-          ),
-        ),
-    }),
+  render: ({ checked, ...props }) =>
+    mountVue({ render: () => h(VueSwitch, { ...props, modelValue: Boolean(checked) }) }),
 }

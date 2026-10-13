@@ -5,7 +5,7 @@ defineOptions({ name: 'BuiButton' })
 
 import type { IconName } from './iconNames'
 
-export type ButtonVariant = 'primary' | 'outline' | 'ghost'
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 const {

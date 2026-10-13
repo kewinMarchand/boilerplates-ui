@@ -1,76 +1,78 @@
-import { alert } from '@kewinmarchand/css/reference/markup.ts'
+import { alert, type AlertOptions } from '@kewinmarchand/css/reference/markup.ts'
 import { Alert as ReactAlert } from '@kewinmarchand/react'
 import { Alert as VueAlert } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { defined, grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Alerte' }
-export default meta
+type Args = Omit<AlertOptions, 'body'> & { text: string }
 
-type Story = StoryObj
+const VARIANTS = {
+  info: 'Information',
+  success: 'Succès',
+  warning: 'Avertissement',
+  error: 'Erreur',
+} as const
 
-const STATES = [
-  {
+const meta: Meta<Args> = {
+  title: 'Retours/Alerte',
+  args: {
     variant: 'info',
     title: 'Maintenance prévue',
-    body: 'Le service sera interrompu dimanche de 2 h à 4 h.',
+    text: 'Le service sera interrompu dimanche de 2 h à 4 h.',
   },
-  { variant: 'success', title: 'Message envoyé', body: 'Une réponse arrive sous 48 heures.' },
-  {
-    variant: 'warning',
-    title: 'Session bientôt expirée',
-    body: 'Enregistrer le brouillon pour ne rien perdre.',
+  argTypes: {
+    variant: { control: 'select', options: Object.keys(VARIANTS) },
+    title: { control: 'text' },
+    text: { control: 'text' },
+    role: {
+      control: 'select',
+      options: ['aucun', 'status', 'alert'],
+      mapping: { aucun: undefined },
+    },
   },
-  {
-    variant: 'error',
-    title: 'Envoi impossible',
-    body: 'Vérifier les champs signalés puis recommencer.',
-  },
-] as const
+}
+export default meta
 
-const html = (index: number) => {
-  const { body, ...rest } = STATES[index]!
-  return alert({ ...rest, body: `<p>${body}</p>` })
+type Story = StoryObj<Args>
+
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: () =>
+    grid(
+      'Gravités',
+      ['Avec titre', 'Sans titre'],
+      Object.entries(VARIANTS).map(([variant, label]) => {
+        const v = variant as 'info'
+        return {
+          label,
+          cells: [
+            alert({ variant: v, title: label, body: '<p>Message explicite et actionnable.</p>' }),
+            alert({ variant: v, body: 'Message explicite et actionnable.' }),
+          ],
+        }
+      }),
+    ),
 }
 
-export const Info: Story = { render: () => html(0) }
-export const Succes: Story = { name: 'Succès', render: () => html(1) }
-export const Avertissement: Story = { render: () => html(2) }
-export const Erreur: Story = { render: () => html(3) }
-export const SansTitre: Story = {
-  name: 'Sans titre',
-  render: () => alert({ body: 'Les prix sont affichés toutes taxes comprises.' }),
+export const Html: Story = {
+  name: 'HTML',
+  render: ({ text, ...args }) => alert({ ...defined(args), body: `<p>${text}</p>` }),
 }
 
 export const React: Story = {
-  render: () =>
+  render: ({ text, ...args }) =>
     mountReact(
-      createElement(
-        'div',
-        { className: 'sb-column' },
-        STATES.map(({ body, ...props }) =>
-          createElement(ReactAlert, {
-            key: props.variant,
-            ...props,
-            children: createElement('p', null, body),
-          }),
-        ),
-      ),
+      createElement(ReactAlert, { ...defined(args), children: createElement('p', null, text) }),
     ),
 }
 
 export const Vue: Story = {
-  render: () =>
-    mountVue({
-      render: () =>
-        h(
-          'div',
-          { class: 'sb-column' },
-          STATES.map(({ body, ...props }) => h(VueAlert, props, { default: () => h('p', body) })),
-        ),
-    }),
+  render: ({ text, ...args }) =>
+    mountVue({ render: () => h(VueAlert, defined(args), { default: () => h('p', text) }) }),
 }

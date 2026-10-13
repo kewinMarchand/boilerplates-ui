@@ -4,7 +4,7 @@ import { Icon } from './Icon'
 import type { IconName } from './iconNames'
 import type { ButtonHTMLAttributes, MouseEvent } from 'react'
 
-export type ButtonVariant = 'primary' | 'outline' | 'ghost'
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

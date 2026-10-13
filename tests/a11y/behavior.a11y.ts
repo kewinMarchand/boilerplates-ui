@@ -11,15 +11,15 @@ const IMPLEMENTATIONS = ['html', 'react', 'vue'] as const
 
 const DIALOGS = {
   modale: {
-    html: 'composants-modale--ouverte',
-    react: 'composants-modale--react-ouverte',
-    vue: 'composants-modale--vue-ouverte',
+    html: 'superpositions-modale--ouverte',
+    react: 'superpositions-modale--react-ouverte',
+    vue: 'superpositions-modale--vue-ouverte',
     trigger: 'Supprimer le brouillon',
   },
   tiroir: {
-    html: 'composants-tiroir--ouvert',
-    react: 'composants-tiroir--react-ouvert',
-    vue: 'composants-tiroir--vue-ouvert',
+    html: 'superpositions-tiroir--ouvert',
+    react: 'superpositions-tiroir--react-ouvert',
+    vue: 'superpositions-tiroir--vue-ouvert',
     trigger: 'Ouvrir les filtres',
   },
 }
@@ -50,7 +50,7 @@ for (const implementation of IMPLEMENTATIONS) {
     }
 
     test('onglets : flèches, Début et Fin', async ({ page }) => {
-      await story(page, TWINS('composants-onglets')[implementation])
+      await story(page, TWINS('navigation-onglets')[implementation])
       const tabs = page.getByRole('tab')
       await tabs.first().click()
       await page.keyboard.press('ArrowRight')
@@ -68,7 +68,7 @@ for (const implementation of IMPLEMENTATIONS) {
     test('menu déroulant : ouverture au clavier, flèches, Échap rend le focus', async ({
       page,
     }) => {
-      await story(page, TWINS('composants-menu-déroulant')[implementation])
+      await story(page, TWINS('superpositions-menu-déroulant')[implementation])
       const trigger = page.getByRole('button', { name: 'Actions' })
       await trigger.focus()
       await page.keyboard.press('Enter')
@@ -89,7 +89,7 @@ for (const implementation of IMPLEMENTATIONS) {
     test('info-bulle : visible au focus, Échap la masque sans perdre le focus', async ({
       page,
     }) => {
-      await story(page, TWINS('composants-info-bulle')[implementation])
+      await story(page, TWINS('superpositions-info-bulle')[implementation])
       const trigger = page.getByRole('button', { name: 'Supprimer' })
       const bubble = page.getByRole('tooltip')
       await expect(bubble).toBeHidden()
@@ -103,9 +103,7 @@ for (const implementation of IMPLEMENTATIONS) {
 
     test('toast : status ou alert selon la gravité, fermeture', async ({ page }) => {
       const id =
-        implementation === 'html'
-          ? 'composants-toast--html'
-          : TWINS('composants-toast')[implementation]
+        implementation === 'html' ? 'retours-toast--html' : TWINS('retours-toast')[implementation]
       await story(page, id)
       await page.getByRole('button', { name: 'Enregistrer' }).click()
       await expect(page.getByRole('status')).toContainText('Profil enregistré.')
@@ -117,7 +115,7 @@ for (const implementation of IMPLEMENTATIONS) {
     })
 
     test('tableau : le tri pose aria-sort sur la seule colonne triée', async ({ page }) => {
-      await story(page, TWINS('composants-tableau')[implementation])
+      await story(page, TWINS('affichage-tableau')[implementation])
       const price = page.getByRole('columnheader', { name: /Prix/ })
       await page.getByRole('button', { name: /Prix/ }).click()
       await expect(price).toHaveAttribute('aria-sort', 'ascending')
@@ -131,12 +129,8 @@ for (const implementation of IMPLEMENTATIONS) {
 }
 
 test('bouton en chargement : nom accessible avec son espace', async ({ page }) => {
-  for (const id of [
-    'composants-bouton--chargement',
-    'composants-bouton--react',
-    'composants-bouton--vue',
-  ]) {
-    await story(page, id)
+  for (const id of ['actions-bouton--html', 'actions-bouton--react', 'actions-bouton--vue']) {
+    await page.goto(`/iframe.html?id=${id}&viewMode=story&args=loading:!true`)
     await expect(page.getByRole('button', { name: 'Envoyer (chargement en cours)' })).toBeVisible()
   }
 })

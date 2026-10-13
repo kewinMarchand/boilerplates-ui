@@ -1,59 +1,66 @@
 import { iconButton, type IconButtonOptions } from '@kewinmarchand/css/reference/markup.ts'
-import { IconButton as ReactIconButton, type IconName } from '@kewinmarchand/react'
+import { ICON_NAMES, IconButton as ReactIconButton, type IconName } from '@kewinmarchand/react'
 import { IconButton as VueIconButton } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { defined, grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Bouton icône' }
+type Args = IconButtonOptions & { icon: IconName }
+
+const VARIANTS = { primary: 'Primaire', outline: 'Contour', ghost: 'Fantôme' } as const
+
+const meta: Meta<Args> = {
+  title: 'Actions/Bouton icône',
+  args: { label: 'Ajouter', icon: 'plus', variant: 'primary', size: 'md', disabled: false },
+  argTypes: {
+    label: { control: 'text', description: 'Nom accessible (aria-label)' },
+    icon: { control: 'select', options: ICON_NAMES },
+    variant: { control: 'select', options: Object.keys(VARIANTS) },
+    size: { control: 'select', options: ['sm', 'md'] },
+    disabled: { control: 'boolean' },
+  },
+}
 export default meta
 
-type Story = StoryObj
+type Story = StoryObj<Args>
 
-const STATES: (IconButtonOptions & { icon: IconName })[] = [
-  { label: 'Ajouter', icon: 'plus' },
-  { label: 'Modifier', icon: 'pencil', variant: 'outline' },
-  { label: 'Supprimer', icon: 'trash', variant: 'ghost' },
-  { label: 'Fermer', icon: 'x', size: 'sm' },
-  { label: 'Modifier', icon: 'pencil', disabled: true },
-]
-
-const stack = (html: string) => `<div class="sb-stack">${html}</div>`
-
-export const Variantes: Story = { render: () => stack(STATES.slice(0, 3).map(iconButton).join('')) }
-export const Petit: Story = { render: () => iconButton(STATES[3]!) }
-export const Desactive: Story = { name: 'Désactivé', render: () => iconButton(STATES[4]!) }
-export const Survol: Story = {
-  render: () => stack(STATES.slice(0, 3).map(iconButton).join('')),
-  parameters: { pseudo: { hover: true } },
-}
-export const Focus: Story = {
-  render: () => stack(STATES.slice(0, 3).map(iconButton).join('')),
-  parameters: { pseudo: { focusVisible: true } },
-}
-
-export const React: Story = {
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
   render: () =>
-    mountReact(
-      createElement(
-        'div',
-        { className: 'sb-stack' },
-        STATES.map((props, index) => createElement(ReactIconButton, { key: index, ...props })),
-      ),
+    grid(
+      'Variantes, états et tailles',
+      [
+        'Normal',
+        { label: 'Survol', state: 'hover' },
+        { label: 'Focus', state: 'focus' },
+        'Désactivé',
+        'Petit',
+      ],
+      Object.entries(VARIANTS).map(([variant, label]) => {
+        const base = { label: 'Supprimer', icon: 'trash', variant: variant as 'primary' }
+        return {
+          label,
+          cells: [
+            iconButton(base),
+            iconButton(base),
+            iconButton(base),
+            iconButton({ ...base, disabled: true }),
+            iconButton({ ...base, size: 'sm' }),
+          ],
+        }
+      }),
     ),
 }
 
+export const Html: Story = { name: 'HTML', render: (args) => iconButton(defined(args)) }
+export const React: Story = {
+  render: (args) => mountReact(createElement(ReactIconButton, defined(args))),
+}
 export const Vue: Story = {
-  render: () =>
-    mountVue({
-      render: () =>
-        h(
-          'div',
-          { class: 'sb-stack' },
-          STATES.map((props) => h(VueIconButton, props)),
-        ),
-    }),
+  render: (args) => mountVue({ render: () => h(VueIconButton, defined(args)) }),
 }

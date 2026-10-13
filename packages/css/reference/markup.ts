@@ -31,7 +31,7 @@ export const icon = (name: string, className?: string) =>
 
 export interface ButtonOptions {
   label: string
-  variant?: 'primary' | 'outline' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
@@ -502,17 +502,19 @@ export interface MenuOptions {
   id: string
   label: string
   items: { id: string; label: string }[]
+  /** État ouvert, pour la documentation : en vrai, le comportement l'ouvre. */
+  open?: boolean
 }
 
-export const menu = ({ id, label, items }: MenuOptions) =>
+export const menu = ({ id, label, items, open = false }: MenuOptions) =>
   `<div class="bui-menu" data-bui-menu><button${attributes({
     type: 'button',
     class: 'bui-button bui-button--outline bui-menu__trigger',
     id: `${id}-trigger`,
     'aria-haspopup': 'menu',
-    'aria-expanded': 'false',
+    'aria-expanded': String(open),
     'aria-controls': `${id}-list`,
-  })}>${escape(label)}${icon('chevron-down')}</button><ul class="bui-menu__list" role="menu" id="${id}-list" aria-labelledby="${id}-trigger" hidden>${items
+  })}>${escape(label)}${icon('chevron-down')}</button><ul${attributes({ class: 'bui-menu__list', role: 'menu', id: `${id}-list`, 'aria-labelledby': `${id}-trigger`, hidden: !open })}>${items
     .map(
       (item) =>
         `<li role="none"><button type="button" class="bui-menu__item" role="menuitem" tabindex="-1" data-bui-menu-item="${escape(item.id)}">${escape(item.label)}</button></li>`,

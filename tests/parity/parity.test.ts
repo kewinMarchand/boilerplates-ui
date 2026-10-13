@@ -92,6 +92,12 @@ const CASES: Case[] = [
     vue: () => h(V.Button, null, { default: () => 'Envoyer' }),
   },
   {
+    name: 'bouton secondaire',
+    reference: ref.button({ label: 'En savoir plus', variant: 'secondary' }),
+    react: r(R.Button, { variant: 'secondary' }, 'En savoir plus'),
+    vue: () => h(V.Button, { variant: 'secondary' }, { default: () => 'En savoir plus' }),
+  },
+  {
     name: 'bouton contour petit avec icône',
     reference: ref.button({ label: 'Ajouter', variant: 'outline', size: 'sm', icon: 'plus' }),
     react: r(R.Button, { variant: 'outline', size: 'sm', icon: 'plus' }, 'Ajouter'),

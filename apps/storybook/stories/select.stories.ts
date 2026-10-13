@@ -4,14 +4,11 @@ import { Select as VueSelect } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
 
+import { FIELD_ARG_TYPES, fieldRows } from './support/fields'
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
-
-const meta: Meta = { title: 'Composants/Liste déroulante' }
-export default meta
-
-type Story = StoryObj
 
 const OPTIONS = [
   { value: 'fr', label: 'France' },
@@ -19,48 +16,41 @@ const OPTIONS = [
   { value: 'ch', label: 'Suisse' },
 ]
 
-const STATES: SelectOptions[] = [
-  { id: 'pays', label: 'Pays', options: OPTIONS, placeholder: 'Choisir un pays' },
-  { id: 'pays-aide', label: 'Pays de livraison', options: OPTIONS, hint: 'Livraison en Europe' },
-  {
-    id: 'pays-erreur',
-    label: 'Pays de facturation',
+const meta: Meta<SelectOptions> = {
+  title: 'Formulaire/Liste déroulante',
+  args: {
+    id: 'pays',
+    label: 'Pays',
     options: OPTIONS,
     placeholder: 'Choisir un pays',
-    required: true,
-    error: 'Choisir un pays de facturation',
+    hint: '',
+    error: '',
+    required: false,
+    disabled: false,
   },
-  { id: 'pays-off', label: 'Pays d’origine', options: OPTIONS, disabled: true },
-]
-
-export const Simple: Story = { render: () => select(STATES[0]!) }
-export const AvecAide: Story = { name: 'Avec aide', render: () => select(STATES[1]!) }
-export const Erreur: Story = { name: 'Requise en erreur', render: () => select(STATES[2]!) }
-export const Desactivee: Story = { name: 'Désactivée', render: () => select(STATES[3]!) }
-export const Focus: Story = {
-  render: () => select({ ...STATES[0]!, id: 'pays-focus' }),
-  parameters: { pseudo: { focusVisible: true } },
+  argTypes: {
+    ...FIELD_ARG_TYPES,
+    placeholder: { control: 'text' },
+    options: { control: 'object' },
+  },
 }
+export default meta
 
-export const React: Story = {
+type Story = StoryObj<SelectOptions>
+
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
   render: () =>
-    mountReact(
-      createElement(
-        'div',
-        { className: 'sb-column' },
-        STATES.map((props) => createElement(ReactSelect, { key: props.id, ...props })),
+    grid(
+      'États',
+      ['Rendu'],
+      fieldRows('pays', (options) =>
+        select({ ...options, label: 'Pays', options: OPTIONS, placeholder: 'Choisir un pays' }),
       ),
     ),
 }
 
-export const Vue: Story = {
-  render: () =>
-    mountVue({
-      render: () =>
-        h(
-          'div',
-          { class: 'sb-column' },
-          STATES.map((props) => h(VueSelect, props)),
-        ),
-    }),
-}
+export const Html: Story = { name: 'HTML', render: (args) => select(args) }
+export const React: Story = { render: (args) => mountReact(createElement(ReactSelect, args)) }
+export const Vue: Story = { render: (args) => mountVue({ render: () => h(VueSelect, args) }) }

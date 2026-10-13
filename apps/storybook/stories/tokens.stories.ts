@@ -1,52 +1,61 @@
 import generated from '@kewinmarchand/tokens/tokens.json'
 
+import { contrast } from './support/theme'
+
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Fondations/Tokens' }
+const meta: Meta = { title: 'Fondations/Tokens', parameters: { controls: { disable: true } } }
 export default meta
 
 type Story = StoryObj
 
-type Tree = { [key: string]: string | Tree }
-
-const flatten = (tree: Tree, path: string[] = []): [string, string][] =>
-  Object.entries(tree).flatMap(([key, value]) =>
-    typeof value === 'string'
-      ? [[[...path, key].join('-'), value]]
-      : flatten(value, [...path, key]),
-  )
-
-const enhanced = new Map(flatten(generated.enhanced as Tree))
-
-const preview = (name: string) => {
-  const variable = `var(--bui-${name})`
-  if (name.startsWith('color-'))
-    return `<span style="display:inline-block;width:40px;height:24px;border:1px solid var(--bui-color-border);border-radius:4px;background:${variable}"></span>`
-  if (name.startsWith('font-size-')) return `<span style="font-size:${variable}">Aa</span>`
-  if (name.startsWith('space-') || name.startsWith('size-'))
-    return `<span style="display:inline-block;height:12px;width:${variable};background:var(--bui-color-primary)"></span>`
-  if (name.startsWith('radius-'))
-    return `<span style="display:inline-block;width:40px;height:40px;border:2px solid var(--bui-color-primary);border-radius:${variable}"></span>`
-  if (name.startsWith('shadow-'))
-    return `<span style="display:inline-block;width:64px;height:40px;box-shadow:${variable}"></span>`
-  return ''
+const { tokens, enhanced } = generated as unknown as {
+  tokens: {
+    color: Record<string, string>
+    font: { size: Record<string, string>; weight: Record<string, string> }
+    space: Record<string, string>
+    radius: Record<string, string>
+    shadow: Record<string, string>
+    breakpoint: Record<string, string>
+  }
+  enhanced: { color: Record<string, string>; font: { size: Record<string, string> } }
 }
 
-const section = (group: string, tree: Tree) => {
-  const rows = flatten(tree, [group])
-    .map(
-      ([name, value]) =>
-        `<tr><th scope="row"><code>--bui-${name}</code></th><td>${preview(name)}</td><td><code>${value}</code></td><td>${enhanced.has(name) ? `<code>${enhanced.get(name)}</code>` : ''}</td></tr>`,
-    )
-    .join('')
-  return `<table class="sb-tokens"><caption>${group}</caption><thead><tr><th scope="col">Variable</th><th scope="col">Aperçu</th><th scope="col">Standard</th><th scope="col">Renforcé</th></tr></thead><tbody>${rows}</tbody></table>`
+const isHex = (value: string) => /^#[0-9a-f]{6}$/i.test(value)
+
+const swatch = (name: string, value: string) => {
+  const ratio = isHex(value)
+    ? `${contrast(value, '#ffffff').toFixed(1)}:1 sur blanc`
+    : 'transparence'
+  const strong = enhanced.color[name]
+  return `<li class="sb-swatch"><div class="sb-swatch__color" style="background: var(--bui-color-${name})"></div><div class="sb-swatch__text"><strong>${name}</strong><code>${value}</code><span>${ratio}</span>${
+    strong ? `<span>Renforcé : <code>${strong}</code></span>` : ''
+  }</div></li>`
 }
+
+const scale = (items: [string, string][], render: (name: string, value: string) => string) =>
+  `<ul class="sb-scale">${items.map(([name, value]) => `<li><code>${name} · ${value}</code>${render(name, value)}</li>`).join('')}</ul>`
 
 export const Tokens: Story = {
-  render: () =>
-    `<h1>Tokens</h1><p>Source unique : <code>packages/tokens/src/tokens.ts</code>. La colonne Renforcé liste les surcharges sous <code>[data-a11y-mode="enhanced"]</code>.</p>${Object.entries(
-      generated.tokens as Tree,
-    )
-      .map(([group, tree]) => (typeof tree === 'string' ? '' : section(group, tree)))
-      .join('')}`,
+  render: () => `<div class="sb-page">
+    <header><h1>Tokens</h1><p>Source unique : <code>packages/tokens/src/tokens.ts</code>, générée en variables CSS <code>--bui-*</code>, JSON, thème MUI, thème Vuetify et thème Tailwind. Le mode renforcé ne surcharge que quelques valeurs, indiquées ici.</p></header>
+    <section><h2>Couleurs</h2><ul class="sb-swatches">${Object.entries(tokens.color)
+      .map(([name, value]) => swatch(name, value))
+      .join('')}</ul></section>
+    <section><h2>Échelle typographique</h2>${scale(Object.entries(tokens.font.size), (name) => `<span style="font-size: var(--bui-font-size-${name}); line-height: 1.2">Vélo de ville en acier${enhanced.font.size[name] ? ` <small>(renforcé ${enhanced.font.size[name]})</small>` : ''}</span>`)}</section>
+    <section><h2>Graisses</h2>${scale(Object.entries(tokens.font.weight), (name) => `<span style="font-weight: var(--bui-font-weight-${name})">Vélo de ville en acier</span>`)}</section>
+    <section><h2>Espacements</h2>${scale(Object.entries(tokens.space), (name) => `<span class="sb-bar" style="width: var(--bui-space-${name})"></span>`)}</section>
+    <section><h2>Rayons et ombre</h2><div class="sb-stack">${Object.keys(tokens.radius)
+      .map(
+        (name) =>
+          `<div style="width: 96px; height: 64px; border: 2px solid var(--bui-color-primary); border-radius: var(--bui-radius-${name})"></div>`,
+      )
+      .join('')}${Object.keys(tokens.shadow)
+      .map(
+        (name) =>
+          `<div style="width: 96px; height: 64px; border-radius: var(--bui-radius-md); box-shadow: var(--bui-shadow-${name})"></div>`,
+      )
+      .join('')}</div></section>
+    <section><h2>Points de rupture</h2>${scale(Object.entries(tokens.breakpoint), (_, value) => `<span class="sb-bar" style="width: min(100%, calc(${value} / 4))"></span>`)}</section>
+  </div>`,
 }

@@ -4,64 +4,69 @@ import { Checkbox as VueCheckbox } from '@kewinmarchand/vue'
 import { createElement } from 'react'
 import { h } from 'vue'
 
+import { FIELD_ARG_TYPES, fieldRows } from './support/fields'
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW, uid } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Case à cocher' }
+const meta: Meta<CheckboxOptions> = {
+  title: 'Formulaire/Case à cocher',
+  args: {
+    id: 'lettre',
+    label: 'Recevoir la lettre d’information',
+    checked: false,
+    hint: '',
+    error: '',
+    required: false,
+    disabled: false,
+  },
+  argTypes: { ...FIELD_ARG_TYPES, checked: { control: 'boolean' } },
+}
 export default meta
 
-type Story = StoryObj
+type Story = StoryObj<CheckboxOptions>
 
-const STATES: CheckboxOptions[] = [
-  { id: 'lettre', label: 'Recevoir la lettre d’information' },
-  {
-    id: 'souvenir',
-    label: 'Se souvenir de moi',
-    checked: true,
-    hint: 'Pendant 30 jours sur cet appareil',
-  },
-  {
-    id: 'cgu',
-    label: 'J’accepte les conditions générales',
-    required: true,
-    error: 'Cocher la case pour continuer',
-  },
-  { id: 'archive', label: 'Option indisponible', disabled: true },
-]
-
-export const Simple: Story = { render: () => checkbox(STATES[0]!) }
-export const Cochee: Story = { name: 'Cochée avec aide', render: () => checkbox(STATES[1]!) }
-export const Erreur: Story = { name: 'Requise en erreur', render: () => checkbox(STATES[2]!) }
-export const Desactivee: Story = { name: 'Désactivée', render: () => checkbox(STATES[3]!) }
-export const Focus: Story = {
-  render: () => checkbox({ id: 'lettre-focus', label: 'Recevoir la lettre d’information' }),
-  parameters: { pseudo: { focusVisible: true } },
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: () =>
+    grid(
+      'États',
+      ['Décochée', 'Cochée'],
+      [
+        ...fieldRows('cgu', (options) =>
+          checkbox({ ...options, label: 'J’accepte les conditions' }),
+        ).map((row) => ({
+          ...row,
+          cells: [
+            row.cells[0]!,
+            checkbox({
+              id: uid('cgu-cochee'),
+              label: 'J’accepte les conditions',
+              checked: true,
+              disabled: row.label === 'Désactivé',
+            }),
+          ],
+        })),
+      ],
+    ),
 }
 
+export const Html: Story = { name: 'HTML', render: (args) => checkbox(args) }
+
 export const React: Story = {
-  render: () =>
+  render: ({ checked, ...props }) =>
     mountReact(
-      createElement(
-        'div',
-        { className: 'sb-column' },
-        STATES.map(({ checked, ...props }) =>
-          createElement(ReactCheckbox, { key: props.id, ...props, defaultChecked: checked }),
-        ),
-      ),
+      createElement(ReactCheckbox, {
+        ...props,
+        defaultChecked: Boolean(checked),
+        key: String(checked),
+      }),
     ),
 }
 
 export const Vue: Story = {
-  render: () =>
-    mountVue({
-      render: () =>
-        h(
-          'div',
-          { class: 'sb-column' },
-          STATES.map(({ checked, ...props }) =>
-            h(VueCheckbox, { ...props, modelValue: checked ?? false }),
-          ),
-        ),
-    }),
+  render: ({ checked, ...props }) =>
+    mountVue({ render: () => h(VueCheckbox, { ...props, modelValue: Boolean(checked) }) }),
 }

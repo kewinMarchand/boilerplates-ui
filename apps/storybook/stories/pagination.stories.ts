@@ -5,31 +5,55 @@ import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Pagination' }
-export default meta
-
-type Story = StoryObj
+interface Args {
+  page: number
+  count: number
+}
 
 const href = (page: number) => `#page-${page}`
 
-export const Debut: Story = {
-  name: 'Première page',
-  render: () => pagination({ page: 1, count: 5, href }),
+const meta: Meta<Args> = {
+  title: 'Navigation/Pagination',
+  args: { page: 6, count: 12 },
+  argTypes: {
+    page: { control: { type: 'number', min: 1 } },
+    count: { control: { type: 'number', min: 1 } },
+  },
 }
-export const Milieu: Story = {
-  name: 'Page du milieu, avec ellipses',
-  render: () => pagination({ page: 6, count: 12, href }),
+export default meta
+
+type Story = StoryObj<Args>
+
+const clamp = ({ page, count }: Args) => ({
+  page: Math.min(Math.max(page, 1), Math.max(count, 1)),
+  count: Math.max(count, 1),
+  href,
+})
+
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: () =>
+    grid(
+      'Positions',
+      ['Rendu'],
+      [
+        { label: 'Première page', cells: [pagination({ page: 1, count: 5, href })] },
+        { label: 'Milieu, avec ellipses', cells: [pagination({ page: 6, count: 12, href })] },
+        { label: 'Dernière page', cells: [pagination({ page: 12, count: 12, href })] },
+        { label: 'Focus', state: 'focus', cells: [pagination({ page: 2, count: 3, href })] },
+      ],
+    ),
 }
-export const Fin: Story = {
-  name: 'Dernière page',
-  render: () => pagination({ page: 12, count: 12, href }),
-}
+
+export const Html: Story = { name: 'HTML', render: (args) => pagination(clamp(args)) }
 export const React: Story = {
-  render: () => mountReact(createElement(ReactPagination, { page: 6, count: 12, href })),
+  render: (args) => mountReact(createElement(ReactPagination, clamp(args))),
 }
 export const Vue: Story = {
-  render: () => mountVue({ render: () => h(VuePagination, { page: 6, count: 12, href }) }),
+  render: (args) => mountVue({ render: () => h(VuePagination, clamp(args)) }),
 }

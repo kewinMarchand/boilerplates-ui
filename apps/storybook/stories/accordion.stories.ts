@@ -5,13 +5,14 @@ import { createElement } from 'react'
 import { h } from 'vue'
 
 import { mountReact, mountVue } from './support/frameworks'
+import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta = { title: 'Composants/Accordéon' }
-export default meta
-
-type Story = StoryObj
+interface Args {
+  exclusive: boolean
+  firstOpen: boolean
+}
 
 const ITEMS = [
   {
@@ -27,51 +28,81 @@ const ITEMS = [
   { id: 'paiement', title: 'Quels moyens de paiement ?', text: 'Carte bancaire et virement.' },
 ]
 
-const html = (open: boolean, name?: string) =>
+const meta: Meta<Args> = {
+  title: 'Affichage/Accordéon',
+  args: { exclusive: false, firstOpen: true },
+  argTypes: {
+    exclusive: { control: 'boolean', description: 'Attribut name commun : un seul panneau ouvert' },
+    firstOpen: { control: 'boolean', description: 'Premier panneau ouvert au chargement' },
+  },
+}
+export default meta
+
+type Story = StoryObj<Args>
+
+const html = ({ exclusive, firstOpen }: Args, name: string) =>
   accordion({
-    ...(name ? { name } : {}),
+    ...(exclusive ? { name } : {}),
     items: ITEMS.map(({ title, text }, index) => ({
       title,
       body: `<p>${text}</p>`,
-      open: open && index === 0,
+      open: firstOpen && index === 0,
     })),
   })
 
-export const Ferme: Story = { name: 'Fermé', render: () => html(false) }
-export const Ouvert: Story = { name: 'Premier panneau ouvert', render: () => html(true) }
-export const Exclusif: Story = {
-  name: 'Exclusif (un seul ouvert)',
-  render: () => html(true, 'faq'),
-}
-export const Focus: Story = {
-  render: () => html(false),
-  parameters: { pseudo: { focusVisible: true } },
+export const ToutesLesVariantes: Story = {
+  name: 'Toutes les variantes',
+  parameters: OVERVIEW,
+  render: () =>
+    grid(
+      'États',
+      ['Rendu'],
+      [
+        { label: 'Fermé', cells: [html({ exclusive: false, firstOpen: false }, 'a')] },
+        { label: 'Premier ouvert', cells: [html({ exclusive: false, firstOpen: true }, 'b')] },
+        {
+          label: 'Exclusif',
+          cells: [html({ exclusive: true, firstOpen: true }, 'faq-vue-ensemble')],
+        },
+        {
+          label: 'Focus',
+          state: 'focus',
+          cells: [html({ exclusive: false, firstOpen: false }, 'c')],
+        },
+      ],
+    ),
 }
 
+export const Html: Story = { name: 'HTML', render: (args) => html(args, 'faq') }
+
 export const React: Story = {
-  render: () =>
+  render: ({ exclusive, firstOpen }) =>
     mountReact(
       createElement(ReactAccordion, {
-        name: 'faq-react',
+        ...(exclusive ? { name: 'faq-react' } : {}),
         items: ITEMS.map(({ id, title, text }, index) => ({
           id,
           title,
           content: createElement('p', null, text),
-          open: index === 0,
+          open: firstOpen && index === 0,
         })),
       }),
     ),
 }
 
 export const Vue: Story = {
-  render: () =>
+  render: ({ exclusive, firstOpen }) =>
     mountVue({
       render: () =>
         h(
           VueAccordion,
           {
-            name: 'faq-vue',
-            items: ITEMS.map(({ id, title }, index) => ({ id, title, open: index === 0 })),
+            ...(exclusive ? { name: 'faq-vue' } : {}),
+            items: ITEMS.map(({ id, title }, index) => ({
+              id,
+              title,
+              open: firstOpen && index === 0,
+            })),
           },
           Object.fromEntries(ITEMS.map(({ id, text }) => [id, () => h('p', text)])),
         ),
