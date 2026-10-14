@@ -18,7 +18,7 @@ const meta: Meta<AvatarOptions> = {
   args: { name: 'Camille Martin', size: 'md', decorative: false },
   argTypes: {
     name: { control: 'text', description: 'Nom accessible et initiales' },
-    src: { control: 'select', options: ['aucune', 'carte.svg'], mapping: { aucune: undefined } },
+    src: { control: 'select', options: ['aucune', 'portrait.jpg'], mapping: { aucune: undefined } },
     size: { control: 'select', options: Object.keys(SIZES) },
     decorative: { control: 'boolean', description: 'Masqué aux aides techniques, à côté du nom' },
   },
@@ -36,7 +36,7 @@ export const ToutesLesVariantes: Story = {
       Object.values(SIZES),
       [
         { label: 'Initiales', options: {} },
-        { label: 'Image', options: { src: 'carte.svg' } },
+        { label: 'Image', options: { src: 'portrait.jpg' } },
         { label: 'Décoratif', options: { decorative: true } },
       ].map(({ label, options }) => ({
         label,

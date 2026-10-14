@@ -19,7 +19,7 @@ interface Args {
   action: string
 }
 
-const IMAGE = { src: 'carte.svg', alt: '', width: 640, height: 360 }
+const IMAGE = { src: 'randonnee.jpg', alt: '', width: 640, height: 360 }
 const img = `<img src="${IMAGE.src}" alt="" width="${IMAGE.width}" height="${IMAGE.height}" loading="lazy">`
 
 const meta: Meta<Args> = {
@@ -74,9 +74,9 @@ export const ToutesLesVariantes: Story = {
           cells: [`<div style="max-width: 320px">${html({ ...args, media: false })}</div>`],
         },
         {
-          label: 'Image en <picture>',
+          label: 'Image en &lt;picture&gt;',
           cells: [
-            `<div style="max-width: 320px">${card({ title: args.title, headingLevel: args.headingLevel, body: `<p>${args.text}</p>`, media: `<picture><source srcset="${IMAGE.src}" type="image/svg+xml">${img}</picture>` })}</div>`,
+            `<div style="max-width: 320px">${card({ title: args.title, headingLevel: args.headingLevel, body: `<p>${args.text}</p>`, media: `<picture><source srcset="randonnee.webp" type="image/webp">${img}</picture>` })}</div>`,
           ],
         },
         {

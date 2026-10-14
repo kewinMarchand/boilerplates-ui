@@ -24,7 +24,7 @@ export const VueDEnsemble: StoryObj = {
         {
           title: 'Carte',
           story: 'affichage-carte--toutes-les-variantes',
-          demo: `<div style="max-width: 300px">${card({ title: 'Randonnée', headingLevel: 3, body: '<p>Trois itinéraires balisés.</p>', media: '<img src="carte.svg" alt="" width="640" height="360" loading="lazy">' })}</div>`,
+          demo: `<div style="max-width: 300px">${card({ title: 'Randonnée', headingLevel: 3, body: '<p>Trois itinéraires balisés.</p>', media: '<img src="randonnee.jpg" alt="" width="640" height="360" loading="lazy">' })}</div>`,
         },
         {
           title: 'Badge',
@@ -41,7 +41,7 @@ export const VueDEnsemble: StoryObj = {
           demo:
             (['sm', 'md', 'lg'] as const)
               .map((size) => avatar({ name: 'Camille Martin', size }))
-              .join('') + avatar({ name: 'Camille Martin', src: 'carte.svg' }),
+              .join('') + avatar({ name: 'Camille Martin', src: 'portrait.jpg' }),
         },
         {
           title: 'Séparateur',

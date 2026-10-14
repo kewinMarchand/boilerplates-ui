@@ -125,3 +125,5 @@ Outillage de développement (taille installée) :
 ## Licence
 
 MIT, voir `LICENSE`.
+
+Photos du Storybook (`apps/storybook/public`), sous licence CC0, de StockSnap : `portrait.jpg` par Matt Moloney, `randonnee.jpg` et `randonnee.webp` par Aleksandra Boguslawska, recadrées.
