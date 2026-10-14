@@ -25,7 +25,7 @@ export const VueDEnsemble: StoryObj = {
       {
         title: 'Pagination',
         story: 'navigation-pagination--toutes-les-variantes',
-        demo: pagination({ page: 6, count: 12, href: (page) => `#page-${page}` }),
+        demo: pagination({ page: 2, count: 3, href: (page) => `#page-${page}` }),
       },
       {
         title: 'Onglets',

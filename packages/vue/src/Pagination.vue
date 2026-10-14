@@ -26,7 +26,7 @@ const items = computed((): (number | 'ellipsis')[] => {
     <ul class="bui-pagination__list">
       <li v-if="page > 1">
         <a class="bui-pagination__link" :href="href(page - 1)" rel="prev"
-          ><Icon name="chevron-left" />Précédent</a
+          ><Icon name="chevron-left" /><span class="bui-pagination__label">Précédent</span></a
         >
       </li>
       <template v-for="(item, index) in items" :key="`${item}-${index}`">
@@ -42,7 +42,7 @@ const items = computed((): (number | 'ellipsis')[] => {
       </template>
       <li v-if="page < count">
         <a class="bui-pagination__link" :href="href(page + 1)" rel="next"
-          >Suivant<Icon name="chevron-right"
+          ><span class="bui-pagination__label">Suivant</span><Icon name="chevron-right"
         /></a>
       </li>
     </ul>

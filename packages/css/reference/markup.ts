@@ -626,11 +626,11 @@ export const pagination = ({ page, count, href }: PaginationOptions) => {
   )
   return `<nav class="bui-pagination" aria-label="Pagination"><ul class="bui-pagination__list">${
     page > 1
-      ? `<li>${link(page - 1, `${icon('chevron-left')}Précédent`, { rel: 'prev' })}</li>`
+      ? `<li>${link(page - 1, `${icon('chevron-left')}<span class="bui-pagination__label">Précédent</span>`, { rel: 'prev' })}</li>`
       : ''
   }${items.join('')}${
     page < count
-      ? `<li>${link(page + 1, `Suivant${icon('chevron-right')}`, { rel: 'next' })}</li>`
+      ? `<li>${link(page + 1, `<span class="bui-pagination__label">Suivant</span>${icon('chevron-right')}`, { rel: 'next' })}</li>`
       : ''
   }</ul></nav>`
 }

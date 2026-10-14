@@ -15,7 +15,7 @@
     border: 1px solid var(--bui-color-border-subtle);
     border-radius: var(--bui-radius-md);
     background: var(--bui-color-surface);
-    box-shadow: var(--bui-shadow-xl);
+    box-shadow: var(--bui-shadow-lg);
     list-style: none;
     transition:
       opacity var(--bui-motion-duration) var(--bui-motion-easing),

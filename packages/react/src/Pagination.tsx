@@ -22,7 +22,7 @@ export const Pagination = ({ page, count, href }: PaginationProps) => (
         <li>
           <a className="bui-pagination__link" href={href(page - 1)} rel="prev">
             <Icon name="chevron-left" />
-            Précédent
+            <span className="bui-pagination__label">Précédent</span>
           </a>
         </li>
       )}
@@ -47,7 +47,7 @@ export const Pagination = ({ page, count, href }: PaginationProps) => (
       {page < count && (
         <li>
           <a className="bui-pagination__link" href={href(page + 1)} rel="next">
-            Suivant
+            <span className="bui-pagination__label">Suivant</span>
             <Icon name="chevron-right" />
           </a>
         </li>

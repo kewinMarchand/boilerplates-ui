@@ -13,7 +13,7 @@ const FAMILIES = [
   ['Navigation', 'Fil d’Ariane, pagination, onglets'],
   ['Retours', 'Alerte, toast, indicateur de chargement, squelette'],
   ['Superpositions', 'Modale, tiroir, info-bulle, menu déroulant'],
-]
+] as const
 
 export const Bienvenue: Story = {
   render: () => `<div class="sb-page">
@@ -21,7 +21,7 @@ export const Bienvenue: Story = {
     <p>Bibliothèque de composants commune aux boilerplates : une source de tokens, un balisage HTML et CSS de référence, le comportement en JavaScript natif, et des composants React et Vue qui produisent exactement ce balisage. Accessibilité WCAG 2.1 AA en mode standard et en mode renforcé.</p>
     <section><h2>Parcourir</h2><ul class="sb-families" style="list-style: none; margin: 0; padding: 0">${FAMILIES.map(
       ([family, content]) =>
-        `<li class="bui-card"><div class="bui-card__body"><h3 class="bui-card__title">${family}</h3><p>${content}</p></div></li>`,
+        `<li class="bui-card"><div class="bui-card__body"><h3 class="bui-card__title"><a class="bui-link" href="./?path=/story/${family.toLowerCase()}-vue-d-ensemble--vue-d-ensemble" target="_top">${family}</a></h3><p>${content}</p></div></li>`,
     ).join('')}</ul></section>
     <section><h2>Dans chaque composant</h2><ul>
       <li><strong>Toutes les variantes</strong> : variantes, tailles et états côte à côte.</li>

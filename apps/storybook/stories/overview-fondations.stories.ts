@@ -32,7 +32,7 @@ export const VueDEnsemble: StoryObj = {
           story: 'fondations-tokens--tokens',
           demo: SWATCHES.map(
             (name) =>
-              `<span title="${name}" style="display:inline-block;width:40px;height:40px;border-radius:var(--bui-radius-md);border:1px solid var(--bui-color-border-subtle);background:var(--bui-color-${name})"></span>`,
+              `<figure class="sb-sample"><span class="sb-swatch-mini" style="background: var(--bui-color-${name})"></span><figcaption>${name}</figcaption></figure>`,
           ).join(''),
         },
         {

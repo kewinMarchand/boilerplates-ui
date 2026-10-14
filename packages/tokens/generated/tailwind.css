@@ -43,6 +43,8 @@
   --text-overline: var(--bui-font-size-overline);
   --radius-md: var(--bui-radius-md);
   --radius-full: var(--bui-radius-full);
+  --shadow-sm: var(--bui-shadow-sm);
+  --shadow-lg: var(--bui-shadow-lg);
   --shadow-xl: var(--bui-shadow-xl);
   --spacing-touch: var(--bui-size-touch);
   --spacing-control-sm: var(--bui-size-control-sm);

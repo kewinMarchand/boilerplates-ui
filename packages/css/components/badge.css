@@ -3,7 +3,7 @@
     display: inline-flex;
     align-items: center;
     padding: 0 var(--bui-space-2);
-    border: 1px solid currentColor;
+    border: 1px solid transparent;
     border-radius: var(--bui-radius-full);
     background: var(--bui-color-surface-muted);
     color: var(--bui-color-text);

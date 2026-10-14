@@ -59,26 +59,26 @@ body {
   overflow-x: auto;
 }
 
-.sb-grid table {
+/* Tableau du décor seulement : hors couche, ces règles l'emporteraient sur le composant Tableau affiché dans une cellule */
+.sb-grid > table {
   border-collapse: collapse;
 }
 
-.sb-grid caption {
+.sb-grid > table > caption {
   margin-bottom: var(--bui-space-3);
   font-size: var(--bui-font-size-title);
   font-weight: var(--bui-font-weight-semibold);
   text-align: start;
 }
 
-.sb-grid :is(th, td) {
+.sb-grid > table > :is(thead, tbody) > tr > :is(th, td) {
   padding: var(--bui-space-3);
   border-bottom: 1px solid var(--bui-color-border-subtle);
   text-align: start;
   vertical-align: middle;
 }
 
-.sb-grid thead th,
-.sb-grid tbody th {
+.sb-grid > table > :is(thead, tbody) > tr > th {
   color: var(--bui-color-text-muted);
   font-size: var(--bui-font-size-body-sm);
   font-weight: var(--bui-font-weight-semibold);
@@ -97,6 +97,11 @@ body {
   display: grid;
   gap: var(--bui-space-8);
   max-width: var(--bui-container-content);
+}
+
+.sb-page > header {
+  display: grid;
+  gap: var(--bui-space-2);
 }
 
 .sb-page h1 {
@@ -132,7 +137,7 @@ body {
 }
 
 .sb-swatch__color {
-  height: 64px;
+  height: var(--bui-size-avatar-lg);
   border-bottom: 1px solid var(--bui-color-border-subtle);
 }
 
@@ -140,6 +145,32 @@ body {
   display: grid;
   gap: 2px;
   padding: var(--bui-space-2) var(--bui-space-3);
+}
+
+.sb-page h3 {
+  margin: var(--bui-space-6) 0 var(--bui-space-3);
+  font-size: var(--bui-font-size-title);
+}
+
+.sb-sample {
+  display: grid;
+  gap: var(--bui-space-2);
+  margin: 0;
+  font-size: var(--bui-font-size-body-sm);
+}
+
+.sb-sample__box {
+  width: calc(2 * var(--bui-size-avatar-lg));
+  height: var(--bui-size-avatar-lg);
+  border-radius: var(--bui-radius-md);
+  background: var(--bui-color-surface);
+}
+
+.sb-swatch-mini {
+  width: var(--bui-size-touch);
+  height: var(--bui-size-touch);
+  border: 1px solid var(--bui-color-border-subtle);
+  border-radius: var(--bui-radius-md);
 }
 
 .sb-scale {
@@ -158,8 +189,8 @@ body {
 }
 
 .sb-bar {
-  height: 16px;
-  border-radius: 2px;
+  height: var(--bui-space-4);
+  border-radius: var(--bui-radius-md);
   background: var(--bui-color-primary);
 }
 
@@ -185,7 +216,7 @@ body {
   border: 1px solid var(--bui-color-border-subtle);
   border-radius: var(--bui-radius-md);
   background: var(--bui-color-surface);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+  box-shadow: var(--bui-shadow-sm);
 }
 
 @media (min-width: 768px) {
@@ -202,7 +233,7 @@ body {
 
 .sb-overview__item {
   display: grid;
-  align-content: start;
+  grid-template-rows: auto 1fr auto;
   gap: var(--bui-space-3);
   min-width: 0;
   padding: var(--bui-space-4);
@@ -220,6 +251,7 @@ body {
   flex-wrap: wrap;
   gap: var(--bui-space-3);
   align-items: flex-start;
+  align-content: flex-start;
   min-width: 0;
 }
 

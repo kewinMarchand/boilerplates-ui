@@ -30,6 +30,10 @@
     padding: var(--bui-space-4);
   }
 
+  .bui-card__body > :where(p, ul, ol) {
+    margin: 0;
+  }
+
   .bui-card__title {
     margin: 0;
     font-size: var(--bui-font-size-title);
