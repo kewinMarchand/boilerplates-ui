@@ -16,11 +16,12 @@ test('sept familles ont leur vue d’ensemble', () => {
 for (const { id } of overviews) {
   test(`${id} : liens vers des pages détaillées existantes`, async ({ page }) => {
     await page.goto(`/iframe.html?id=${id}&viewMode=story`)
-    const hrefs = await page
-      .locator('a[target="_top"]')
-      .evaluateAll((links) =>
-        links.map((link) => decodeURIComponent(link.getAttribute('href') ?? '')),
-      )
+    const links = page.locator('a[target="_top"]')
+    // Le rendu de l'histoire suit le chargement de la page : attendre son premier lien
+    await expect(links.first()).toBeVisible()
+    const hrefs = await links.evaluateAll((links) =>
+      links.map((link) => decodeURIComponent(link.getAttribute('href') ?? '')),
+    )
     expect(hrefs.length).toBeGreaterThan(0)
     for (const href of hrefs) {
       const story = href.replace('./?path=/story/', '')

@@ -18,6 +18,8 @@ for (const mode of MODES) {
   test.describe(`mode ${mode}`, () => {
     for (const story of stories) {
       test(`${story.title} : ${story.name}`, async ({ page }) => {
+        // Mouvement réduit : durées à 0, le contraste est mesuré sur l'état final, pas au milieu d'un fondu
+        await page.emulateMedia({ reducedMotion: 'reduce' })
         await page.goto(
           `/iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story&globals=a11yMode:${mode}`,
         )
