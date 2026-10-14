@@ -28,7 +28,7 @@ export const VueDEnsemble: StoryObj = {
         {
           title: 'Info-bulle',
           story: 'superpositions-info-bulle--toutes-les-variantes',
-          demo: `<div style="padding-top: 48px" data-sb-state="focus-within">${tooltip({ id: 'ov-tip', text: 'Supprime l’article', trigger: `<button type="button" class="bui-button bui-button--outline bui-button--icon" aria-label="Supprimer" aria-describedby="ov-tip">${icon('trash')}</button>` })}</div>`,
+          demo: `<div style="display: flex; justify-content: center; width: 100%; padding-top: 48px" data-sb-state="focus-within">${tooltip({ id: 'ov-tip', text: 'Supprime l’article', trigger: `<button type="button" class="bui-button bui-button--outline bui-button--icon" aria-label="Supprimer" aria-describedby="ov-tip">${icon('trash')}</button>` })}</div>`,
         },
         {
           title: 'Menu déroulant',

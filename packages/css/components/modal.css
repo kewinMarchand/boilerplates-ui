@@ -8,10 +8,45 @@
     background: var(--bui-color-surface);
     color: var(--bui-color-text);
     box-shadow: var(--bui-shadow-xl);
+    opacity: 0;
+    scale: 0.96;
+    transition:
+      opacity var(--bui-motion-duration-slow) var(--bui-motion-easing),
+      scale var(--bui-motion-duration-slow) var(--bui-motion-easing),
+      translate var(--bui-motion-duration-slow) var(--bui-motion-easing),
+      overlay var(--bui-motion-duration-slow) var(--bui-motion-easing) allow-discrete,
+      display var(--bui-motion-duration-slow) var(--bui-motion-easing) allow-discrete;
+  }
+
+  .bui-modal[open] {
+    opacity: 1;
+    scale: 1;
+  }
+
+  @starting-style {
+    .bui-modal[open] {
+      opacity: 0;
+      scale: 0.96;
+    }
   }
 
   .bui-modal::backdrop {
     background: var(--bui-color-backdrop);
+    opacity: 0;
+    transition:
+      opacity var(--bui-motion-duration-slow) var(--bui-motion-easing),
+      overlay var(--bui-motion-duration-slow) var(--bui-motion-easing) allow-discrete,
+      display var(--bui-motion-duration-slow) var(--bui-motion-easing) allow-discrete;
+  }
+
+  .bui-modal[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .bui-modal[open]::backdrop {
+      opacity: 0;
+    }
   }
 
   .bui-modal__header {

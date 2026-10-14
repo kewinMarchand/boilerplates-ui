@@ -75,7 +75,7 @@ export const tokens = {
     xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
   },
   focus: { width: '3px', offset: '2px' },
-  motion: { duration: '150ms' },
+  motion: { duration: '150ms', 'duration-slow': '250ms', easing: 'cubic-bezier(0.2, 0, 0, 1)' },
   container: {
     content: '1440px',
     prose: '720px',
@@ -123,7 +123,7 @@ export const enhanced = {
     },
   },
   focus: { width: '4px' },
-  motion: { duration: '0s' },
+  motion: { duration: '0s', 'duration-slow': '0s' },
 } as const
 
 export const A11Y_MODE_SELECTOR = '[data-a11y-mode="enhanced"]'

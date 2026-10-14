@@ -17,6 +17,22 @@
     background: var(--bui-color-surface);
     box-shadow: var(--bui-shadow-xl);
     list-style: none;
+    transition:
+      opacity var(--bui-motion-duration) var(--bui-motion-easing),
+      translate var(--bui-motion-duration) var(--bui-motion-easing),
+      display var(--bui-motion-duration) var(--bui-motion-easing) allow-discrete;
+  }
+
+  .bui-menu__list[hidden] {
+    opacity: 0;
+    translate: 0 calc(-1 * var(--bui-space-1));
+  }
+
+  @starting-style {
+    .bui-menu__list:not([hidden]) {
+      opacity: 0;
+      translate: 0 calc(-1 * var(--bui-space-1));
+    }
   }
 
   .bui-menu__item {
@@ -39,8 +55,11 @@
     background: var(--bui-color-primary-surface-subtle);
   }
 
+  /* Option active au clavier : surlignée et marquée d'une barre, plutôt qu'un anneau sur chaque option parcourue */
   .bui-menu__item:is(:focus-visible, .bui-is-focus) {
-    outline: var(--bui-focus-width) solid var(--bui-color-primary);
-    outline-offset: calc(-1 * var(--bui-focus-width));
+    outline: none;
+    background: var(--bui-color-primary-surface);
+    box-shadow: inset var(--bui-focus-width) 0 0 var(--bui-color-primary);
+    color: var(--bui-color-primary-dark);
   }
 }

@@ -16,12 +16,19 @@
     background: var(--bui-color-text);
     color: var(--bui-color-surface);
     font-size: var(--bui-font-size-body-sm);
-    translate: -50% calc(-1 * var(--bui-space-1));
+    translate: -50% 0;
     visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity var(--bui-motion-duration) var(--bui-motion-easing),
+      translate var(--bui-motion-duration) var(--bui-motion-easing),
+      visibility var(--bui-motion-duration) var(--bui-motion-easing) allow-discrete;
   }
 
   .bui-tooltip:is(:hover, :focus-within, .bui-is-hover, .bui-is-focus):not([data-dismissed])
     .bui-tooltip__bubble {
     visibility: visible;
+    opacity: 1;
+    translate: -50% calc(-1 * var(--bui-space-1));
   }
 }

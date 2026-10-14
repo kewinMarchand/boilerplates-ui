@@ -12,6 +12,10 @@
     height: 1em;
   }
 
+  .bui-skeleton--text + .bui-skeleton--text {
+    margin-top: var(--bui-space-2);
+  }
+
   .bui-skeleton--circle {
     width: var(--bui-size-touch);
     height: var(--bui-size-touch);

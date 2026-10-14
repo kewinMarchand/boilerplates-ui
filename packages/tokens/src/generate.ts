@@ -29,6 +29,7 @@ const toCss = () =>
     '@media (prefers-reduced-motion: reduce) {',
     '  :root {',
     `    ${cssVar('motion-duration')}: 0s;`,
+    `    ${cssVar('motion-duration-slow')}: 0s;`,
     '  }',
     '}',
     '',

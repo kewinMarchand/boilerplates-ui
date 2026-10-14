@@ -66,6 +66,8 @@
   --bui-focus-width: 3px;
   --bui-focus-offset: 2px;
   --bui-motion-duration: 150ms;
+  --bui-motion-duration-slow: 250ms;
+  --bui-motion-easing: cubic-bezier(0.2, 0, 0, 1);
   --bui-container-content: 1440px;
   --bui-container-prose: 720px;
   --bui-container-form: 560px;
@@ -86,6 +88,7 @@
 @media (prefers-reduced-motion: reduce) {
   :root {
     --bui-motion-duration: 0s;
+    --bui-motion-duration-slow: 0s;
   }
 }
 
@@ -113,4 +116,5 @@
   --bui-font-size-overline: 18px;
   --bui-focus-width: 4px;
   --bui-motion-duration: 0s;
+  --bui-motion-duration-slow: 0s;
 }

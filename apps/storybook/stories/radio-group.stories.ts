@@ -19,7 +19,7 @@ const OPTIONS = [
 ]
 
 const meta: Meta<RadioGroupOptions> = {
-  title: 'Formulaire/Bouton radio',
+  title: 'Formulaire/Groupe de boutons radio',
   args: {
     id: 'livraison',
     name: 'livraison',

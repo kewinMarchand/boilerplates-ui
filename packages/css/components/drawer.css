@@ -5,6 +5,20 @@
     max-height: none;
     margin: 0 0 0 auto;
     border-radius: 0;
+    scale: none;
+    translate: 100% 0;
+  }
+
+  .bui-modal--drawer[open] {
+    scale: none;
+    translate: 0 0;
+  }
+
+  @starting-style {
+    .bui-modal--drawer[open] {
+      scale: none;
+      translate: 100% 0;
+    }
   }
 
   .bui-modal--drawer[open] {
@@ -19,5 +33,16 @@
 
   .bui-modal--start {
     margin: 0 auto 0 0;
+    translate: -100% 0;
+  }
+
+  .bui-modal--start[open] {
+    translate: 0 0;
+  }
+
+  @starting-style {
+    .bui-modal--start[open] {
+      translate: -100% 0;
+    }
   }
 }

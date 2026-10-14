@@ -1,6 +1,20 @@
 @layer components {
   .bui-accordion {
     border-top: 1px solid var(--bui-color-border-subtle);
+    interpolate-size: allow-keywords;
+  }
+
+  /* Dépliage progressif là où le navigateur expose ::details-content ; ailleurs, ouverture immédiate */
+  .bui-accordion__item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size var(--bui-motion-duration-slow) var(--bui-motion-easing),
+      content-visibility var(--bui-motion-duration-slow) var(--bui-motion-easing) allow-discrete;
+  }
+
+  .bui-accordion__item[open]::details-content {
+    block-size: auto;
   }
 
   .bui-accordion__item {
@@ -30,7 +44,7 @@
 
   .bui-accordion__icon {
     font-size: var(--bui-size-icon);
-    transition: rotate var(--bui-motion-duration);
+    transition: rotate var(--bui-motion-duration) var(--bui-motion-easing);
   }
 
   .bui-accordion__item[open] .bui-accordion__icon {

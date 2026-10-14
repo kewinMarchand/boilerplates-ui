@@ -85,8 +85,8 @@ export const VueDEnsemble: StoryObj = {
           ),
         },
         {
-          title: 'Bouton radio',
-          story: 'formulaire-bouton-radio--toutes-les-variantes',
+          title: 'Groupe de boutons radio',
+          story: 'formulaire-groupe-de-boutons-radio--toutes-les-variantes',
           demo: radioGroup({
             id: 'ov-livraison',
             name: 'ov-livraison',

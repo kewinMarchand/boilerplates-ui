@@ -64,7 +64,7 @@ for (const variant of VARIANTS) {
   })
 
   test(`groupe de boutons radio : légende, aide, contrôles, erreur ${suffix}`, async ({ page }) => {
-    await open(page, 'formulaire-bouton-radio--html', variant)
+    await open(page, 'formulaire-groupe-de-boutons-radio--html', variant)
     const legend = await box(page.locator('.bui-fieldset__legend'))
     const hint = await box(page.locator('.bui-fieldset__hint'))
     const content = await box(page.locator('.bui-fieldset__content'))
