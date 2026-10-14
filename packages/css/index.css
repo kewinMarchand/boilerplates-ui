@@ -1,4 +1,5 @@
 @import './base.css';
+@import './components/text.css';
 @import './components/icon.css';
 @import './components/button.css';
 @import './components/icon-button.css';

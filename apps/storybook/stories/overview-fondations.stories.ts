@@ -1,4 +1,4 @@
-import { icon } from '@kewinmarchand/css/reference/markup.ts'
+import { icon, text } from '@kewinmarchand/css/reference/markup.ts'
 
 import { familyOverview, OVERVIEW_PAGE } from './support/overview'
 
@@ -25,7 +25,7 @@ export const VueDEnsemble: StoryObj = {
   render: () =>
     familyOverview(
       'Fondations',
-      'Les valeurs partagées par tous les composants : tokens et icônes.',
+      'Les valeurs partagées par tous les composants : tokens, typographie et icônes.',
       [
         {
           title: 'Tokens',
@@ -34,6 +34,13 @@ export const VueDEnsemble: StoryObj = {
             (name) =>
               `<span title="${name}" style="display:inline-block;width:40px;height:40px;border-radius:var(--bui-radius-md);border:1px solid var(--bui-color-border-subtle);background:var(--bui-color-${name})"></span>`,
           ).join(''),
+        },
+        {
+          title: 'Typographie',
+          story: 'fondations-typographie--toutes-les-variantes',
+          demo: `<div class="sb-column">${(['h2', 'lead', 'body', 'caption', 'overline'] as const)
+            .map((variant) => text({ text: 'Vélo de ville en acier', variant, as: 'p' }))
+            .join('')}</div>`,
         },
         {
           title: 'Icône',

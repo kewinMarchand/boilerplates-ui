@@ -30,12 +30,16 @@
   --bui-color-warning: #92400e;
   --bui-color-warning-surface: #fffbeb;
   --bui-font-family: 'Inter Variable', 'Inter Fallback', system-ui, sans-serif;
-  --bui-font-size-overline: 14px;
   --bui-font-size-h1: 40px;
   --bui-font-size-h2: 28px;
+  --bui-font-size-h3: 22px;
+  --bui-font-size-h4: 18px;
   --bui-font-size-title: 20px;
+  --bui-font-size-lead: 18px;
   --bui-font-size-body: 16px;
   --bui-font-size-body-sm: 14px;
+  --bui-font-size-caption: 12px;
+  --bui-font-size-overline: 14px;
   --bui-font-weight-regular: 400;
   --bui-font-weight-medium: 500;
   --bui-font-weight-semibold: 600;
@@ -97,12 +101,16 @@
   --bui-color-success: #14532d;
   --bui-color-info: #172554;
   --bui-color-warning: #78350f;
-  --bui-font-size-overline: 18px;
   --bui-font-size-h1: 50px;
   --bui-font-size-h2: 35px;
+  --bui-font-size-h3: 28px;
+  --bui-font-size-h4: 23px;
   --bui-font-size-title: 25px;
+  --bui-font-size-lead: 23px;
   --bui-font-size-body: 20px;
   --bui-font-size-body-sm: 18px;
+  --bui-font-size-caption: 15px;
+  --bui-font-size-overline: 18px;
   --bui-focus-width: 4px;
   --bui-motion-duration: 0s;
 }

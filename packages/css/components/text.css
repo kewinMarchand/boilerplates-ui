@@ -1,0 +1,62 @@
+@layer components {
+  .bui-text {
+    margin: 0;
+    color: var(--bui-color-text);
+    font-size: var(--bui-font-size-body);
+    font-weight: var(--bui-font-weight-regular);
+    line-height: var(--bui-font-line-height-normal);
+  }
+
+  .bui-text--h1,
+  .bui-text--h2,
+  .bui-text--h3,
+  .bui-text--h4,
+  .bui-text--title {
+    font-weight: var(--bui-font-weight-semibold);
+    line-height: var(--bui-font-line-height-tight);
+    text-wrap: balance;
+  }
+
+  .bui-text--h1 {
+    font-size: var(--bui-font-size-h1);
+    font-weight: var(--bui-font-weight-bold);
+  }
+
+  .bui-text--h2 {
+    font-size: var(--bui-font-size-h2);
+  }
+
+  .bui-text--h3 {
+    font-size: var(--bui-font-size-h3);
+  }
+
+  .bui-text--h4 {
+    font-size: var(--bui-font-size-h4);
+  }
+
+  .bui-text--title {
+    font-size: var(--bui-font-size-title);
+  }
+
+  .bui-text--lead {
+    color: var(--bui-color-text-muted);
+    font-size: var(--bui-font-size-lead);
+  }
+
+  .bui-text--body-sm {
+    font-size: var(--bui-font-size-body-sm);
+  }
+
+  .bui-text--caption {
+    color: var(--bui-color-text-muted);
+    font-size: var(--bui-font-size-caption);
+  }
+
+  .bui-text--overline {
+    color: var(--bui-color-text-muted);
+    font-size: var(--bui-font-size-overline);
+    font-weight: var(--bui-font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}

@@ -31,12 +31,16 @@
   --color-warning: var(--bui-color-warning);
   --color-warning-surface: var(--bui-color-warning-surface);
   --font-sans: var(--bui-font-family);
-  --text-overline: var(--bui-font-size-overline);
   --text-h1: var(--bui-font-size-h1);
   --text-h2: var(--bui-font-size-h2);
+  --text-h3: var(--bui-font-size-h3);
+  --text-h4: var(--bui-font-size-h4);
   --text-title: var(--bui-font-size-title);
+  --text-lead: var(--bui-font-size-lead);
   --text-body: var(--bui-font-size-body);
   --text-body-sm: var(--bui-font-size-body-sm);
+  --text-caption: var(--bui-font-size-caption);
+  --text-overline: var(--bui-font-size-overline);
   --radius-md: var(--bui-radius-md);
   --radius-full: var(--bui-radius-full);
   --shadow-xl: var(--bui-shadow-xl);

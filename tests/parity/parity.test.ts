@@ -510,6 +510,20 @@ const CASES: Case[] = [
     react: r(R.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
     vue: () => h(V.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
   },
+  ...(
+    ['h1', 'h2', 'h3', 'h4', 'title', 'lead', 'body', 'body-sm', 'caption', 'overline'] as const
+  ).map((variant) => ({
+    name: `texte ${variant}`,
+    reference: ref.text({ text: 'Vélo', variant }),
+    react: r(R.Text, { variant, children: 'Vélo' }),
+    vue: () => h(V.Text, { variant }, { default: () => 'Vélo' }),
+  })),
+  {
+    name: 'texte titre 2 rendu en titre 3',
+    reference: ref.text({ text: 'Vélo', variant: 'h2', as: 'h3' }),
+    react: r(R.Text, { variant: 'h2', as: 'h3', children: 'Vélo' }),
+    vue: () => h(V.Text, { variant: 'h2', as: 'h3' }, { default: () => 'Vélo' }),
+  },
   ...(['neutral', 'secondary', 'info', 'success', 'warning', 'error'] as const).map((variant) => ({
     name: `badge ${variant}`,
     reference: ref.badge({ label: 'Nouveau', variant }),

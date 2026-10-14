@@ -6,7 +6,7 @@ export default meta
 type Story = StoryObj
 
 const FAMILIES = [
-  ['Fondations', 'Tokens et icônes'],
+  ['Fondations', 'Tokens, typographie et icônes'],
   ['Actions', 'Bouton, bouton icône, lien'],
   ['Formulaire', 'Champs, liste déroulante, cases, radios, interrupteur, groupe de champs'],
   ['Affichage', 'Carte, badge, avatar, séparateur, tableau, accordéon'],
