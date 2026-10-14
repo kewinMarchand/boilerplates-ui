@@ -17,10 +17,10 @@
     "vite": "^8.3.4"
   },
   "dependencies": {
-    "@kewinmarchand/css": "0.2.0",
-    "@kewinmarchand/react": "0.2.0",
-    "@kewinmarchand/tokens": "0.2.0",
-    "@kewinmarchand/vanilla": "0.2.0",
-    "@kewinmarchand/vue": "0.2.0"
+    "@kewinmarchand/css": "0.3.0",
+    "@kewinmarchand/react": "0.3.0",
+    "@kewinmarchand/tokens": "0.3.0",
+    "@kewinmarchand/vanilla": "0.3.0",
+    "@kewinmarchand/vue": "0.3.0"
   }
 }
