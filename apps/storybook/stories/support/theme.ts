@@ -1,6 +1,6 @@
 /**
  * Couleurs globales choisies dans la barre d'outils : réécrit les variables `--bui-*` sur la racine
- * de l'aperçu, avec les teintes dérivées. En mode renforcé, la primaire est assombrie jusqu'à 7:1.
+ * de l'aperçu, avec les teintes dérivées. En mode renforcé, la primaire et la secondaire sont assombries jusqu'à 7:1.
  */
 type Rgb = [number, number, number]
 
@@ -53,6 +53,10 @@ const VARIABLES = [
   'primary-surface',
   'primary-surface-strong',
   'secondary',
+  'secondary-dark',
+  'secondary-surface-subtle',
+  'secondary-surface',
+  'secondary-surface-strong',
   'error',
   'error-surface',
 ] as const
@@ -77,7 +81,17 @@ export const applyTheme = (colors: ThemeColors, enhanced: boolean) => {
     if (ratio < 4.5)
       warnings.push(`primaire ${primary} : contraste ${ratio.toFixed(2)}:1 avec le blanc`)
   }
-  if (isColor(colors.secondary)) style.setProperty('--bui-color-secondary', colors.secondary)
+  if (isColor(colors.secondary)) {
+    const secondary = enhanced ? darkenUntil(colors.secondary, 7) : colors.secondary
+    style.setProperty('--bui-color-secondary', secondary)
+    style.setProperty('--bui-color-secondary-dark', mix(secondary, BLACK, 0.3))
+    style.setProperty('--bui-color-secondary-surface-subtle', mix(secondary, WHITE, 0.94))
+    style.setProperty('--bui-color-secondary-surface', mix(secondary, WHITE, 0.85))
+    style.setProperty('--bui-color-secondary-surface-strong', mix(secondary, WHITE, 0.72))
+    const ratio = contrast(secondary, '#ffffff')
+    if (ratio < 4.5)
+      warnings.push(`secondaire ${secondary} : contraste ${ratio.toFixed(2)}:1 avec le blanc`)
+  }
   if (isColor(colors.error)) {
     const error = enhanced ? darkenUntil(colors.error, 7) : colors.error
     style.setProperty('--bui-color-error', error)

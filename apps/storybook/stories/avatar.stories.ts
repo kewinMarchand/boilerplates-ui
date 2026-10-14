@@ -12,14 +12,20 @@ import { defined, grid, OVERVIEW } from './support/grid'
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
 const SIZES = { sm: 'Petit', md: 'Moyen', lg: 'Grand' } as const
+const VARIANTS = { primary: 'Primaire', secondary: 'Secondaire' } as const
 
 const meta: Meta<AvatarOptions> = {
   title: 'Affichage/Avatar',
-  args: { name: 'Camille Martin', size: 'md', decorative: false },
+  args: { name: 'Camille Martin', size: 'md', variant: 'primary', decorative: false },
   argTypes: {
     name: { control: 'text', description: 'Nom accessible et initiales' },
     src: { control: 'select', options: ['aucune', 'portrait.jpg'], mapping: { aucune: undefined } },
     size: { control: 'select', options: Object.keys(SIZES) },
+    variant: {
+      control: 'select',
+      options: Object.keys(VARIANTS),
+      description: 'Couleur des initiales',
+    },
     decorative: { control: 'boolean', description: 'Masqué aux aides techniques, à côté du nom' },
   },
 }
@@ -36,6 +42,7 @@ export const ToutesLesVariantes: Story = {
       Object.values(SIZES),
       [
         { label: 'Initiales', options: {} },
+        { label: 'Initiales, secondaire', options: { variant: 'secondary' as const } },
         { label: 'Image', options: { src: 'portrait.jpg' } },
         { label: 'Décoratif', options: { decorative: true } },
       ].map(({ label, options }) => ({

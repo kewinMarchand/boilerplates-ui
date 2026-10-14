@@ -29,7 +29,7 @@ export const VueDEnsemble: StoryObj = {
         {
           title: 'Badge',
           story: 'affichage-badge--toutes-les-variantes',
-          demo: (['neutral', 'info', 'success', 'warning', 'error'] as const)
+          demo: (['neutral', 'secondary', 'info', 'success', 'warning', 'error'] as const)
             .map((variant) =>
               badge({ label: variant === 'neutral' ? 'Brouillon' : 'Statut', variant }),
             )
@@ -41,7 +41,9 @@ export const VueDEnsemble: StoryObj = {
           demo:
             (['sm', 'md', 'lg'] as const)
               .map((size) => avatar({ name: 'Camille Martin', size }))
-              .join('') + avatar({ name: 'Camille Martin', src: 'portrait.jpg' }),
+              .join('') +
+            avatar({ name: 'Camille Martin', variant: 'secondary' }) +
+            avatar({ name: 'Camille Martin', src: 'portrait.jpg' }),
         },
         {
           title: 'Séparateur',

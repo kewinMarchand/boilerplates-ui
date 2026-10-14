@@ -15,7 +15,9 @@
       "contrastText": "#ffffff"
     },
     "secondary": {
-      "main": "#7c3aed"
+      "main": "#7c3aed",
+      "dark": "#5729a6",
+      "contrastText": "#ffffff"
     },
     "error": {
       "main": "#b91c1c"

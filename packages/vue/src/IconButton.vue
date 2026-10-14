@@ -9,7 +9,7 @@ const { variant = 'primary', size = 'md' } = defineProps<{
   /** Nom accessible, obligatoire : le bouton n'a pas de texte visible. */
   label: string
   icon: IconName
-  variant?: 'primary' | 'outline' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
   size?: 'sm' | 'md'
 }>()
 </script>

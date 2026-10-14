@@ -45,14 +45,18 @@
   }
 
   .bui-button--secondary {
-    border-color: var(--bui-color-primary-surface);
-    background: var(--bui-color-primary-surface);
-    color: var(--bui-color-primary-dark);
+    border-color: var(--bui-color-secondary);
+    background: var(--bui-color-secondary);
+    color: var(--bui-color-on-secondary);
+  }
+
+  .bui-button--secondary:is(:focus-visible, .bui-is-focus) {
+    outline-color: var(--bui-color-secondary);
   }
 
   .bui-button--secondary:not(:disabled, [aria-disabled='true']):is(:hover, .bui-is-hover) {
-    border-color: var(--bui-color-primary-surface-strong);
-    background: var(--bui-color-primary-surface-strong);
+    border-color: var(--bui-color-secondary-dark);
+    background: var(--bui-color-secondary-dark);
   }
 
   .bui-button--ghost {

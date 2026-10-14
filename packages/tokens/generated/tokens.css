@@ -7,6 +7,11 @@
   --bui-color-primary-surface: #dbeafe;
   --bui-color-primary-surface-strong: #bfdbfe;
   --bui-color-secondary: #7c3aed;
+  --bui-color-secondary-dark: #5729a6;
+  --bui-color-on-secondary: #ffffff;
+  --bui-color-secondary-surface-subtle: #f7f3fe;
+  --bui-color-secondary-surface: #ebe1fc;
+  --bui-color-secondary-surface-strong: #dac8fa;
   --bui-color-text: #111827;
   --bui-color-text-muted: #4b5563;
   --bui-color-surface: #ffffff;
@@ -83,6 +88,8 @@
 [data-a11y-mode="enhanced"] {
   --bui-color-primary: #1e3a8a;
   --bui-color-primary-dark: #172554;
+  --bui-color-secondary: #642fc0;
+  --bui-color-secondary-dark: #4b238f;
   --bui-color-text: #000000;
   --bui-color-text-muted: #1f2937;
   --bui-color-surface: #ffffff;

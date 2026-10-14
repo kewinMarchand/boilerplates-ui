@@ -16,7 +16,8 @@ body {
   }
 }
 
-:focus-visible {
+/* Décor seulement : hors couche, cette règle l'emporterait sur le focus propre de chaque composant (secondaire, inverse) */
+:focus-visible:not([class^='bui-'], [class*=' bui-']) {
   outline: var(--bui-focus-width) solid var(--bui-color-primary);
   outline-offset: var(--bui-focus-offset);
 }

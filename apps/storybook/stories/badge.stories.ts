@@ -13,6 +13,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 
 const VARIANTS = {
   neutral: 'Neutre',
+  secondary: 'Secondaire',
   info: 'Information',
   success: 'Succès',
   warning: 'Avertissement',

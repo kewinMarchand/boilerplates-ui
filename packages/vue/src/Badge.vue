@@ -2,7 +2,7 @@
 defineOptions({ name: 'BuiBadge' })
 
 const { variant = 'neutral' } = defineProps<{
-  variant?: 'neutral' | 'info' | 'success' | 'warning' | 'error'
+  variant?: 'neutral' | 'secondary' | 'info' | 'success' | 'warning' | 'error'
 }>()
 </script>
 

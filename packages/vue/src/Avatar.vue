@@ -8,14 +8,22 @@ const SIZES = { sm: 36, md: 44, lg: 64 } as const
 const {
   name,
   size = 'md',
+  variant = 'primary',
   decorative = false,
 } = defineProps<{
   name: string
   src?: string
   size?: keyof typeof SIZES
+  variant?: 'primary' | 'secondary'
   /** Avatar voisin du nom affiché : masqué aux technologies d'assistance. */
   decorative?: boolean
 }>()
+
+const classes = computed(() => [
+  'bui-avatar',
+  size !== 'md' && `bui-avatar--${size}`,
+  variant !== 'primary' && `bui-avatar--${variant}`,
+])
 
 const initials = computed(() =>
   name
@@ -28,7 +36,7 @@ const initials = computed(() =>
 </script>
 
 <template>
-  <span v-if="src" :class="['bui-avatar', size !== 'md' && `bui-avatar--${size}`]">
+  <span v-if="src" :class="classes">
     <img
       class="bui-avatar__image"
       :src="src"
@@ -40,7 +48,7 @@ const initials = computed(() =>
   </span>
   <span
     v-else
-    :class="['bui-avatar', size !== 'md' && `bui-avatar--${size}`]"
+    :class="classes"
     :role="decorative ? undefined : 'img'"
     :aria-label="decorative ? undefined : name"
     :aria-hidden="decorative ? 'true' : undefined"

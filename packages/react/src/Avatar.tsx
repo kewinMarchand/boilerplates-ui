@@ -6,6 +6,7 @@ export interface AvatarProps {
   name: string
   src?: string
   size?: keyof typeof SIZES
+  variant?: 'primary' | 'secondary'
   /** Avatar voisin du nom affiché : masqué aux technologies d'assistance. */
   decorative?: boolean
 }
@@ -18,8 +19,18 @@ const initials = (name: string) =>
     .map((word) => word.charAt(0).toUpperCase())
     .join('')
 
-export const Avatar = ({ name, src, size = 'md', decorative = false }: AvatarProps) => {
-  const className = cx('bui-avatar', size !== 'md' && `bui-avatar--${size}`)
+export const Avatar = ({
+  name,
+  src,
+  size = 'md',
+  variant = 'primary',
+  decorative = false,
+}: AvatarProps) => {
+  const className = cx(
+    'bui-avatar',
+    size !== 'md' && `bui-avatar--${size}`,
+    variant !== 'primary' && `bui-avatar--${variant}`,
+  )
 
   if (src)
     return (

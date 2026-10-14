@@ -8,6 +8,11 @@
   --color-primary-surface: var(--bui-color-primary-surface);
   --color-primary-surface-strong: var(--bui-color-primary-surface-strong);
   --color-secondary: var(--bui-color-secondary);
+  --color-secondary-dark: var(--bui-color-secondary-dark);
+  --color-on-secondary: var(--bui-color-on-secondary);
+  --color-secondary-surface-subtle: var(--bui-color-secondary-surface-subtle);
+  --color-secondary-surface: var(--bui-color-secondary-surface);
+  --color-secondary-surface-strong: var(--bui-color-secondary-surface-strong);
   --color-text: var(--bui-color-text);
   --color-text-muted: var(--bui-color-text-muted);
   --color-surface: var(--bui-color-surface);

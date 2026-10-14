@@ -3,7 +3,7 @@ import { cx } from './cx'
 import type { ReactNode } from 'react'
 
 export interface BadgeProps {
-  variant?: 'neutral' | 'info' | 'success' | 'warning' | 'error'
+  variant?: 'neutral' | 'secondary' | 'info' | 'success' | 'warning' | 'error'
   children: ReactNode
 }
 

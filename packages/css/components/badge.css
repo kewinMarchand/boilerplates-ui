@@ -13,6 +13,11 @@
     white-space: nowrap;
   }
 
+  .bui-badge--secondary {
+    background: var(--bui-color-secondary-surface);
+    color: var(--bui-color-secondary-dark);
+  }
+
   .bui-badge--info {
     background: var(--bui-color-info-surface);
     color: var(--bui-color-info);

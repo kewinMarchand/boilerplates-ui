@@ -86,7 +86,11 @@ const toMui = () => {
         dark: color['primary-dark'],
         contrastText: color['on-primary'],
       },
-      secondary: { main: color.secondary },
+      secondary: {
+        main: color.secondary,
+        dark: color['secondary-dark'],
+        contrastText: color['on-secondary'],
+      },
       error: { main: color.error },
       warning: { main: color.warning },
       info: { main: color.info },

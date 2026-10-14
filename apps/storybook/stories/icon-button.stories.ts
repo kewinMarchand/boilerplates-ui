@@ -13,7 +13,12 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 
 type Args = IconButtonOptions & { icon: IconName }
 
-const VARIANTS = { primary: 'Primaire', outline: 'Contour', ghost: 'Fantôme' } as const
+const VARIANTS = {
+  primary: 'Primaire',
+  secondary: 'Secondaire',
+  outline: 'Contour',
+  ghost: 'Fantôme',
+} as const
 
 const meta: Meta<Args> = {
   title: 'Actions/Bouton icône',

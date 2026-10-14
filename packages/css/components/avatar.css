@@ -14,6 +14,11 @@
     font-weight: var(--bui-font-weight-semibold);
   }
 
+  .bui-avatar--secondary {
+    background: var(--bui-color-secondary);
+    color: var(--bui-color-on-secondary);
+  }
+
   .bui-avatar--sm {
     width: var(--bui-size-control-sm);
     height: var(--bui-size-control-sm);

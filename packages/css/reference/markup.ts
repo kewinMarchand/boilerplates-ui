@@ -214,7 +214,7 @@ export const modal = ({ id, title, body, footer, closeLabel = 'Fermer', side }: 
 export interface IconButtonOptions {
   label: string
   icon: string
-  variant?: 'primary' | 'outline' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
   size?: 'sm' | 'md'
   disabled?: boolean
 }
@@ -373,7 +373,7 @@ export const switchControl = ({ id, label, checked, disabled }: SwitchOptions) =
 
 export interface BadgeOptions {
   label: string
-  variant?: 'neutral' | 'info' | 'success' | 'warning' | 'error'
+  variant?: 'neutral' | 'secondary' | 'info' | 'success' | 'warning' | 'error'
 }
 
 export const badge = ({ label, variant = 'neutral' }: BadgeOptions) =>
@@ -417,6 +417,7 @@ export interface AvatarOptions {
   name: string
   src?: string
   size?: keyof typeof AVATAR_SIZES
+  variant?: 'primary' | 'secondary'
   decorative?: boolean
 }
 
@@ -428,8 +429,18 @@ export const initials = (name: string) =>
     .map((word) => word.charAt(0).toUpperCase())
     .join('')
 
-export const avatar = ({ name, src, size = 'md', decorative }: AvatarOptions) => {
-  const className = classes('bui-avatar', size !== 'md' && `bui-avatar--${size}`)
+export const avatar = ({
+  name,
+  src,
+  size = 'md',
+  variant = 'primary',
+  decorative,
+}: AvatarOptions) => {
+  const className = classes(
+    'bui-avatar',
+    size !== 'md' && `bui-avatar--${size}`,
+    variant !== 'primary' && `bui-avatar--${variant}`,
+  )
   if (src)
     return `<span class="${className}"><img${attributes({
       class: 'bui-avatar__image',

@@ -358,6 +358,12 @@ const CASES: Case[] = [
     vue: () => h(V.IconButton, { label: 'Supprimer', icon: 'trash', variant: 'ghost', size: 'sm' }),
   },
   {
+    name: 'bouton icône secondaire',
+    reference: ref.iconButton({ label: 'Partager', icon: 'share-2', variant: 'secondary' }),
+    react: r(R.IconButton, { label: 'Partager', icon: 'share-2', variant: 'secondary' }),
+    vue: () => h(V.IconButton, { label: 'Partager', icon: 'share-2', variant: 'secondary' }),
+  },
+  {
     name: 'bouton icône désactivé',
     reference: ref.iconButton({ label: 'Modifier', icon: 'pencil', disabled: true }),
     react: r(R.IconButton, { label: 'Modifier', icon: 'pencil', disabled: true }),
@@ -504,7 +510,7 @@ const CASES: Case[] = [
     react: r(R.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
     vue: () => h(V.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
   },
-  ...(['neutral', 'info', 'success', 'warning', 'error'] as const).map((variant) => ({
+  ...(['neutral', 'secondary', 'info', 'success', 'warning', 'error'] as const).map((variant) => ({
     name: `badge ${variant}`,
     reference: ref.badge({ label: 'Nouveau', variant }),
     react: r(R.Badge, { variant, children: 'Nouveau' }),
@@ -539,6 +545,18 @@ const CASES: Case[] = [
     reference: ref.avatar({ name: 'Kewin Marchand', size: 'lg' }),
     react: r(R.Avatar, { name: 'Kewin Marchand', size: 'lg' }),
     vue: () => h(V.Avatar, { name: 'Kewin Marchand', size: 'lg' }),
+  },
+  {
+    name: 'avatar initiales secondaire',
+    reference: ref.avatar({ name: 'Kewin Marchand', variant: 'secondary' }),
+    react: r(R.Avatar, { name: 'Kewin Marchand', variant: 'secondary' }),
+    vue: () => h(V.Avatar, { name: 'Kewin Marchand', variant: 'secondary' }),
+  },
+  {
+    name: 'avatar image secondaire',
+    reference: ref.avatar({ name: 'Kewin Marchand', src: '/a.webp', variant: 'secondary' }),
+    react: r(R.Avatar, { name: 'Kewin Marchand', src: '/a.webp', variant: 'secondary' }),
+    vue: () => h(V.Avatar, { name: 'Kewin Marchand', src: '/a.webp', variant: 'secondary' }),
   },
   {
     name: 'avatar image décoratif',
