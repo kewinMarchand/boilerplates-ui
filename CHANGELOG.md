@@ -2,6 +2,16 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.5.0
+
+### Ajouté
+
+- Puce (`chip()`, `Chip` en React et Vue) : lien ou bouton, puce de la page courante (`aria-current="page"`), filtre retirable (`removable`). Liste de puces par la classe `bui-chip-list`.
+- Bouton-lien (`linkButton()`, `LinkButton` en React et Vue) : un `<button>` à l'apparence de lien.
+- Variante `nav` du bouton et du bouton icône : navigation sur fond primaire, page courante en gras souligné.
+- Variantes `light` et `outline-light` du bouton, pour une photo. Tokens `on-image`, `on-image-text`, `on-image-hover` et `on-image-overlay`, sans valeur sombre : une photo ne change pas avec le thème.
+- Option `current` du bouton en lien dans la référence (`aria-current="page"`).
+
 ## 0.4.1
 
 ### Corrigé
