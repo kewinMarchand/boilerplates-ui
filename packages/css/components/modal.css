@@ -2,6 +2,8 @@
   .bui-modal {
     width: min(var(--bui-container-modal), calc(100% - 2 * var(--bui-space-4)));
     max-height: calc(100% - 2 * var(--bui-space-4));
+    /* Centrée par la modale elle-même : un reset de site (* { margin: 0 }) annule le margin: auto du navigateur */
+    margin: auto;
     padding: 0;
     border: 0;
     border-radius: var(--bui-radius-md);
