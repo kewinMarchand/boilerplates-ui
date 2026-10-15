@@ -20,4 +20,14 @@
   .bui-link__icon {
     margin-inline-start: 0.25em;
   }
+
+  .bui-link--button {
+    min-height: var(--bui-size-touch);
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
 }

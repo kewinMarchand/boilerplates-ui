@@ -1,0 +1,52 @@
+@layer components {
+  .bui-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--bui-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bui-chip {
+    display: inline-flex;
+    gap: var(--bui-space-2);
+    align-items: center;
+    min-height: var(--bui-size-touch);
+    padding: 0 var(--bui-space-4);
+    border: 1px solid var(--bui-color-primary);
+    border-radius: var(--bui-radius-full);
+    background: var(--bui-color-surface);
+    color: var(--bui-color-primary);
+    font: inherit;
+    font-size: var(--bui-font-size-body-sm);
+    line-height: var(--bui-font-line-height-tight);
+    text-decoration: none;
+    cursor: pointer;
+    transition-duration: var(--bui-motion-duration);
+    transition-property: background-color, border-color, color;
+  }
+
+  .bui-chip:is(:hover, .bui-is-hover) {
+    background: var(--bui-color-primary-surface-subtle);
+  }
+
+  .bui-chip:is(:focus-visible, .bui-is-focus) {
+    outline: var(--bui-focus-width) solid var(--bui-color-primary);
+    outline-offset: var(--bui-focus-offset);
+  }
+
+  .bui-chip:is(:active, .bui-is-active) {
+    translate: 0 1px;
+  }
+
+  .bui-chip[aria-current='page'] {
+    background: var(--bui-color-primary);
+    color: var(--bui-color-on-primary);
+  }
+
+  .bui-chip[aria-current='page']:is(:hover, .bui-is-hover) {
+    border-color: var(--bui-color-primary-dark);
+    background: var(--bui-color-primary-dark);
+  }
+}

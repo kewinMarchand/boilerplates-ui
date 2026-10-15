@@ -195,6 +195,50 @@ const CASES: Case[] = [
     vue: () => h(V.IconButton, { label: 'Menu', icon: 'menu', variant: 'nav' }),
   },
   {
+    name: 'bouton-lien',
+    reference: ref.linkButton({ label: 'Tout effacer' }),
+    react: r(R.LinkButton, null, 'Tout effacer'),
+    vue: () => h(V.LinkButton, null, { default: () => 'Tout effacer' }),
+  },
+  {
+    name: 'puces de sous-catégorie, page courante',
+    reference:
+      ref.chip({ label: 'Feuillages', href: '/catalogue/feuillages' }) +
+      ref.chip({ label: 'Fougères', href: '/catalogue/fougeres', current: true }),
+    react: r(
+      Fragment,
+      null,
+      r(R.Chip, { href: '/catalogue/feuillages' }, 'Feuillages'),
+      r(R.Chip, { href: '/catalogue/fougeres', 'aria-current': 'page' }, 'Fougères'),
+    ),
+    vue: () =>
+      h(VueFragment, [
+        h(V.Chip, { href: '/catalogue/feuillages' }, { default: () => 'Feuillages' }),
+        h(
+          V.Chip,
+          { href: '/catalogue/fougeres', 'aria-current': 'page' },
+          { default: () => 'Fougères' },
+        ),
+      ]),
+  },
+  {
+    name: 'puces de filtre retirables, lien et bouton',
+    reference:
+      ref.chip({ label: 'Mi-ombre', href: '/catalogue', removable: true }) +
+      ref.chip({ label: 'En stock', removable: true }),
+    react: r(
+      Fragment,
+      null,
+      r(R.Chip, { href: '/catalogue', removable: true }, 'Mi-ombre'),
+      r(R.Chip, { removable: true }, 'En stock'),
+    ),
+    vue: () =>
+      h(VueFragment, [
+        h(V.Chip, { href: '/catalogue', removable: true }, { default: () => 'Mi-ombre' }),
+        h(V.Chip, { removable: true }, { default: () => 'En stock' }),
+      ]),
+  },
+  {
     name: 'icône porteuse de sens, taille fixe',
     reference: ref.icon('circle-check', undefined, { label: 'Validé', size: 'lg' }),
     react: r(R.Icon, { name: 'circle-check', label: 'Validé', size: 'lg' }),

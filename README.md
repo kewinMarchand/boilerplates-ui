@@ -11,7 +11,7 @@ Bibliothèque de composants commune aux cinq boilerplates (Next et MUI, Nuxt et 
 | `packages/vue`     | Composants Vue typés                                                                                                                        |
 | `apps/storybook`   | Storybook de démonstration et documentation des tokens                                                                                      |
 
-Composants disponibles : bouton, bouton icône, lien, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, tiroir, toast, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, séparateur, indicateur de chargement, squelette, avatar, icône.
+Composants disponibles : bouton, bouton icône, lien, bouton-lien, puce, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, tiroir, toast, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, séparateur, indicateur de chargement, squelette, avatar, icône.
 
 Le Storybook (vue d'ensemble de chaque composant, contrôles en direct, mode renforcé, thème sombre et couleurs globales dans la barre d'outils) est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
 
@@ -100,6 +100,8 @@ Pour montrer un état dans une charte graphique, poser une classe sur l'élémen
 ## Points d'API à connaître
 
 - **Bouton** : `variant` (`primary`, `secondary`, `outline`, `ghost`, `inverse` pour un fond sombre ou primaire, `nav` pour la navigation sur fond primaire avec `aria-current="page"` en gras souligné, `light` et `outline-light` sur une photo, mêmes couleurs en sombre), `size`, `icon` et `iconPosition` (`start` ou `end`), `href` pour rendre un `<a>` à l'apparence de bouton (désactivé, il perd son `href` et porte `aria-disabled`). Le bouton icône accepte aussi `nav`.
+- **Puce** : lien (`href`) ou bouton, `aria-current="page"` pour la puce courante (`current` dans la référence), `removable` pour un filtre actif (icône et « Retirer le filtre : » masqué). Une suite de puces va dans `<ul class="bui-chip-list" role="list">`.
+- **Bouton-lien** : un `<button>` à l'apparence de lien, pour une action discrète (« Tout effacer »).
 - **Alerte** : `action` (HTML dans la référence, `ReactNode` en React, slot `action` en Vue) pour un bouton « Réessayer ».
 - **Icône** : `label` pour une icône porteuse de sens (`role="img"`), `size` (`sm`, `md`, `lg`, sinon 1em).
 - **Carte** : `.bui-card__media` accepte une `<img>` ou une `<picture>`.

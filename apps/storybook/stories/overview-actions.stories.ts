@@ -1,4 +1,4 @@
-import { button, iconButton, link } from '@kewinmarchand/css/reference/markup.ts'
+import { button, chip, iconButton, link, linkButton } from '@kewinmarchand/css/reference/markup.ts'
 
 import { PHOTO_BACKGROUND } from './support/grid'
 import { familyOverview, OVERVIEW_PAGE } from './support/overview'
@@ -33,6 +33,22 @@ export const VueDEnsemble: StoryObj = {
         title: 'Lien',
         story: 'actions-lien--toutes-les-variantes',
         demo: `<p>${link({ href: '#contact', label: 'Nous contacter' })} ou ${link({ href: 'https://www.w3.org/WAI/', label: 'ressources du W3C', external: true })}</p>`,
+      },
+      {
+        title: 'Bouton-lien',
+        story: 'actions-bouton-lien--toutes-les-variantes',
+        demo: linkButton({ label: 'Tout effacer' }),
+      },
+      {
+        title: 'Puce',
+        story: 'actions-puce--toutes-les-variantes',
+        demo: `<ul class="bui-chip-list" role="list" aria-label="Filtres actifs">${[
+          chip({ label: 'Feuillages', href: '#feuillages' }),
+          chip({ label: 'Fougères', href: '#fougeres', current: true }),
+          chip({ label: 'Mi-ombre', href: '#catalogue', removable: true }),
+        ]
+          .map((item) => `<li>${item}</li>`)
+          .join('')}</ul>`,
       },
     ]),
 }

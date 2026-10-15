@@ -263,6 +263,35 @@ export const link = ({ href, label, external }: LinkOptions) =>
       : ''
   }</a>`
 
+export interface LinkButtonOptions {
+  label: string
+  type?: 'button' | 'submit' | 'reset'
+}
+
+/** Bouton à l'apparence de lien : une action discrète dans le texte ou sous un formulaire (« Tout effacer »). */
+export const linkButton = ({ label, type = 'button' }: LinkButtonOptions) =>
+  `<button${attributes({ type, class: 'bui-link bui-link--button' })}>${escape(label)}</button>`
+
+export interface ChipOptions {
+  label: string
+  /** Lien vers la page filtrée. Sans lui, un bouton. */
+  href?: string
+  /** Puce de la page courante (`aria-current="page"`). Avec `href` seulement. */
+  current?: boolean
+  /** Filtre actif : un clic le retire, ce que l'icône montre et un texte masqué annonce. */
+  removable?: boolean
+}
+
+/** Puce de filtre ou de sous-catégorie. Une suite de puces va dans une `<ul class="bui-chip-list" role="list">`. */
+export const chip = ({ label, href, current, removable }: ChipOptions) => {
+  const content = removable
+    ? `<span class="bui-visually-hidden">Retirer le filtre : </span>${escape(label)}${icon('x')}`
+    : escape(label)
+  if (href !== undefined)
+    return `<a${attributes({ class: 'bui-chip', href, 'aria-current': current ? 'page' : undefined })}>${content}</a>`
+  return `<button type="button" class="bui-chip">${content}</button>`
+}
+
 export interface TextAreaOptions extends FieldOptions {
   rows?: number
 }
