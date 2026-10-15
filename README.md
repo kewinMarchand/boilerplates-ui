@@ -109,7 +109,7 @@ Pour montrer un état dans une charte graphique, poser une classe sur l'élémen
 
 ## Dépendances
 
-Aucune dépendance d'exécution. React (19 ou plus) et Vue (3.5 ou plus) sont des dépendances pairs optionnelles. Poids livré : CSS des composants 9,5 ko (1,7 ko en gzip), `tokens.css` 2,8 ko (0,9 ko en gzip), JS vanilla 1,3 ko (0,6 ko en gzip).
+Aucune dépendance d'exécution. React (19 ou plus) et Vue (3.5 ou plus) sont des dépendances pairs optionnelles. Poids livré à l'étiquette `v0.5.0`, minifié par esbuild puis compressé par `gzip -9` : CSS des composants 29,9 ko (4,4 ko en gzip), `tokens.css` 6,0 ko (1,4 ko en gzip), JS vanilla 6,2 ko (2,1 ko en gzip).
 
 Outillage de développement (taille installée) :
 
