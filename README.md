@@ -61,7 +61,7 @@ En attendant la publication npm, la dépendance est le dépôt git sur une étiq
 }
 ```
 
-Créer une version : `git tag v0.1.0 && git push origin v0.1.0`. Monter de version dans un boilerplate : changer l'étiquette, puis `make install`.
+Créer une version : passer la même version dans les sept `package.json` (racine, `packages/*`, `apps/storybook`), y compris les dépendances internes de `apps/storybook/package.json`, qui sont en version exacte (sinon `make install` échoue en CI, faute de paquet sur le registre npm), compléter `CHANGELOG.md`, puis, CI verte, `git tag v0.1.0 && git push origin v0.1.0`. Monter de version dans un boilerplate : changer l'étiquette, puis `make install`.
 
 | Import                                               | Contenu                                                                                                        |
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
