@@ -1,12 +1,12 @@
 # 0002 — Mode sombre sur demande du site
 
 - **Statut** : Acceptée
-- **Date** : 2026-10-15
+- **Introduite par** : commit `348ce46` (`v0.4.0`)
 - **Décideurs** : Kewin Marchand
 
 ## Contexte
 
-Sans ce jeu, les tokens portent un thème clair et les surcharges du mode renforcé, rien de plus. Le boilerplate vanilla a un mode sombre (`color-scheme: light dark` et `light-dark()`), forcé en clair en mode renforcé ; les autres boilerplates n'en ont pas. Pour intégrer la bibliothèque dans vanilla sans lui retirer son mode sombre, le mode sombre vit dans la bibliothèque (choix de Kewin, 15/10/2026), et tous les fronts peuvent en profiter.
+Sans ce jeu, les tokens portent un thème clair et les surcharges du mode renforcé, rien de plus. Le boilerplate vanilla a un mode sombre (`color-scheme: light dark` et `light-dark()`), forcé en clair en mode renforcé ; les autres boilerplates n'en ont pas. Pour intégrer la bibliothèque dans vanilla sans lui retirer son mode sombre, le mode sombre vit dans la bibliothèque (choix de Kewin), et tous les fronts peuvent en profiter.
 
 Contraintes : les composants ne lisent que des variables `--bui-*`, les quatre autres boilerplates s'affichent en clair (fonds de MUI, de Vuetify et du site), et le mode renforcé (section 4 de la spec commune) reste en clair, à contraste renforcé.
 

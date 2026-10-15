@@ -1,6 +1,6 @@
 # 0001. Architecture de la bibliothèque
 
-Date : 13/10/2026
+Introduite par : commit `63bd956` (`v0.1.0`)
 
 ## Contexte
 
@@ -22,7 +22,7 @@ Forces en présence :
 5. **Le balisage de référence est du code** : `packages/css/reference/markup.ts` produit le HTML de chaque composant et état. Il nourrit les histoires HTML et le test de parité, qui compare le rendu serveur React et Vue à cette référence après normalisation (attributs et classes triés, commentaires de fragments retirés).
 6. **Un seul Storybook HTML (`@storybook/html-vite`)** : les histoires HTML et vanilla sont la référence, React et Vue sont montés dans une histoire par framework avec `createRoot` et `createApp`. Le mode renforcé est une variable globale de la barre d'outils qui pose `data-a11y-mode` sur `<html>`. Les états survol et focus passent par `storybook-addon-pseudo-states`. Les tests axe parcourent l'index du build et passent chaque histoire dans les deux modes avec Playwright.
 7. **Comportement natif d'abord** : la modale s'appuie sur `<dialog>` et `showModal()`, qui rendent le reste de la page inerte et ferment sur Échap. Le code ajoute seulement l'ouverture, la fermeture et le retour du focus au déclencheur.
-8. **Points de rupture de Tailwind pour tous** : 640, 768, 1024 et 1280 px (décision de Kewin du 13/10/2026). L'adaptateur MUI les adopte, le boilerplate Next quitte ses valeurs 600, 1024, 1200 et 1440 quand il reprend l'adaptateur.
+8. **Points de rupture de Tailwind pour tous** : 640, 768, 1024 et 1280 px (décision de Kewin). L'adaptateur MUI les adopte, le boilerplate Next quitte ses valeurs 600, 1024, 1200 et 1440 quand il reprend l'adaptateur.
 9. **CSS en `@layer components`, classes BEM préfixées `bui-`**, variables `--bui-*` seulement. La couche s'insère dans l'ordre des couches de Tailwind v4 et reste en dessous du CSS non étagé des applications.
 
 ## Alternatives envisagées
@@ -50,4 +50,4 @@ Forces en présence :
 
 ## Statut
 
-Acceptée le 13/10/2026
+Acceptée (commit `ac7eb12`)
