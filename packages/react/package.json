@@ -1,6 +1,6 @@
 {
   "name": "@kewinmarchand/react",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Composants React typés qui produisent le balisage de @kewinmarchand/css",
   "license": "MIT",
   "type": "module",

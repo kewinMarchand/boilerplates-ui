@@ -1,6 +1,6 @@
 {
   "name": "@kewinmarchand/css",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Composants en HTML et CSS seuls, sur les variables des tokens",
   "license": "MIT",
   "type": "module",

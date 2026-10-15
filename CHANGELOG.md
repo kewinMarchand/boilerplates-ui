@@ -2,6 +2,12 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.4.1
+
+### Corrigé
+
+- Modale centrée par son propre `margin: auto` : un reset de site (`* { margin: 0 }`) annule celui du navigateur et la colle en haut à gauche. Le tiroir garde sa marge.
+
 ## 0.4.0
 
 ### Ajouté
