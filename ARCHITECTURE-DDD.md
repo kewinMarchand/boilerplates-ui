@@ -1,8 +1,7 @@
 # Proposition d'architecture DDD pour les sept dépôts
 
-**Statut** : ACCEPTÉE le 09/10/2026, recommandations D1 à D12 retenues sans réserve.
-**Révision** : 14/10/2026, ADR 0001 de `api-platform-test-api` (administration par EasyAdmin dans l'API Platform). Le catalogue gagne des écritures côté API Platform : §2.2, §4.4.2 et §5 sont annotés. Le reste ne change pas.
-**Date** : 09/10/2026.
+**Statut** : ACCEPTÉE, recommandations D1 à D12 retenues sans réserve.
+**Révision** : ADR 0001 de `api-platform-test-api` (administration par EasyAdmin dans l'API Platform, commit `46df658`). Le catalogue gagne des écritures côté API Platform : §2.2, §4.4.2 et §5 sont annotés. Le reste ne change pas.
 **Périmètre** : `next-mui-query-boilerplate`, `nuxt-vuetify-query-boilerplate`, `sveltekit-tailwind-query-boilerplate`, `symfony-twig-stimulus-boilerplate`, `html-css-vanilla-boilerplate`, `api-platform-test-api`, `hono-mongo-test-api`.
 
 ---
@@ -57,7 +56,7 @@ Khononov propose de délimiter un sous-domaine comme un ensemble cohérent de ca
 
 Pourquoi pas d'agrégat dans le catalogue : un agrégat est une frontière de cohérence qui protège des invariants lors des **modifications** (Evans p. 89-92, Khononov p. 84-85, PDF 110-111). Le catalogue n'a aucune écriture. Ses règles sont des calculs sur des données lues : ce sont des value objects et un service de domaine sans état (Evans p. 75-76, Khononov p. 92-93, PDF 118-119).
 
-**Révision du 14/10/2026** (ADR 0001 de `api-platform-test-api`) : l'administration ajoute des écritures au catalogue de l'API Platform, donc des invariants à protéger à la modification (slug unique dans sa branche, parent existant, 3 niveaux au plus, prix positif ou nul). `Category` et `Product` y deviennent des agrégats, et la règle ci-dessus s'applique telle quelle : agrégat dès qu'il y a écriture. La recherche reste un service de domaine sans état. Hono et les fronts restent en lecture, donc sans agrégat.
+**Révision** (ADR 0001 de `api-platform-test-api`, commit `46df658`) : l'administration ajoute des écritures au catalogue de l'API Platform, donc des invariants à protéger à la modification (slug unique dans sa branche, parent existant, 3 niveaux au plus, prix positif ou nul). `Category` et `Product` y deviennent des agrégats, et la règle ci-dessus s'applique telle quelle : agrégat dès qu'il y a écriture. La recherche reste un service de domaine sans état. Hono et les fronts restent en lecture, donc sans agrégat.
 
 ### 2.3 Ce qui n'est pas un domaine
 
@@ -361,7 +360,7 @@ Un contexte, quatre modules. Ports et adaptateurs pour le catalogue (Khononov p.
 #### 4.4.2 Agrégats, value objects, dépôts
 
 - **Agrégats** : aucun à introduire. Les seules écritures sont `POST /api/contact_messages`, une création d'un objet isolé sans invariant entre objets. `ContactMessage` est trivialement son propre agrégat, le nommer ainsi n'apporte rien (Evans p. 92 : l'agrégat sert à garantir des invariants communs à plusieurs objets).
-  - **Révision du 14/10/2026** (ADR 0001 de `api-platform-test-api`) : dans l'API Platform, l'administration écrit par les cas d'usage de la couche application de `Catalog` (pas par des opérations API Platform). `Category` et `Product` deviennent des agrégats (voir §2.2). Articles, diapositives du carrousel et pages légales sont des écritures d'objets isolés : transaction scripts, sans agrégat nommé.
+  - **Révision** (ADR 0001 de `api-platform-test-api`, commit `46df658`) : dans l'API Platform, l'administration écrit par les cas d'usage de la couche application de `Catalog` (pas par des opérations API Platform). `Category` et `Product` deviennent des agrégats (voir §2.2). Articles, diapositives du carrousel et pages légales sont des écritures d'objets isolés : transaction scripts, sans agrégat nommé.
 - **Value objects** : `Price` (centimes, construit depuis l'entier stocké par `Product::price()`, colonne et mapping Doctrine inchangés, donc aucune migration). `CategoryTree` (parcours, branches, enfants). Pas d'`Email` ni de `Slug` dans l'API : la validation de l'e-mail est une contrainte de frontière d'un sous-domaine de support (Khononov p. 8, PDF 34), et le slug n'a aucune règle propre au-delà de la chaîne.
 - **Dépôts** : Evans autorise un dépôt à renvoyer des comptages et des sommes (p. 108). Le jour où le catalogue grossit, le comptage des facettes descend dans `DoctrineProductRepository` (SQL), et `ProductSearch` reste la référence de test. Tant que le jeu fait 24 produits, on garde le calcul en PHP, comme le `CLAUDE.md` de l'API le dit déjà.
 - **Cas d'utilisation** : seul `SearchProducts` se justifie (deux ports, un service, une décision 404 via `CategoryNotFound`).
@@ -613,7 +612,7 @@ Stratégie de test (Khononov p. 164-165, PDF 190-191) : pyramide classique pour 
 
 ### 6.2 Ampleur par dépôt
 
-Comptages faits sur l'arborescence du 09/10/2026.
+Comptages faits sur l'arborescence des dépôts avant la refonte DDD.
 
 | Dépôt | Fichiers déplacés | Fichiers dont les imports changent | Fichiers au contenu réellement modifié | Nouveaux fichiers | Config touchée |
 |---|---|---|---|---|---|
@@ -866,4 +865,4 @@ Points issus de ma connaissance générale, à vérifier si l'un d'eux devient d
 - la contrainte de sérialisation des propriétés passées des composants serveur aux composants client ;
 - les types marqués (« branded types ») en TypeScript pour `Price`.
 
-Les comptages de fichiers de la section 6 viennent des commandes `find` et `grep` lancées le 09/10/2026 sur les dépôts, pas d'une estimation.
+Les comptages de fichiers de la section 6 viennent des commandes `find` et `grep` lancées sur les dépôts avant la refonte DDD, pas d'une estimation.

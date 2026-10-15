@@ -1,6 +1,6 @@
 # Spécification commune des boilerplates
 
-Architecture : voir `ARCHITECTURE-DDD.md` (décisions D1 à D12 acceptées le 09/10/2026). Vocabulaire : couche de routage, `views/`, `modules/<module>/{domain,application,infrastructure,ui}`, `shared/`.
+Architecture : voir `ARCHITECTURE-DDD.md` (décisions D1 à D12 acceptées). Vocabulaire : couche de routage, `views/`, `modules/<module>/{domain,application,infrastructure,ui}`, `shared/`.
 
 S'applique à : next-mui-query, nuxt-vuetify-query, sveltekit-tailwind-query, symfony-twig-stimulus, html-css-vanilla (tous dans `~/Applications/`). Même contenu, mêmes routes, mêmes `data-testid` partout, pour que les suites e2e se ressemblent d'un dépôt à l'autre. Chaque stack l'implémente avec ses conventions natives. Aucune dépendance ajoutée sans justification dans le CLAUDE.md du dépôt.
 
@@ -72,7 +72,7 @@ Dépôt `~/Applications/api-platform-test-api` (API Platform 4 + PostgreSQL, por
 
 Seconde API au **contrat identique** : `~/Applications/hono-mongo-test-api` (Hono + zod + MongoDB, port 8091), même OpenAPI à `/api/docs.jsonopenapi`, vérifiée par `make contract`. Au branchement, chaque front choisit l'une ou l'autre par une seule variable d'URL d'API (8090 par défaut), sans autre changement de code.
 
-**Branchement, décidé le 13/10/2026.**
+**Branchement.**
 
 - `API_URL` choisit l'API (8090 API Platform par défaut, 8091 Hono), sans autre changement de code.
 - Types générés depuis l'OpenAPI par `make api-types`, consommés seulement par un client typé et une couche anti-corruption par module dans `infrastructure/http/` (ARCHITECTURE-DDD 4.3.4). Les composants ignorent le contrat. Les violations 422 du contact sont relayées vers les champs du formulaire.
@@ -213,7 +213,7 @@ Avant le rapport final, pour chaque route de la spec (accueil, tâches, contact,
 
 ## 16. Mesure d'audience (Matomo) et suivi des erreurs (GlitchTip)
 
-Décidé le 12/10/2026, à faire **avant** le branchement de l'API (section 6). Le dépôt ne suppose aucune instance précise : l'URL Matomo et le DSN GlitchTip viennent de l'environnement.
+Le dépôt ne suppose aucune instance précise : l'URL Matomo et le DSN GlitchTip viennent de l'environnement.
 
 **Activation par variables d'environnement, neutre par défaut.** Sans valeur, rien n'est chargé ni envoyé : aucun script, aucune requête, aucune entrée de CSP. Les valeurs réelles vivent dans `.env.local` (non versionné), les fichiers d'exemple les laissent vides, la CI tourne sans traceur.
 
@@ -247,7 +247,7 @@ Les erreurs attendues ne sont pas remontées : 404, 422 de validation, 503 de ma
 
 ## 17. Icônes : sprite SVG tiré de Lucide
 
-Décidé le 12/10/2026, règle générale dans le skill `standards-front` (section Icônes). Remplace les bibliothèques chargées à l'exécution (`lucide-react`, `@lucide/svelte`, `@mdi/js`, `symfony/ux-icons`) et le sprite dessiné à la main de vanilla.
+Règle générale dans le skill `standards-front` (section Icônes). Remplace les bibliothèques chargées à l'exécution (`lucide-react`, `@lucide/svelte`, `@mdi/js`, `symfony/ux-icons`) et le sprite dessiné à la main de vanilla.
 
 - **Source unique : Lucide** (licence ISC), par `@iconify-json/lucide` en dépendance de développement. Nuxt passe de MDI à Lucide. Le mode renforcé utilise `person-standing`. Le logo feuille reste un SVG propre au projet, hors sprite s'il est déjà inline.
 - **Versionné** : la liste des icônes utilisées (`icons.json`, noms Lucide), le script de génération (`make icons`), le sprite généré (servi en fichier statique : `static/`, `public/`, `site/` ou `public/` Symfony selon la stack) et le type union des noms (TypeScript), ou la liste des noms (PHP, vanilla).
@@ -259,7 +259,7 @@ Décidé le 12/10/2026, règle générale dans le skill `standards-front` (secti
 
 ## 18. Développement en conteneur, sans prérequis système
 
-Décidé le 12/10/2026. Seuls prérequis : Docker (avec Compose), `make` et git. Aucun Node, PHP, Composer, Yarn ni navigateur installé sur la machine. Comme la préproduction, tout tourne en conteneur.
+Seuls prérequis : Docker (avec Compose), `make` et git. Aucun Node, PHP, Composer, Yarn ni navigateur installé sur la machine. Comme la préproduction, tout tourne en conteneur.
 
 - **Tout passe par `make`**, qui appelle `docker compose`. Aucune commande du README ne suppose un outil local : `make install`, `make up`, `make qa`, `make test-e2e`, `make test-a11y`, `make metrics`, `make icons`.
 - **Service de dev** : code monté en volume, rechargement à chaud, port de la section 7 inchangé. Les dépendances (`node_modules`, `vendor`) vivent dans un volume nommé, jamais mélangées avec celles de la machine. Utilisateur du conteneur aligné sur l'UID et le GID de la machine, pour que les fichiers générés ne soient pas à root.
@@ -270,7 +270,7 @@ Décidé le 12/10/2026. Seuls prérequis : Docker (avec Compose), `make` et git.
 
 ## 19. Bibliothèque de composants commune : boilerplates-ui
 
-Décidé le 13/10/2026, à faire après le branchement de l'API (section 6), avant le point de fin de chantier. Dépôt public `kewinMarchand/boilerplates-ui`, monorepo, avec un Storybook de démonstration.
+Dépôt public `kewinMarchand/boilerplates-ui`, monorepo, avec un Storybook de démonstration.
 
 - **Périmètre : tous les composants de base d'une interface**, sans se demander ce que MUI, Vuetify ou Tailwind fournissent déjà. Au minimum : bouton, bouton icône, lien, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio, interrupteur, groupe de champs avec légende et message d'erreur, carte, badge, alerte, toast, modale, tiroir, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, indicateur de chargement, squelette, avatar, séparateur, icône (sprite Lucide de la section 17).
 - **Couches**, une par paquet du monorepo :
@@ -283,4 +283,5 @@ Décidé le 13/10/2026, à faire après le branchement de l'API (section 6), ava
 - **Les chartes graphiques des 5 boilerplates sont conservées** (section 14).
 - **Distribution** : paquets npm publics sous `@kewinmarchand/` (connexion npm de Kewin requise pour publier). En attendant, dépendance git par étiquette de version.
 - **Intégration** : un boilerplate à la fois, chacun garde son kit natif et consomme les tokens et les composants qui lui manquent.
+- **Composant manquant** : il entre d'abord dans la bibliothèque (CSS et balisage de référence, React, Vue, comportement vanilla si besoin, test de parité), puis dans le Storybook (variantes, états, modes standard, renforcé et sombre, axe), sort dans une version étiquetée, est intégré aux boilerplates, et enfin importé par le projet qui en a besoin. Jamais de composant écrit seulement dans un boilerplate ou un projet en attendant.
 - Mêmes règles que les boilerplates : conteneur seul prérequis (section 18), `make`, CI, aucune mention de l'employeur.
