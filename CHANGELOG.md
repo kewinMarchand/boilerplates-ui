@@ -2,6 +2,13 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.4.0
+
+### Ajouté
+
+- Mode sombre sur demande du site (ADR 0002) : `data-color-scheme="dark"` ou `"auto"` sur l'élément racine. Une valeur sombre pour chaque couleur (`dark` dans `tokens.ts` et `tokens.json`), jamais appliquée en mode renforcé ni sans l'attribut. Contrastes AA vérifiés par les tests.
+- Storybook : outil « Thème » (clair, sombre) dans la barre ; axe passe chaque histoire en sombre aussi.
+
 ## 0.3.0
 
 ### Ajouté
