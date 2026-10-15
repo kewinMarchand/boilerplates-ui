@@ -6,7 +6,7 @@
 
 ## Contexte
 
-Les tokens ne portaient qu'un thème clair et les surcharges du mode renforcé. Le boilerplate vanilla a un mode sombre (`color-scheme: light dark` et `light-dark()`), forcé en clair en mode renforcé ; les autres boilerplates n'en ont pas. Pour intégrer la bibliothèque dans vanilla sans lui retirer son mode sombre, Kewin a choisi le 15/10/2026 de mettre le mode sombre dans la bibliothèque, pour que tous les fronts puissent en profiter.
+Sans ce jeu, les tokens portent un thème clair et les surcharges du mode renforcé, rien de plus. Le boilerplate vanilla a un mode sombre (`color-scheme: light dark` et `light-dark()`), forcé en clair en mode renforcé ; les autres boilerplates n'en ont pas. Pour intégrer la bibliothèque dans vanilla sans lui retirer son mode sombre, le mode sombre vit dans la bibliothèque (choix de Kewin, 15/10/2026), et tous les fronts peuvent en profiter.
 
 Contraintes : les composants ne lisent que des variables `--bui-*`, les quatre autres boilerplates s'affichent en clair (fonds de MUI, de Vuetify et du site), et le mode renforcé (section 4 de la spec commune) reste en clair, à contraste renforcé.
 
@@ -32,7 +32,7 @@ On ajoute un jeu de couleurs sombres aux tokens, appliqué seulement quand le si
   - les composants passent en sombre sans une ligne de CSS de plus : ils ne lisent que des variables ;
   - les contrastes sombres sont testés au même titre que les autres.
 - **Négatives / coûts** :
-  - chaque nouvelle couleur demande désormais trois valeurs (clair, renforcé, sombre), et les déclarations sombres sont écrites deux fois dans `tokens.css` (sombre forcé et automatique) ;
+  - chaque nouvelle couleur demande trois valeurs (clair, renforcé, sombre), et les déclarations sombres sont écrites deux fois dans `tokens.css` (sombre forcé et automatique) ;
   - la variante `inverse` du bouton suit `on-primary`, qui devient foncé en sombre : sur une photo assombrie, le site garde un texte clair lui-même ;
   - les couleurs personnalisées de la barre du Storybook dérivent leurs surfaces vers le blanc, pensées pour le clair.
 - **Suivi** : rouvrir si un front à kit natif (MUI, Vuetify) demande le sombre : il faudra alors générer un schéma sombre pour son thème.
