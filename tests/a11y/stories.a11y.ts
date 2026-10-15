@@ -3,11 +3,17 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 /**
- * Passe axe (WCAG 2.1 A et AA) sur chaque histoire du Storybook construit, en mode standard et renforcé.
+ * Passe axe (WCAG 2.1 A et AA) sur chaque histoire du Storybook construit, en mode standard, renforcé et sombre.
  * La liste vient de l'index du build : une histoire ajoutée est testée sans rien écrire ici.
  */
 const INDEX = 'apps/storybook/storybook-static/index.json'
-const MODES = ['standard', 'enhanced'] as const
+const MODES = ['standard', 'enhanced', 'dark'] as const
+
+const GLOBALS: Record<(typeof MODES)[number], string> = {
+  standard: 'a11yMode:standard',
+  enhanced: 'a11yMode:enhanced',
+  dark: 'a11yMode:standard;colorScheme:dark',
+}
 
 const index = JSON.parse(readFileSync(INDEX, 'utf8')) as {
   entries: Record<string, { id: string; type: string; title: string; name: string }>
@@ -21,11 +27,13 @@ for (const mode of MODES) {
         // Mouvement réduit : durées à 0, le contraste est mesuré sur l'état final, pas au milieu d'un fondu
         await page.emulateMedia({ reducedMotion: 'reduce' })
         await page.goto(
-          `/iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story&globals=a11yMode:${mode}`,
+          `/iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story&globals=${GLOBALS[mode]}`,
         )
         await expect(page.locator('#storybook-root > *').first()).toBeAttached()
         if (mode === 'enhanced')
           await expect(page.locator('html')).toHaveAttribute('data-a11y-mode', 'enhanced')
+        if (mode === 'dark')
+          await expect(page.locator('html')).toHaveAttribute('data-color-scheme', 'dark')
         if (/ouverte/i.test(story.name)) await expect(page.locator('dialog[open]')).toBeVisible()
 
         // L'addon a11y lance aussi axe dans l'iframe : on relance tant que son passage n'est pas fini.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { flatten, generate } from '../src/generate.ts'
-import { enhanced, tokens } from '../src/tokens.ts'
+import { dark, enhanced, tokens } from '../src/tokens.ts'
 
 const luminance = (hex: string) => {
   const channels = [1, 3, 5].map((start) => Number.parseInt(hex.slice(start, start + 2), 16) / 255)
@@ -54,6 +54,19 @@ describe('générateur de tokens', () => {
     expect(enhancedBlock).toContain('--bui-focus-width: 4px;')
   })
 
+  it('ne passe en sombre que sur demande du site, jamais en mode renforcé', () => {
+    const css = output['tokens.css']!
+    const [root = ''] = css.split('}')
+    expect(root).not.toContain(dark.color.surface)
+    expect(css).toContain(
+      '[data-color-scheme="dark"]:not([data-a11y-mode="enhanced"]) {\n  color-scheme: dark;',
+    )
+    expect(css).toMatch(
+      /@media \(prefers-color-scheme: dark\) \{\n {2}\[data-color-scheme="auto"\]:not\(\[data-a11y-mode="enhanced"\]\) \{/,
+    )
+    expect(css).toContain(`--bui-color-surface: ${dark.color.surface};`)
+  })
+
   it('branche les adaptateurs sur les mêmes valeurs', () => {
     const mui = JSON.parse(output['mui.json']!)
     const vuetify = JSON.parse(output['vuetify.json']!)
@@ -70,5 +83,10 @@ describe('générateur de tokens', () => {
   it.each(PAIRS)('contraste AAA de %s sur %s en mode renforcé', (fg, bg) => {
     const color: Record<string, string> = { ...tokens.color, ...enhanced.color }
     expect(contrast(color[fg]!, color[bg]!)).toBeGreaterThanOrEqual(7)
+  })
+
+  it.each(PAIRS)('contraste AA de %s sur %s en mode sombre', (fg, bg) => {
+    const color: Record<string, string> = { ...tokens.color, ...dark.color }
+    expect(contrast(color[fg]!, color[bg]!)).toBeGreaterThanOrEqual(4.5)
   })
 })

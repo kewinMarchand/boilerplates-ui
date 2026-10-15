@@ -128,5 +128,47 @@ export const enhanced = {
   motion: { duration: '0s', 'duration-slow': '0s' },
 } as const
 
+/**
+ * Mode sombre, sur demande du site : `data-color-scheme="dark"` sur l'élément racine, ou `"auto"` pour suivre le système.
+ * Sans l'attribut, rien ne change : un site qui n'a pas prévu le sombre reste clair sur un système sombre. Le mode renforcé
+ * reste toujours en clair. Valeurs reprises du mode sombre du boilerplate vanilla, contrastes AA vérifiés par les tests.
+ */
+export const dark = {
+  color: {
+    primary: '#9abdff',
+    'primary-dark': '#bdd5ff',
+    'on-primary': '#0f141d',
+    'primary-surface-subtle': '#192133',
+    'primary-surface': '#202d49',
+    'primary-surface-strong': '#293c64',
+    secondary: '#c8aefa',
+    'secondary-dark': '#dbcafc',
+    'on-secondary': '#0f141d',
+    'secondary-surface-subtle': '#241e30',
+    'secondary-surface': '#322745',
+    'secondary-surface-strong': '#43335e',
+    text: '#ebeef5',
+    'text-muted': '#b9bec8',
+    surface: '#0f141d',
+    'surface-muted': '#1c222e',
+    border: '#808693',
+    'border-subtle': '#303540',
+    backdrop: 'rgb(0 0 0 / 0.7)',
+    'hover-overlay': 'rgb(255 255 255 / 0.08)',
+    'on-primary-overlay': 'rgb(0 0 0 / 0.12)',
+    error: '#ff9e96',
+    'error-surface': '#391917',
+    success: '#83dc97',
+    'success-surface': '#122a18',
+    info: '#9abdff',
+    'info-surface': '#19233a',
+    warning: '#f3b94c',
+    'warning-surface': '#32240a',
+  },
+} as const
+
 export const A11Y_MODE_SELECTOR = '[data-a11y-mode="enhanced"]'
+/** Mode sombre : forcé, ou automatique selon le système (`prefers-color-scheme`). Jamais en mode renforcé. */
+export const DARK_SELECTOR = '[data-color-scheme="dark"]:not([data-a11y-mode="enhanced"])'
+export const AUTO_DARK_SELECTOR = '[data-color-scheme="auto"]:not([data-a11y-mode="enhanced"])'
 export const PREFIX = 'bui'

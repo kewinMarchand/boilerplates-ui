@@ -27,7 +27,7 @@ icons-check: ## Échoue si le sprite ou le type des noms ne correspondent plus �
 test-unit: ## Tests unitaires : générateur de tokens et parité HTML React, Vue et CSS
 	$(RUN) yarn test:unit
 
-test-a11y: ## Tests axe de chaque histoire du Storybook construit, en mode standard et renforcé
+test-a11y: ## Tests axe de chaque histoire du Storybook construit, en mode standard, renforcé et sombre
 	$(RUN) yarn test:a11y
 
 .PHONY: qa lint lint-fix format format-check typecheck tokens-check icons-check vanilla-types-check test-unit test-a11y

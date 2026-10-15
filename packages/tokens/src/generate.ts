@@ -1,4 +1,12 @@
-import { A11Y_MODE_SELECTOR, enhanced, PREFIX, tokens } from './tokens.ts'
+import {
+  A11Y_MODE_SELECTOR,
+  AUTO_DARK_SELECTOR,
+  dark,
+  DARK_SELECTOR,
+  enhanced,
+  PREFIX,
+  tokens,
+} from './tokens.ts'
 
 type TokenTree = { readonly [key: string]: string | TokenTree }
 
@@ -35,6 +43,18 @@ const toCss = () =>
     '',
     `${A11Y_MODE_SELECTOR} {`,
     declarations(enhanced),
+    '}',
+    '',
+    `${DARK_SELECTOR} {`,
+    '  color-scheme: dark;',
+    declarations(dark),
+    '}',
+    '',
+    '@media (prefers-color-scheme: dark) {',
+    `  ${AUTO_DARK_SELECTOR} {`,
+    '    color-scheme: dark;',
+    declarations(dark).replace(/^/gm, '  '),
+    '  }',
     '}',
     '',
   ].join('\n')
@@ -150,7 +170,7 @@ const json = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`
 
 export const generate = (): Record<string, string> => ({
   'tokens.css': toCss(),
-  'tokens.json': json({ tokens, enhanced }),
+  'tokens.json': json({ tokens, enhanced, dark }),
   'tailwind.css': toTailwind(),
   'mui.json': json(toMui()),
   'vuetify.json': json(toVuetify()),

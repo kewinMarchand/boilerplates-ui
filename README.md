@@ -13,9 +13,11 @@ Bibliothèque de composants commune aux cinq boilerplates (Next et MUI, Nuxt et 
 
 Composants disponibles : bouton, bouton icône, lien, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, tiroir, toast, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, séparateur, indicateur de chargement, squelette, avatar, icône.
 
-Le Storybook (vue d'ensemble de chaque composant, contrôles en direct, mode renforcé et couleurs globales dans la barre d'outils) est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
+Le Storybook (vue d'ensemble de chaque composant, contrôles en direct, mode renforcé, thème sombre et couleurs globales dans la barre d'outils) est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
 
 Points de rupture : 640, 768, 1024 et 1280 px (ceux de Tailwind), repris par l'adaptateur MUI.
+
+Mode sombre : sur demande, par un attribut sur l'élément racine. `<html data-color-scheme="auto">` suit le système, `data-color-scheme="dark"` force le sombre. Sans l'attribut, les tokens restent en clair, quel que soit le système. Le mode renforcé (`data-a11y-mode="enhanced"`) reste toujours en clair.
 
 ## Prérequis
 
@@ -32,7 +34,7 @@ make install          # image de dev, dépendances, hook git
 make up               # Storybook sur http://localhost:6006 (STORYBOOK_PORT pour un autre port)
 make qa               # lint, format, types, générés à jour, tests unitaires
 make storybook-build  # Storybook statique dans apps/storybook/storybook-static
-make test-a11y        # axe sur chaque histoire construite, en mode standard et renforcé
+make test-a11y        # axe sur chaque histoire construite, en mode standard, renforcé et sombre
 ```
 
 `make help` liste toutes les cibles. Le hook `pre-commit` lance `make lint-staged` et refuse le commit si Docker est arrêté.

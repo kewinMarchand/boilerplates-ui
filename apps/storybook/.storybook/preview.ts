@@ -70,13 +70,34 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    colorScheme: {
+      description: 'Thème clair ou sombre (data-color-scheme, sans effet en mode renforcé)',
+      toolbar: {
+        title: 'Thème',
+        icon: 'contrast',
+        items: [
+          { value: 'light', title: 'Thème clair' },
+          { value: 'dark', title: 'Thème sombre' },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
-  initialGlobals: { a11yMode: 'standard', primary: '', secondary: '', error: '' },
+  initialGlobals: {
+    a11yMode: 'standard',
+    colorScheme: 'light',
+    primary: '',
+    secondary: '',
+    error: '',
+  },
   decorators: [
     (story, { globals }) => {
       const enhanced = globals['a11yMode'] === 'enhanced'
       if (enhanced) document.documentElement.dataset['a11yMode'] = 'enhanced'
       else delete document.documentElement.dataset['a11yMode']
+      if (globals['colorScheme'] === 'dark')
+        document.documentElement.dataset['colorScheme'] = 'dark'
+      else delete document.documentElement.dataset['colorScheme']
       showWarnings(
         applyTheme(
           { primary: globals['primary'], secondary: globals['secondary'], error: globals['error'] },
