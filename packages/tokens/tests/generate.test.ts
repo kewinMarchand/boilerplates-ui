@@ -36,6 +36,8 @@ const PAIRS = [
   ['success', 'success-surface'],
   ['info', 'info-surface'],
   ['warning', 'warning-surface'],
+  ['on-image-text', 'on-image'],
+  ['on-image-text', 'on-image-hover'],
 ] as const
 
 describe('générateur de tokens', () => {

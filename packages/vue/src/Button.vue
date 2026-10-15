@@ -5,7 +5,8 @@ import type { IconName } from './iconNames'
 
 defineOptions({ name: 'BuiButton' })
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse'
+export type ButtonVariant =
+  'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse' | 'nav' | 'light' | 'outline-light'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 const {
@@ -15,7 +16,10 @@ const {
   loading = false,
   iconPosition = 'start',
 } = defineProps<{
-  /** `inverse` : sur fond sombre ou primaire (header, héros). */
+  /**
+   * `inverse` : sur fond sombre ou primaire. `nav` : lien ou bouton de navigation sur fond primaire (header).
+   * `light` et `outline-light` : sur une photo (héros), mêmes couleurs en mode sombre.
+   */
   variant?: ButtonVariant
   size?: ButtonSize
   type?: 'button' | 'submit' | 'reset'

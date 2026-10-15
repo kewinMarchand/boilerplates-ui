@@ -99,7 +99,7 @@ Pour montrer un état dans une charte graphique, poser une classe sur l'élémen
 
 ## Points d'API à connaître
 
-- **Bouton** : `variant` (`primary`, `secondary`, `outline`, `ghost`, `inverse` pour un fond sombre ou primaire), `size`, `icon` et `iconPosition` (`start` ou `end`), `href` pour rendre un `<a>` à l'apparence de bouton (désactivé, il perd son `href` et porte `aria-disabled`).
+- **Bouton** : `variant` (`primary`, `secondary`, `outline`, `ghost`, `inverse` pour un fond sombre ou primaire, `nav` pour la navigation sur fond primaire avec `aria-current="page"` en gras souligné, `light` et `outline-light` sur une photo, mêmes couleurs en sombre), `size`, `icon` et `iconPosition` (`start` ou `end`), `href` pour rendre un `<a>` à l'apparence de bouton (désactivé, il perd son `href` et porte `aria-disabled`). Le bouton icône accepte aussi `nav`.
 - **Alerte** : `action` (HTML dans la référence, `ReactNode` en React, slot `action` en Vue) pour un bouton « Réessayer ».
 - **Icône** : `label` pour une icône porteuse de sens (`role="img"`), `size` (`sm`, `md`, `lg`, sinon 1em).
 - **Carte** : `.bui-card__media` accepte une `<img>` ou une `<picture>`.

@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
-import { createElement as r, type ReactElement } from 'react'
+import { createElement as r, Fragment, type ReactElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import { createSSRApp, h, type VNode } from 'vue'
+import { createSSRApp, Fragment as VueFragment, h, type VNode } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 
 import * as ref from '@kewinmarchand/css/reference/markup.ts'
@@ -154,6 +154,45 @@ const CASES: Case[] = [
         { href: '/catalogue', variant: 'outline', disabled: true },
         { default: () => 'Voir' },
       ),
+  },
+  {
+    name: 'bouton de navigation, page courante',
+    reference: ref.button({
+      label: 'Catalogue',
+      variant: 'nav',
+      href: '/catalogue',
+      current: true,
+    }),
+    react: r(R.Button, { variant: 'nav', href: '/catalogue', 'aria-current': 'page' }, 'Catalogue'),
+    vue: () =>
+      h(
+        V.Button,
+        { variant: 'nav', href: '/catalogue', 'aria-current': 'page' },
+        { default: () => 'Catalogue' },
+      ),
+  },
+  {
+    name: 'boutons clairs sur photo',
+    reference:
+      ref.button({ label: 'Mes tâches', variant: 'light', href: '/taches' }) +
+      ref.button({ label: 'Contact', variant: 'outline-light', href: '/contact' }),
+    react: r(
+      Fragment,
+      null,
+      r(R.Button, { variant: 'light', href: '/taches' }, 'Mes tâches'),
+      r(R.Button, { variant: 'outline-light', href: '/contact' }, 'Contact'),
+    ),
+    vue: () =>
+      h(VueFragment, [
+        h(V.Button, { variant: 'light', href: '/taches' }, { default: () => 'Mes tâches' }),
+        h(V.Button, { variant: 'outline-light', href: '/contact' }, { default: () => 'Contact' }),
+      ]),
+  },
+  {
+    name: 'bouton icône de navigation',
+    reference: ref.iconButton({ label: 'Menu', icon: 'menu', variant: 'nav' }),
+    react: r(R.IconButton, { label: 'Menu', icon: 'menu', variant: 'nav' }),
+    vue: () => h(V.IconButton, { label: 'Menu', icon: 'menu', variant: 'nav' }),
   },
   {
     name: 'icône porteuse de sens, taille fixe',

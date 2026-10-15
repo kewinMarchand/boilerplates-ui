@@ -11,7 +11,7 @@ export interface IconButtonProps extends Omit<
   /** Nom accessible, obligatoire : le bouton n'a pas de texte visible. */
   label: string
   icon: IconName
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'nav'
   size?: 'sm' | 'md'
 }
 

@@ -15,7 +15,13 @@ export interface GridRow {
   state?: ForcedState
   /** Cellules sur fond primaire, pour les variantes faites pour un fond sombre. */
   dark?: boolean
+  /** Cellules sur une photo assombrie, pour les variantes faites pour un héros. */
+  photo?: boolean
 }
+
+/** Chemin relatif au document : fonctionne aussi sous le sous-chemin de GitHub Pages. */
+export const PHOTO_BACKGROUND =
+  'background-image: linear-gradient(rgb(0 0 0 / 0.45), rgb(0 0 0 / 0.45)), url(randonnee.webp)'
 
 export const grid = (caption: string, columns: (GridColumn | string)[], rows: GridRow[]) => {
   const cols = columns.map((column) => (typeof column === 'string' ? { label: column } : column))
@@ -26,7 +32,7 @@ export const grid = (caption: string, columns: (GridColumn | string)[], rows: Gr
         `<tr><th scope="row">${row.label}</th>${row.cells
           .map((cell, index) => {
             const state = cols[index]?.state ?? row.state
-            return `<td><div class="sb-cell${row.dark ? ' sb-cell--dark' : ''}"${state ? ` data-sb-state="${state}"` : ''}>${cell}</div></td>`
+            return `<td><div class="sb-cell${row.dark ? ' sb-cell--dark' : ''}${row.photo ? ' sb-cell--photo' : ''}"${row.photo ? ` style="${PHOTO_BACKGROUND}"` : ''}${state ? ` data-sb-state="${state}"` : ''}>${cell}</div></td>`
           })
           .join('')}</tr>`,
     )

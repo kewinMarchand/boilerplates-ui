@@ -18,6 +18,9 @@ const VARIANTS = {
   secondary: 'Secondaire',
   outline: 'Contour',
   ghost: 'Fantôme',
+  nav: 'Navigation (fond primaire)',
+  light: 'Clair (sur photo)',
+  'outline-light': 'Contour clair (sur photo)',
 } as const
 const SIZES = { sm: 'Petit', md: 'Moyen', lg: 'Grand' } as const
 
@@ -43,6 +46,7 @@ const meta: Meta<Args> = {
       mapping: { aucun: undefined },
       description: 'Rend un lien <a> à l’apparence de bouton',
     },
+    current: { control: 'boolean', description: 'aria-current="page", avec href seulement' },
     disabled: { control: 'boolean' },
     loading: { control: 'boolean', description: 'aria-disabled, icône animée, texte masqué' },
     type: { control: 'select', options: ['button', 'submit', 'reset'] },
@@ -70,7 +74,8 @@ export const ToutesLesVariantes: Story = {
           const v = variant as ButtonOptions['variant'] & string
           return {
             label,
-            dark: v === 'inverse',
+            dark: v === 'inverse' || v === 'nav',
+            photo: v === 'light' || v === 'outline-light',
             cells: [
               button({ label: 'Envoyer', variant: v }),
               button({ label: 'Envoyer', variant: v }),
@@ -106,14 +111,23 @@ export const Html: Story = { name: 'HTML', render: (args) => button(defined(args
 
 export const React: Story = {
   render: (args) => {
-    const { label, ...props } = defined(args)
-    return mountReact(createElement(ReactButton, props, label))
+    const { label, current, ...props } = defined(args)
+    return mountReact(
+      createElement(ReactButton, { ...props, 'aria-current': current ? 'page' : undefined }, label),
+    )
   },
 }
 
 export const Vue: Story = {
   render: (args) => {
-    const { label, ...props } = defined(args)
-    return mountVue({ render: () => h(VueButton, props, { default: () => label }) })
+    const { label, current, ...props } = defined(args)
+    return mountVue({
+      render: () =>
+        h(
+          VueButton,
+          { ...props, 'aria-current': current ? 'page' : undefined },
+          { default: () => label },
+        ),
+    })
   },
 }

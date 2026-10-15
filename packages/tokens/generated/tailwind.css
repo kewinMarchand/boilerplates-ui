@@ -22,6 +22,10 @@
   --color-backdrop: var(--bui-color-backdrop);
   --color-hover-overlay: var(--bui-color-hover-overlay);
   --color-on-primary-overlay: var(--bui-color-on-primary-overlay);
+  --color-on-image: var(--bui-color-on-image);
+  --color-on-image-text: var(--bui-color-on-image-text);
+  --color-on-image-hover: var(--bui-color-on-image-hover);
+  --color-on-image-overlay: var(--bui-color-on-image-overlay);
   --color-error: var(--bui-color-error);
   --color-error-surface: var(--bui-color-error-surface);
   --color-success: var(--bui-color-success);

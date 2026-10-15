@@ -1,5 +1,6 @@
 import { button, iconButton, link } from '@kewinmarchand/css/reference/markup.ts'
 
+import { PHOTO_BACKGROUND } from './support/grid'
 import { familyOverview, OVERVIEW_PAGE } from './support/overview'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -18,7 +19,8 @@ export const VueDEnsemble: StoryObj = {
           (['primary', 'secondary', 'outline', 'ghost'] as const)
             .map((variant) => button({ label: 'Envoyer', variant }))
             .join('') +
-          `<span class="sb-cell sb-cell--dark">${button({ label: 'Inverse', variant: 'inverse' })}</span>`,
+          `<span class="sb-cell sb-cell--dark">${button({ label: 'Inverse', variant: 'inverse' })}${button({ label: 'Navigation', variant: 'nav', href: '#catalogue' })}</span>` +
+          `<span class="sb-cell sb-cell--photo" style="${PHOTO_BACKGROUND}">${button({ label: 'Clair', variant: 'light' })}${button({ label: 'Contour clair', variant: 'outline-light' })}</span>`,
       },
       {
         title: 'Bouton icône',

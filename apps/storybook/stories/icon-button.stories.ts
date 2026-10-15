@@ -18,6 +18,7 @@ const VARIANTS = {
   secondary: 'Secondaire',
   outline: 'Contour',
   ghost: 'Fantôme',
+  nav: 'Navigation (fond primaire)',
 } as const
 
 const meta: Meta<Args> = {
@@ -52,6 +53,7 @@ export const ToutesLesVariantes: Story = {
         const base = { label: 'Supprimer', icon: 'trash', variant: variant as 'primary' }
         return {
           label,
+          dark: variant === 'nav',
           cells: [
             iconButton(base),
             iconButton(base),

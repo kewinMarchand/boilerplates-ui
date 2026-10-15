@@ -26,6 +26,10 @@ export const tokens = {
     backdrop: 'rgb(0 0 0 / 0.5)',
     'hover-overlay': 'rgb(0 0 0 / 0.05)',
     'on-primary-overlay': 'rgb(255 255 255 / 0.15)',
+    'on-image': '#ffffff',
+    'on-image-text': '#1e3a8a',
+    'on-image-hover': '#dbeafe',
+    'on-image-overlay': 'rgb(255 255 255 / 0.15)',
     error: '#b91c1c',
     'error-surface': '#fef2f2',
     success: '#166534',
@@ -132,6 +136,7 @@ export const enhanced = {
  * Mode sombre, sur demande du site : `data-color-scheme="dark"` sur l'élément racine, ou `"auto"` pour suivre le système.
  * Sans l'attribut, rien ne change : un site qui n'a pas prévu le sombre reste clair sur un système sombre. Le mode renforcé
  * reste toujours en clair. Valeurs reprises du mode sombre du boilerplate vanilla, contrastes AA vérifiés par les tests.
+ * Les couleurs `on-image*` n'y figurent pas : une photo ne change pas avec le thème, les boutons posés dessus non plus.
  */
 export const dark = {
   color: {

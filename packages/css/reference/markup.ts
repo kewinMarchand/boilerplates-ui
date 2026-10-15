@@ -43,8 +43,12 @@ export const icon = (name: string, className?: string, { label, size }: IconOpti
 
 export interface ButtonOptions {
   label: string
-  /** `inverse` : sur fond sombre ou primaire (header, héros). */
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse'
+  /**
+   * `inverse` : sur fond sombre ou primaire. `nav` : lien ou bouton de navigation sur fond primaire (header).
+   * `light` et `outline-light` : sur une photo (héros), mêmes couleurs en mode sombre.
+   */
+  variant?:
+    'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse' | 'nav' | 'light' | 'outline-light'
   size?: 'sm' | 'md' | 'lg'
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
@@ -53,6 +57,8 @@ export interface ButtonOptions {
   iconPosition?: 'start' | 'end'
   /** Rend un lien `<a>` à l'apparence de bouton. Désactivé, il perd son `href`. */
   href?: string
+  /** Lien vers la page courante (`aria-current="page"`). Avec `href` seulement. */
+  current?: boolean
 }
 
 export const button = ({
@@ -65,6 +71,7 @@ export const button = ({
   icon: iconName,
   iconPosition = 'start',
   href,
+  current,
 }: ButtonOptions) => {
   const className = classes(
     'bui-button',
@@ -78,7 +85,7 @@ export const button = ({
       : ''
   const end = !loading && iconName && iconPosition === 'end' ? icon(iconName) : ''
   if (href !== undefined)
-    return `<a${attributes({ class: className, href: disabled ? undefined : href, 'aria-disabled': disabled ? 'true' : undefined })}>${start}${escape(label)}${end}</a>`
+    return `<a${attributes({ class: className, href: disabled ? undefined : href, 'aria-current': current ? 'page' : undefined, 'aria-disabled': disabled ? 'true' : undefined })}>${start}${escape(label)}${end}</a>`
   return `<button${attributes({
     type,
     class: className,
@@ -214,7 +221,7 @@ export const modal = ({ id, title, body, footer, closeLabel = 'Fermer', side }: 
 export interface IconButtonOptions {
   label: string
   icon: string
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'nav'
   size?: 'sm' | 'md'
   disabled?: boolean
 }

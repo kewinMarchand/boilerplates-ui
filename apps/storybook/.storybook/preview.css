@@ -211,6 +211,14 @@ body {
   background: var(--bui-color-primary-dark);
 }
 
+.sb-cell--photo {
+  padding: var(--bui-space-2);
+  border-radius: var(--bui-radius-md);
+  background-color: #1f2937;
+  background-position: center;
+  background-size: cover;
+}
+
 .sb-workbench {
   padding: var(--bui-space-4);
   border: 1px solid var(--bui-color-border-subtle);
