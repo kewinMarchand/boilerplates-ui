@@ -18,6 +18,7 @@ const VARIANTS = {
   secondary: 'Secondaire',
   outline: 'Contour',
   ghost: 'Fantôme',
+  inverse: 'Inverse (fond primaire)',
   nav: 'Navigation (fond primaire)',
   light: 'Clair (sur photo)',
   'outline-light': 'Contour clair (sur photo)',
@@ -37,19 +38,7 @@ const meta: Meta<Args> = {
   },
   argTypes: {
     label: { control: 'text', description: 'Texte du bouton' },
-    variant: {
-      control: 'select',
-      options: [
-        'primary',
-        'secondary',
-        'outline',
-        'ghost',
-        'inverse',
-        'nav',
-        'light',
-        'outline-light',
-      ],
-    },
+    variant: { control: 'select', options: Object.keys(VARIANTS) },
     size: { control: 'select', options: Object.keys(SIZES) },
     icon: { control: 'select', options: ['aucune', ...ICON_NAMES], mapping: { aucune: undefined } },
     iconPosition: { control: 'select', options: ['start', 'end'] },
