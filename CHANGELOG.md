@@ -2,6 +2,12 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.6.1
+
+### Storybook
+
+- Bouton et bouton icône : les variantes faites pour un fond coloré (`inverse`, `nav`, `light`, `outline-light`) s'affichent sur ce fond dans les histoires HTML, React et Vue, comme dans « Toutes les variantes ».
+
 ## 0.6.0
 
 ### Ajouté

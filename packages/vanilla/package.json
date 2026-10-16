@@ -1,6 +1,6 @@
 {
   "name": "@kewinmarchand/vanilla",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Comportement des composants interactifs en JavaScript natif, sans dépendance",
   "license": "MIT",
   "type": "module",
