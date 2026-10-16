@@ -110,6 +110,7 @@ const preview: Preview = {
   parameters: {
     layout: 'padded',
     a11y: { test: 'error' },
+    controls: { sort: 'alpha' },
     options: {
       storySort: {
         order: [
