@@ -144,6 +144,10 @@
     padding: var(--bui-space-3) var(--bui-space-6);
   }
 
+  .bui-button--full-width {
+    width: 100%;
+  }
+
   .bui-button:disabled,
   .bui-button[aria-disabled='true'] {
     cursor: not-allowed;

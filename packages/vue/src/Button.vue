@@ -15,6 +15,7 @@ const {
   type = 'button',
   loading = false,
   iconPosition = 'start',
+  fullWidth = false,
 } = defineProps<{
   /**
    * `inverse` : sur fond sombre ou primaire. `nav` : lien ou bouton de navigation sur fond primaire (header).
@@ -30,6 +31,8 @@ const {
   /** Rend un lien `<a>` à l'apparence de bouton. Désactivé, il perd son `href`. */
   href?: string
   disabled?: boolean
+  /** Occupe toute la largeur de son conteneur. */
+  fullWidth?: boolean
 }>()
 
 const emit = defineEmits<{ click: [event: MouseEvent] }>()
@@ -46,6 +49,7 @@ const classes = () => [
   'bui-button',
   variant !== 'primary' && `bui-button--${variant}`,
   size !== 'md' && `bui-button--${size}`,
+  fullWidth && 'bui-button--full-width',
 ]
 </script>
 

@@ -33,6 +33,7 @@ const meta: Meta<Args> = {
     iconPosition: 'start',
     disabled: false,
     loading: false,
+    fullWidth: false,
   },
   argTypes: {
     label: { control: 'text', description: 'Texte du bouton' },
@@ -62,6 +63,7 @@ const meta: Meta<Args> = {
     disabled: { control: 'boolean' },
     loading: { control: 'boolean', description: 'aria-disabled, icône animée, texte masqué' },
     type: { control: 'select', options: ['button', 'submit', 'reset'] },
+    fullWidth: { control: 'boolean', description: 'Toute la largeur du conteneur' },
     onClick: { action: 'click', description: 'React et Vue' },
   },
 }
@@ -116,6 +118,19 @@ export const ToutesLesVariantes: Story = {
             button({ label: 'Catalogue', size: size as 'sm', href: '#catalogue' }),
           ],
         })),
+      ),
+      grid(
+        'Pleine largeur',
+        ['Bouton', 'Lien (href)'],
+        [
+          {
+            label: 'Conteneur de 320 px',
+            cells: [
+              `<div style="width: 320px">${button({ label: 'Envoyer', fullWidth: true })}</div>`,
+              `<div style="width: 320px">${button({ label: 'Catalogue', href: '#catalogue', fullWidth: true })}</div>`,
+            ],
+          },
+        ],
       ),
     ),
 }

@@ -17,6 +17,8 @@ interface ButtonBaseProps {
   size?: ButtonSize
   icon?: IconName
   iconPosition?: 'start' | 'end'
+  /** Occupe toute la largeur de son conteneur. */
+  fullWidth?: boolean
   className?: string
   children?: ReactNode
 }
@@ -40,12 +42,14 @@ export type ButtonProps = NativeButtonProps | LinkButtonProps
 const classNameOf = (
   variant: ButtonVariant = 'primary',
   size: ButtonSize = 'md',
+  fullWidth = false,
   className?: string,
 ) =>
   cx(
     'bui-button',
     variant !== 'primary' && `bui-button--${variant}`,
     size !== 'md' && `bui-button--${size}`,
+    fullWidth && 'bui-button--full-width',
     className,
   )
 
@@ -56,6 +60,7 @@ export const Button = (props: ButtonProps) => {
       size,
       icon,
       iconPosition = 'start',
+      fullWidth = false,
       className,
       children,
       href,
@@ -64,7 +69,7 @@ export const Button = (props: ButtonProps) => {
     } = props
     return (
       <a
-        className={classNameOf(variant, size, className)}
+        className={classNameOf(variant, size, fullWidth, className)}
         href={disabled ? undefined : href}
         aria-disabled={disabled ? 'true' : undefined}
         {...rest}
@@ -81,6 +86,7 @@ export const Button = (props: ButtonProps) => {
     size,
     icon,
     iconPosition = 'start',
+    fullWidth = false,
     className,
     children,
     loading = false,
@@ -100,7 +106,7 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       type={type}
-      className={classNameOf(variant, size, className)}
+      className={classNameOf(variant, size, fullWidth, className)}
       aria-disabled={loading ? 'true' : undefined}
       onClick={handleClick}
       {...rest}

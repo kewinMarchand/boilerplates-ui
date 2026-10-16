@@ -59,6 +59,8 @@ export interface ButtonOptions {
   href?: string
   /** Lien vers la page courante (`aria-current="page"`). Avec `href` seulement. */
   current?: boolean
+  /** Occupe toute la largeur de son conteneur. */
+  fullWidth?: boolean
 }
 
 export const button = ({
@@ -72,11 +74,13 @@ export const button = ({
   iconPosition = 'start',
   href,
   current,
+  fullWidth,
 }: ButtonOptions) => {
   const className = classes(
     'bui-button',
     variant !== 'primary' && `bui-button--${variant}`,
     size !== 'md' && `bui-button--${size}`,
+    fullWidth && 'bui-button--full-width',
   )
   const start = loading
     ? icon('loader-circle', 'bui-button__spinner')
@@ -266,11 +270,13 @@ export const link = ({ href, label, external }: LinkOptions) =>
 export interface LinkButtonOptions {
   label: string
   type?: 'button' | 'submit' | 'reset'
+  /** Occupe toute la largeur de son conteneur. */
+  fullWidth?: boolean
 }
 
 /** Bouton à l'apparence de lien : une action discrète dans le texte ou sous un formulaire (« Tout effacer »). */
-export const linkButton = ({ label, type = 'button' }: LinkButtonOptions) =>
-  `<button${attributes({ type, class: 'bui-link bui-link--button' })}>${escape(label)}</button>`
+export const linkButton = ({ label, type = 'button', fullWidth }: LinkButtonOptions) =>
+  `<button${attributes({ type, class: classes('bui-link', 'bui-link--button', fullWidth && 'bui-link--full-width') })}>${escape(label)}</button>`
 
 export interface ChipOptions {
   label: string

@@ -15,10 +15,11 @@ type Args = LinkButtonOptions & { onClick?: () => void }
 
 const meta: Meta<Args> = {
   title: 'Actions/Bouton-lien',
-  args: { label: 'Tout effacer', type: 'button' },
+  args: { label: 'Tout effacer', type: 'button', fullWidth: false },
   argTypes: {
     label: { control: 'text', description: 'Texte du bouton' },
     type: { control: 'select', options: ['button', 'submit', 'reset'] },
+    fullWidth: { control: 'boolean', description: 'Toute la largeur du conteneur' },
     onClick: { action: 'click', description: 'React et Vue' },
   },
 }
@@ -38,6 +39,14 @@ export const ToutesLesVariantes: Story = {
           label: 'Bouton-lien',
           cells: Array.from({ length: 3 }, () => linkButton({ label: 'Tout effacer' })),
         },
+        {
+          label: 'Pleine largeur (240 px)',
+          cells: Array.from(
+            { length: 3 },
+            () =>
+              `<div style="width: 240px">${linkButton({ label: 'Tout effacer', fullWidth: true })}</div>`,
+          ),
+        },
       ],
     ),
 }
@@ -45,13 +54,24 @@ export const ToutesLesVariantes: Story = {
 export const Html: Story = { name: 'HTML', render: (args) => linkButton(args) }
 
 export const React: Story = {
-  render: ({ label, type, onClick }) =>
-    mountReact(createElement(ReactLinkButton, { type: type ?? 'button', onClick }, label)),
+  render: ({ label, type, fullWidth, onClick }) =>
+    mountReact(
+      createElement(
+        ReactLinkButton,
+        { type: type ?? 'button', fullWidth: fullWidth ?? false, onClick },
+        label,
+      ),
+    ),
 }
 
 export const Vue: Story = {
-  render: ({ label, type, onClick }) =>
+  render: ({ label, type, fullWidth, onClick }) =>
     mountVue({
-      render: () => h(VueLinkButton, { type: type ?? 'button', onClick }, { default: () => label }),
+      render: () =>
+        h(
+          VueLinkButton,
+          { type: type ?? 'button', fullWidth: fullWidth ?? false, onClick },
+          { default: () => label },
+        ),
     }),
 }

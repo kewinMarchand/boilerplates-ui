@@ -189,6 +189,23 @@ const CASES: Case[] = [
       ]),
   },
   {
+    name: 'bouton pleine largeur, et en lien',
+    reference:
+      ref.button({ label: 'Envoyer', fullWidth: true }) +
+      ref.button({ label: 'Catalogue', href: '/catalogue', fullWidth: true }),
+    react: r(
+      Fragment,
+      null,
+      r(R.Button, { fullWidth: true }, 'Envoyer'),
+      r(R.Button, { href: '/catalogue', fullWidth: true }, 'Catalogue'),
+    ),
+    vue: () =>
+      h(VueFragment, [
+        h(V.Button, { fullWidth: true }, { default: () => 'Envoyer' }),
+        h(V.Button, { href: '/catalogue', fullWidth: true }, { default: () => 'Catalogue' }),
+      ]),
+  },
+  {
     name: 'bouton icône de navigation',
     reference: ref.iconButton({ label: 'Menu', icon: 'menu', variant: 'nav' }),
     react: r(R.IconButton, { label: 'Menu', icon: 'menu', variant: 'nav' }),
@@ -199,6 +216,12 @@ const CASES: Case[] = [
     reference: ref.linkButton({ label: 'Tout effacer' }),
     react: r(R.LinkButton, null, 'Tout effacer'),
     vue: () => h(V.LinkButton, null, { default: () => 'Tout effacer' }),
+  },
+  {
+    name: 'bouton-lien pleine largeur',
+    reference: ref.linkButton({ label: 'Tout effacer', fullWidth: true }),
+    react: r(R.LinkButton, { fullWidth: true }, 'Tout effacer'),
+    vue: () => h(V.LinkButton, { fullWidth: true }, { default: () => 'Tout effacer' }),
   },
   {
     name: 'puces de sous-catégorie, page courante',

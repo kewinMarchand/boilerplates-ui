@@ -30,4 +30,8 @@
     text-align: start;
     cursor: pointer;
   }
+
+  .bui-link--full-width {
+    width: 100%;
+  }
 }
