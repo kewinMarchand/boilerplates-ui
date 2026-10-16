@@ -2,6 +2,20 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## Non publié
+
+### Ajouté
+
+- Bouton et bouton-lien : option `fullWidth` (référence, React et Vue), qui occupe toute la largeur du conteneur. Classes `bui-button--full-width` et `bui-link--full-width`.
+- Champ texte et zone de texte : option `placeholder` dans la référence (`TextFieldOptions`, `TextAreaOptions`), rendue à l'identique en React et Vue (test de parité).
+
+### Storybook
+
+- Toutes les props publiques des composants pilotables dans le panneau Controls, avec la liste exacte des valeurs acceptées. Les identifiants passent par les `args`, et la modale expose `side`.
+- Actions sur les évènements : `onClick`, `onChange`, `onSelect`, `onSort`, `onClose`.
+- Props triées par ordre alphabétique dans le panneau Controls.
+- Bouton : ligne `inverse` dans « Toutes les variantes ».
+
 ## 0.5.0
 
 ### Ajouté

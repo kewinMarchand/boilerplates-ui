@@ -99,9 +99,10 @@ Pour montrer un état dans une charte graphique, poser une classe sur l'élémen
 
 ## Points d'API à connaître
 
-- **Bouton** : `variant` (`primary`, `secondary`, `outline`, `ghost`, `inverse` pour un fond sombre ou primaire, `nav` pour la navigation sur fond primaire avec `aria-current="page"` en gras souligné, `light` et `outline-light` sur une photo, mêmes couleurs en sombre), `size`, `icon` et `iconPosition` (`start` ou `end`), `href` pour rendre un `<a>` à l'apparence de bouton (désactivé, il perd son `href` et porte `aria-disabled`). Le bouton icône accepte aussi `nav`.
+- **Bouton** : `variant` (`primary`, `secondary`, `outline`, `ghost`, `inverse` pour un fond sombre ou primaire, `nav` pour la navigation sur fond primaire avec `aria-current="page"` en gras souligné, `light` et `outline-light` sur une photo, mêmes couleurs en sombre), `size`, `icon` et `iconPosition` (`start` ou `end`), `href` pour rendre un `<a>` à l'apparence de bouton (désactivé, il perd son `href` et porte `aria-disabled`), `fullWidth` pour occuper toute la largeur du conteneur (`bui-button--full-width`). Le bouton icône accepte aussi `nav`.
 - **Puce** : lien (`href`) ou bouton, `aria-current="page"` pour la puce courante (`current` dans la référence), `removable` pour un filtre actif (icône et « Retirer le filtre : » masqué). Une suite de puces va dans `<ul class="bui-chip-list" role="list">`.
-- **Bouton-lien** : un `<button>` à l'apparence de lien, pour une action discrète (« Tout effacer »).
+- **Bouton-lien** : un `<button>` à l'apparence de lien, pour une action discrète (« Tout effacer »). `fullWidth` lui fait occuper toute la largeur du conteneur (`bui-link--full-width`).
+- **Champ texte et zone de texte** : `placeholder` pour un exemple de saisie, en complément du libellé, jamais à sa place.
 - **Alerte** : `action` (HTML dans la référence, `ReactNode` en React, slot `action` en Vue) pour un bouton « Réessayer ».
 - **Icône** : `label` pour une icône porteuse de sens (`role="img"`), `size` (`sm`, `md`, `lg`, sinon 1em).
 - **Carte** : `.bui-card__media` accepte une `<img>` ou une `<picture>`.
