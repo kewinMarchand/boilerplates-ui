@@ -7,7 +7,7 @@ import { ICON_NAMES, IconButton as ReactIconButton, type IconName } from '@kewin
 import { IconButton as VueIconButton } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
-import { defined, grid, OVERVIEW } from './support/grid'
+import { defined, grid, OVERVIEW, surFond } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -67,10 +67,15 @@ export const ToutesLesVariantes: Story = {
     ),
 }
 
-export const Html: Story = { name: 'HTML', render: (args) => iconButton(defined(args)) }
+export const Html: Story = {
+  name: 'HTML',
+  render: (args) => surFond(args.variant, iconButton(defined(args))),
+}
 export const React: Story = {
-  render: (args) => mountReact(createElement(ReactIconButton, defined(args))),
+  render: (args) =>
+    surFond(args.variant, mountReact(createElement(ReactIconButton, defined(args)))),
 }
 export const Vue: Story = {
-  render: (args) => mountVue({ render: () => h(VueIconButton, defined(args)) }),
+  render: (args) =>
+    surFond(args.variant, mountVue({ render: () => h(VueIconButton, defined(args)) })),
 }

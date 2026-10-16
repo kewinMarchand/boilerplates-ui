@@ -7,7 +7,7 @@ import { Button as ReactButton, ICON_NAMES, type IconName } from '@kewinmarchand
 import { Button as VueButton } from '@kewinmarchand/vue'
 
 import { mountReact, mountVue } from './support/frameworks'
-import { defined, grid, OVERVIEW, sections } from './support/grid'
+import { defined, grid, OVERVIEW, sections, surFond } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -124,13 +124,23 @@ export const ToutesLesVariantes: Story = {
     ),
 }
 
-export const Html: Story = { name: 'HTML', render: (args) => button(defined(args)) }
+export const Html: Story = {
+  name: 'HTML',
+  render: (args) => surFond(args.variant, button(defined(args))),
+}
 
 export const React: Story = {
   render: (args) => {
     const { label, current, ...props } = defined(args)
-    return mountReact(
-      createElement(ReactButton, { ...props, 'aria-current': current ? 'page' : undefined }, label),
+    return surFond(
+      args.variant,
+      mountReact(
+        createElement(
+          ReactButton,
+          { ...props, 'aria-current': current ? 'page' : undefined },
+          label,
+        ),
+      ),
     )
   },
 }
@@ -138,13 +148,16 @@ export const React: Story = {
 export const Vue: Story = {
   render: (args) => {
     const { label, current, ...props } = defined(args)
-    return mountVue({
-      render: () =>
-        h(
-          VueButton,
-          { ...props, 'aria-current': current ? 'page' : undefined },
-          { default: () => label },
-        ),
-    })
+    return surFond(
+      args.variant,
+      mountVue({
+        render: () =>
+          h(
+            VueButton,
+            { ...props, 'aria-current': current ? 'page' : undefined },
+            { default: () => label },
+          ),
+      }),
+    )
   },
 }

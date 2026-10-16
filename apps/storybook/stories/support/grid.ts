@@ -23,6 +23,30 @@ export interface GridRow {
 export const PHOTO_BACKGROUND =
   'background-image: linear-gradient(rgb(0 0 0 / 0.45), rgb(0 0 0 / 0.45)), url(randonnee.webp)'
 
+/** Variantes faites pour un fond primaire ou une photo : sans ce fond, elles sont invisibles sur le plan de travail blanc. */
+const FONDS: Record<string, 'dark' | 'photo'> = {
+  inverse: 'dark',
+  nav: 'dark',
+  light: 'photo',
+  'outline-light': 'photo',
+}
+
+/** Pose le rendu d'une histoire sur le fond attendu par sa variante (même cellule que la grille « Toutes les variantes »). */
+export function surFond(variant: string | undefined, rendu: string): string
+export function surFond(variant: string | undefined, rendu: HTMLElement): HTMLElement
+export function surFond(variant: string | undefined, rendu: string | HTMLElement) {
+  const fond = variant ? FONDS[variant] : undefined
+  if (!fond) return rendu
+  const classe = `sb-cell sb-cell--${fond}`
+  const style = fond === 'photo' ? PHOTO_BACKGROUND : ''
+  if (typeof rendu === 'string') return `<div class="${classe}" style="${style}">${rendu}</div>`
+  const cellule = document.createElement('div')
+  cellule.className = classe
+  cellule.setAttribute('style', style)
+  cellule.append(rendu)
+  return cellule
+}
+
 export const grid = (caption: string, columns: (GridColumn | string)[], rows: GridRow[]) => {
   const cols = columns.map((column) => (typeof column === 'string' ? { label: column } : column))
   const head = cols.map((column) => `<th scope="col">${column.label}</th>`).join('')
