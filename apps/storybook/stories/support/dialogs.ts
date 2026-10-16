@@ -12,20 +12,24 @@ import { Button as VueButton, Drawer as VueDrawer, Modal as VueModal } from '@ke
 
 /** Démonstrations communes à la modale et au tiroir : un déclencheur, un titre, un texte, deux actions. */
 export interface DialogArgs {
+  id: string
   trigger: string
   title: string
   text: string
   confirm: string
   closeLabel: string
-  side: 'start' | 'end'
+  side?: 'start' | 'end' | undefined
+  onClose?: () => void
 }
 
 export const DIALOG_ARG_TYPES = {
+  id: { control: 'text', description: 'Identifiant du dialog, préfixe de celui du titre' },
   trigger: { control: 'text', description: 'Libellé du déclencheur' },
   title: { control: 'text' },
   text: { control: 'text' },
   confirm: { control: 'text', description: 'Action principale du pied' },
   closeLabel: { control: 'text', description: 'Nom accessible du bouton de fermeture' },
+  onClose: { action: 'close', description: 'React et Vue, à chaque fermeture' },
 } as const
 
 export const openWithTrigger = ({ canvasElement }: { canvasElement: HTMLElement }) => {
@@ -39,9 +43,10 @@ export const dialogHtml = (id: string, args: DialogArgs, isDrawer: boolean) => {
     closeLabel: args.closeLabel,
     body: `<p>${args.text}</p>`,
     footer: `<button type="button" class="bui-button bui-button--outline" data-bui-modal-close>Annuler</button><button type="button" class="bui-button" data-bui-modal-close>${args.confirm}</button>`,
+    ...(args.side ? { side: args.side } : {}),
   }
   return `<button type="button" class="bui-button" data-bui-modal-open="${id}">${args.trigger}</button>${
-    isDrawer ? drawer({ ...options, side: args.side }) : modal(options)
+    isDrawer ? drawer(options) : modal(options)
   }`
 }
 
@@ -52,12 +57,15 @@ export const ReactDialogDemo = ({ args, isDrawer }: { args: DialogArgs; isDrawer
     createElement(ReactButton, { key: 'trigger', onClick: () => setOpen(true) }, args.trigger),
     createElement(isDrawer ? ReactDrawer : ReactModal, {
       key: 'dialog',
-      id: isDrawer ? 'tiroir-react' : 'modale-react',
+      id: args.id,
       title: args.title,
       closeLabel: args.closeLabel,
-      ...(isDrawer ? { side: args.side } : {}),
+      ...(args.side ? { side: args.side } : {}),
       open,
-      onClose: close,
+      onClose: () => {
+        args.onClose?.()
+        close()
+      },
       footer: [
         createElement(
           ReactButton,
@@ -82,12 +90,15 @@ export const vueDialogDemo = (args: DialogArgs, isDrawer: boolean) =>
       h(
         isDrawer ? VueDrawer : VueModal,
         {
-          id: isDrawer ? 'tiroir-vue' : 'modale-vue',
+          id: args.id,
           title: args.title,
           closeLabel: args.closeLabel,
-          ...(isDrawer ? { side: args.side } : {}),
+          ...(args.side ? { side: args.side } : {}),
           open: open.value,
-          onClose: close,
+          onClose: () => {
+            args.onClose?.()
+            close()
+          },
         },
         {
           default: () => h('p', args.text),

@@ -16,6 +16,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 const meta: Meta<DialogArgs> = {
   title: 'Superpositions/Tiroir',
   args: {
+    id: 'filtres',
     trigger: 'Ouvrir les filtres',
     title: 'Filtres',
     text: 'Affiner la liste par catégorie, prix et disponibilité.',
@@ -50,10 +51,10 @@ export const ToutesLesVariantes: Story = {
 
 export const Ferme: Story = {
   name: 'HTML et vanilla',
-  render: (args) => dialogHtml('filtres', args, true),
+  render: (args) => dialogHtml(args.id, args, true),
 }
 export const Ouvert: Story = {
-  render: (args) => dialogHtml('filtres', args, true),
+  render: (args) => dialogHtml(args.id, args, true),
   play: openWithTrigger,
 }
 export const ReactOuvert: Story = {

@@ -23,6 +23,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 interface Args {
   message: string
   variant: NonNullable<ToastOptions['variant']>
+  onClose?: (id: string) => void
 }
 
 const meta: Meta<Args> = {
@@ -35,6 +36,7 @@ const meta: Meta<Args> = {
       options: Object.keys(TOAST_VARIANTS),
       description: 'status pour info et succès, alert sinon',
     },
+    onClose: { action: 'close', description: 'React et Vue, identifiant du toast fermé' },
   },
 }
 export default meta
@@ -78,45 +80,68 @@ export const Html: Story = {
     root.innerHTML = `<div class="sb-stack"><button type="button" class="bui-button">Enregistrer</button><button type="button" class="bui-button bui-button--outline">Provoquer une erreur</button></div>${toaster()}`
     const toasterElement = root.querySelector<HTMLElement>('[data-bui-toaster]')!
     const [show, error] = root.querySelectorAll('button')
-    show?.addEventListener('click', () => showToast(toasterElement, args))
+    show?.addEventListener('click', () =>
+      showToast(toasterElement, { message: args.message, variant: args.variant }),
+    )
     error?.addEventListener('click', () => showToast(toasterElement, ERROR))
     return root
   },
 }
 
-const ReactDemo = ({ args }: { args: Args }) => {
+const ReactDemo = ({ args: { message, variant, onClose } }: { args: Args }) => {
   const { toasts, show, close } = useReactToaster()
   return createElement('div', null, [
     createElement('div', { key: 'actions', className: 'sb-stack' }, [
-      createElement(ReactButton, { key: 'ok', onClick: () => show(args) }, 'Enregistrer'),
+      createElement(
+        ReactButton,
+        { key: 'ok', onClick: () => show({ message, variant }) },
+        'Enregistrer',
+      ),
       createElement(
         ReactButton,
         { key: 'ko', variant: 'outline', onClick: () => show(ERROR) },
         'Provoquer une erreur',
       ),
     ]),
-    createElement(ReactToaster, { key: 'toaster', toasts, onClose: close }),
+    createElement(ReactToaster, {
+      key: 'toaster',
+      toasts,
+      onClose: (id: string) => {
+        onClose?.(id)
+        close(id)
+      },
+    }),
   ])
 }
 
 export const React: Story = { render: (args) => mountReact(createElement(ReactDemo, { args })) }
 
 export const Vue: Story = {
-  render: (args) =>
+  render: ({ message, variant, onClose }) =>
     mountVue(
       defineComponent(() => {
         const { toasts, show, close } = useVueToaster()
         return () =>
           h('div', [
             h('div', { class: 'sb-stack' }, [
-              h(VueButton, { onClick: () => show(args) }, { default: () => 'Enregistrer' }),
+              h(
+                VueButton,
+                { onClick: () => show({ message, variant }) },
+                { default: () => 'Enregistrer' },
+              ),
               h(
                 VueButton,
                 { variant: 'outline', onClick: () => show(ERROR) },
                 { default: () => 'Provoquer une erreur' },
               ),
             ]),
-            h(VueToaster, { toasts: toasts.value, onClose: close }),
+            h(VueToaster, {
+              toasts: toasts.value,
+              onClose: (id: string) => {
+                onClose?.(id)
+                close(id)
+              },
+            }),
           ])
       }),
     ),

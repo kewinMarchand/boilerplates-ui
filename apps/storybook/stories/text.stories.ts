@@ -38,7 +38,7 @@ const meta: Meta<TextOptions> = {
     variant: { control: 'select', options: Object.keys(VARIANTS) },
     as: {
       control: 'select',
-      options: ['défaut', 'h1', 'h2', 'h3', 'h4', 'p', 'span'],
+      options: ['défaut', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div'],
       mapping: { défaut: undefined },
       description: 'Élément rendu, quand le niveau de titre de la page diffère du style voulu',
     },

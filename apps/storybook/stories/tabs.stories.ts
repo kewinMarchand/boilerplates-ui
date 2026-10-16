@@ -12,6 +12,7 @@ import { grid, OVERVIEW } from './support/grid'
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
 interface Args {
+  id: string
   label: string
   selected: 'description' | 'caracteristiques' | 'avis'
 }
@@ -22,7 +23,7 @@ const TABS = [
   { id: 'avis', label: 'Avis', text: 'Note moyenne 4,6 sur 5.' },
 ]
 
-const html = (id: string, { label, selected }: Args) =>
+const html = (id: string, { label, selected }: Omit<Args, 'id'>) =>
   tabs({
     id,
     label,
@@ -36,10 +37,15 @@ const html = (id: string, { label, selected }: Args) =>
 
 const meta: Meta<Args> = {
   title: 'Navigation/Onglets',
-  args: { label: 'Fiche produit', selected: 'description' },
+  args: { id: 'fiche', label: 'Fiche produit', selected: 'description' },
   argTypes: {
+    id: { control: 'text', description: 'Préfixe des identifiants des onglets et des panneaux' },
     label: { control: 'text', description: 'Nom accessible de la liste' },
-    selected: { control: 'select', options: TABS.map((tab) => tab.id) },
+    selected: {
+      control: 'select',
+      options: TABS.map((tab) => tab.id),
+      description: 'Onglet sélectionné au départ (defaultTab en React et Vue)',
+    },
   },
 }
 export default meta
@@ -71,14 +77,14 @@ export const ToutesLesVariantes: Story = {
     ),
 }
 
-export const Html: Story = { name: 'HTML et vanilla', render: (args) => html('fiche', args) }
+export const Html: Story = { name: 'HTML et vanilla', render: (args) => html(args.id, args) }
 
 export const React: Story = {
-  render: ({ label, selected }) =>
+  render: ({ id, label, selected }) =>
     mountReact(
       createElement(ReactTabs, {
         key: selected,
-        id: 'fiche-react',
+        id,
         label,
         defaultTab: selected,
         tabs: TABS.map(({ id, label: tabLabel, text }) => ({
@@ -91,13 +97,13 @@ export const React: Story = {
 }
 
 export const Vue: Story = {
-  render: ({ label, selected }) =>
+  render: ({ id, label, selected }) =>
     mountVue({
       render: () =>
         h(
           VueTabs,
           {
-            id: 'fiche-vue',
+            id,
             label,
             defaultTab: selected,
             tabs: TABS.map(({ id, label: tabLabel }) => ({ id, label: tabLabel })),

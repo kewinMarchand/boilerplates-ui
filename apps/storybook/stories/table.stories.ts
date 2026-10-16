@@ -18,9 +18,11 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 type Sort = { key: string; direction: SortDirection } | undefined
 
 interface Args {
+  id: string
   caption: string
   sortKey: 'aucun' | 'produit' | 'prix' | 'stock'
   direction: SortDirection
+  onSort?: (key: string) => void
 }
 
 const COLUMNS = [
@@ -66,8 +68,9 @@ const options = (id: string, caption: string, sort: Sort): TableOptions => ({
 
 const meta: Meta<Args> = {
   title: 'Affichage/Tableau',
-  args: { caption: 'Stock des produits', sortKey: 'aucun', direction: 'ascending' },
+  args: { id: 'stock', caption: 'Stock des produits', sortKey: 'aucun', direction: 'ascending' },
   argTypes: {
+    id: { control: 'text', description: 'Préfixe de l’identifiant de la légende' },
     caption: { control: 'text' },
     sortKey: {
       control: 'select',
@@ -75,6 +78,7 @@ const meta: Meta<Args> = {
       description: 'Colonne triée au départ',
     },
     direction: { control: 'select', options: ['ascending', 'descending'] },
+    onSort: { action: 'sort', description: 'React et Vue, clé de la colonne' },
   },
 }
 export default meta
@@ -111,15 +115,18 @@ export const ToutesLesVariantes: Story = {
 
 export const Html: Story = {
   name: 'HTML et vanilla',
-  render: (args) => table(options('stock', args.caption, toSort(args))),
+  render: (args) => table(options(args.id, args.caption, toSort(args))),
 }
 
 const ReactDemo = ({ args }: { args: Args }) => {
   const [sort, setSort] = useState<Sort>(toSort(args))
   return createElement(ReactTable, {
-    ...options('stock-react', args.caption, sort),
+    ...options(args.id, args.caption, sort),
     sort,
-    onSort: (key: string) => setSort((current) => nextSort(current, key)),
+    onSort: (key: string) => {
+      args.onSort?.(key)
+      setSort((current) => nextSort(current, key))
+    },
   })
 }
 
@@ -135,9 +142,12 @@ export const Vue: Story = {
         const sort = ref<Sort>(toSort(args))
         return () =>
           h(VueTable, {
-            ...options('stock-vue', args.caption, sort.value),
+            ...options(args.id, args.caption, sort.value),
             sort: sort.value,
-            onSort: (key: string) => (sort.value = nextSort(sort.value, key)),
+            onSort: (key: string) => {
+              args.onSort?.(key)
+              sort.value = nextSort(sort.value, key)
+            },
           })
       }),
     ),

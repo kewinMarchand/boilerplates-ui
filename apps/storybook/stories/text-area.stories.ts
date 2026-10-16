@@ -12,22 +12,32 @@ import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta<TextAreaOptions> = {
+type Args = TextAreaOptions & { placeholder?: string; onChange?: () => void }
+
+const meta: Meta<Args> = {
   title: 'Formulaire/Zone de texte',
   args: {
     id: 'message',
     label: 'Message',
     rows: 4,
+    placeholder: 'Votre message',
     hint: '',
     error: '',
     required: false,
     disabled: false,
   },
-  argTypes: { ...FIELD_ARG_TYPES, rows: { control: { type: 'number', min: 2, max: 12 } } },
+  argTypes: {
+    ...FIELD_ARG_TYPES,
+    rows: { control: { type: 'number', min: 2, max: 12 } },
+    placeholder: {
+      control: 'text',
+      description: 'Attribut natif, React et Vue (absent du balisage de référence)',
+    },
+  },
 }
 export default meta
 
-type Story = StoryObj<TextAreaOptions>
+type Story = StoryObj<Args>
 
 export const ToutesLesVariantes: Story = {
   name: 'Toutes les variantes',

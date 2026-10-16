@@ -11,7 +11,9 @@ import { defined, grid, OVERVIEW, sections } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta<ChipOptions> = {
+type Args = ChipOptions & { onClick?: () => void }
+
+const meta: Meta<Args> = {
   title: 'Actions/Puce',
   args: { label: 'Mi-ombre', href: '#catalogue', current: false, removable: true },
   argTypes: {
@@ -24,11 +26,12 @@ const meta: Meta<ChipOptions> = {
     },
     current: { control: 'boolean', description: 'aria-current="page", avec href seulement' },
     removable: { control: 'boolean', description: 'Filtre actif, retiré au clic' },
+    onClick: { action: 'click', description: 'React et Vue' },
   },
 }
 export default meta
 
-type Story = StoryObj<ChipOptions>
+type Story = StoryObj<Args>
 
 const list = (label: string, ...chips: string[]) =>
   `<ul class="bui-chip-list" role="list" aria-label="${label}">${chips.map((item) => `<li>${item}</li>`).join('')}</ul>`
@@ -81,13 +84,18 @@ export const Html: Story = { name: 'HTML', render: (args) => chip(defined(args))
 
 export const React: Story = {
   render: (args) => {
-    const { label, href, current, removable } = defined(args)
+    const { label, href, current, removable, onClick } = defined(args)
     return mountReact(
       href === undefined
-        ? createElement(ReactChip, { removable: removable ?? false }, label)
+        ? createElement(ReactChip, { removable: removable ?? false, onClick }, label)
         : createElement(
             ReactChip,
-            { href, removable: removable ?? false, 'aria-current': current ? 'page' : undefined },
+            {
+              href,
+              removable: removable ?? false,
+              'aria-current': current ? 'page' : undefined,
+              onClick,
+            },
             label,
           ),
     )
@@ -96,13 +104,17 @@ export const React: Story = {
 
 export const Vue: Story = {
   render: (args) => {
-    const { label, href, current, removable = false } = defined(args)
+    const { label, href, current, removable = false, onClick } = defined(args)
     const slots = { default: () => label }
     return mountVue({
       render: () =>
         href === undefined
-          ? h(VueChip, { removable }, slots)
-          : h(VueChip, { href, removable, 'aria-current': current ? 'page' : undefined }, slots),
+          ? h(VueChip, { removable, onClick }, slots)
+          : h(
+              VueChip,
+              { href, removable, 'aria-current': current ? 'page' : undefined, onClick },
+              slots,
+            ),
     })
   },
 }

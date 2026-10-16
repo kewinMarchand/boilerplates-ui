@@ -12,13 +12,15 @@ import { grid, OVERVIEW, uid } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
+type Args = RadioGroupOptions & { onChange?: () => void }
+
 const OPTIONS = [
   { value: 'domicile', label: 'À domicile' },
   { value: 'relais', label: 'En point relais' },
   { value: 'magasin', label: 'Retrait en magasin' },
 ]
 
-const meta: Meta<RadioGroupOptions> = {
+const meta: Meta<Args> = {
   title: 'Formulaire/Groupe de boutons radio',
   args: {
     id: 'livraison',
@@ -41,11 +43,15 @@ const meta: Meta<RadioGroupOptions> = {
     name: { control: 'text' },
     value: { control: 'select', options: OPTIONS.map((option) => option.value) },
     options: { control: 'object' },
+    onChange: {
+      action: 'change',
+      description: 'React : valeur choisie. Vue : évènement change natif du groupe',
+    },
   },
 }
 export default meta
 
-type Story = StoryObj<RadioGroupOptions>
+type Story = StoryObj<Args>
 
 const group = (options: Partial<RadioGroupOptions>) => {
   const id = uid('livraison')

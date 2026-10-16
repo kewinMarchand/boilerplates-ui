@@ -10,6 +10,7 @@ export const FIELD_ARG_TYPES = {
   error: { control: 'text', description: 'Message d’erreur, pose aria-invalid' },
   required: { control: 'boolean' },
   disabled: { control: 'boolean' },
+  onChange: { action: 'change', description: 'React et Vue' },
 } as const
 
 interface FieldState {

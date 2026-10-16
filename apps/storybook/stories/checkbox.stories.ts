@@ -12,7 +12,9 @@ import { grid, OVERVIEW, uid } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta<CheckboxOptions> = {
+type Args = CheckboxOptions & { onChange?: () => void }
+
+const meta: Meta<Args> = {
   title: 'Formulaire/Case à cocher',
   args: {
     id: 'lettre',
@@ -27,7 +29,7 @@ const meta: Meta<CheckboxOptions> = {
 }
 export default meta
 
-type Story = StoryObj<CheckboxOptions>
+type Story = StoryObj<Args>
 
 export const ToutesLesVariantes: Story = {
   name: 'Toutes les variantes',

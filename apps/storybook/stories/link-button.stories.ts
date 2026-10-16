@@ -11,17 +11,20 @@ import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta<LinkButtonOptions> = {
+type Args = LinkButtonOptions & { onClick?: () => void }
+
+const meta: Meta<Args> = {
   title: 'Actions/Bouton-lien',
   args: { label: 'Tout effacer', type: 'button' },
   argTypes: {
     label: { control: 'text', description: 'Texte du bouton' },
     type: { control: 'select', options: ['button', 'submit', 'reset'] },
+    onClick: { action: 'click', description: 'React et Vue' },
   },
 }
 export default meta
 
-type Story = StoryObj<LinkButtonOptions>
+type Story = StoryObj<Args>
 
 export const ToutesLesVariantes: Story = {
   name: 'Toutes les variantes',
@@ -42,13 +45,13 @@ export const ToutesLesVariantes: Story = {
 export const Html: Story = { name: 'HTML', render: (args) => linkButton(args) }
 
 export const React: Story = {
-  render: ({ label, type }) =>
-    mountReact(createElement(ReactLinkButton, { type: type ?? 'button' }, label)),
+  render: ({ label, type, onClick }) =>
+    mountReact(createElement(ReactLinkButton, { type: type ?? 'button', onClick }, label)),
 }
 
 export const Vue: Story = {
-  render: ({ label, type }) =>
+  render: ({ label, type, onClick }) =>
     mountVue({
-      render: () => h(VueLinkButton, { type: type ?? 'button' }, { default: () => label }),
+      render: () => h(VueLinkButton, { type: type ?? 'button', onClick }, { default: () => label }),
     }),
 }

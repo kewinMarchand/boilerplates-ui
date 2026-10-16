@@ -12,8 +12,10 @@ import { grid, OVERVIEW } from './support/grid'
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
 interface Args {
+  id: string
   label: string
   items: string
+  onSelect?: (id: string) => void
 }
 
 const toItems = (items: string) =>
@@ -25,10 +27,12 @@ const toItems = (items: string) =>
 
 const meta: Meta<Args> = {
   title: 'Superpositions/Menu déroulant',
-  args: { label: 'Actions', items: 'Modifier, Dupliquer, Archiver' },
+  args: { id: 'actions', label: 'Actions', items: 'Modifier, Dupliquer, Archiver' },
   argTypes: {
+    id: { control: 'text', description: 'Préfixe des identifiants du bouton et de la liste' },
     label: { control: 'text' },
     items: { control: 'text', description: 'Éléments séparés par des virgules' },
+    onSelect: { action: 'select', description: 'React et Vue, identifiant de l’élément' },
   },
 }
 export default meta
@@ -72,11 +76,10 @@ export const ToutesLesVariantes: Story = {
 
 export const Html: Story = {
   name: 'HTML et vanilla',
-  render: (args) => space(menu({ id: 'actions', label: args.label, items: toItems(args.items) })),
+  render: (args) => space(menu({ id: args.id, label: args.label, items: toItems(args.items) })),
 }
 export const Ouvert: Story = {
-  render: (args) =>
-    space(menu({ id: 'actions-ouvert', label: args.label, items: toItems(args.items) })),
+  render: (args) => space(menu({ id: args.id, label: args.label, items: toItems(args.items) })),
   play: ({ canvasElement }) =>
     canvasElement.querySelector<HTMLButtonElement>('.bui-menu__trigger')?.click(),
 }
@@ -85,10 +88,10 @@ export const React: Story = {
     space(
       mountReact(
         createElement(ReactMenu, {
-          id: 'actions-react',
+          id: args.id,
           label: args.label,
           items: toItems(args.items),
-          onSelect: () => {},
+          onSelect: (id: string) => args.onSelect?.(id),
         }),
       ),
     ),
@@ -98,7 +101,12 @@ export const Vue: Story = {
     space(
       mountVue({
         render: () =>
-          h(VueMenu, { id: 'actions-vue', label: args.label, items: toItems(args.items) }),
+          h(VueMenu, {
+            id: args.id,
+            label: args.label,
+            items: toItems(args.items),
+            onSelect: (id: string) => args.onSelect?.(id),
+          }),
       }),
     ),
 }

@@ -11,7 +11,9 @@ import { grid, OVERVIEW, uid } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta<SwitchOptions> = {
+type Args = SwitchOptions & { onChange?: () => void }
+
+const meta: Meta<Args> = {
   title: 'Formulaire/Interrupteur',
   args: { id: 'notifications', label: 'Notifications par e-mail', checked: false, disabled: false },
   argTypes: {
@@ -19,11 +21,12 @@ const meta: Meta<SwitchOptions> = {
     label: { control: 'text' },
     checked: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    onChange: { action: 'change', description: 'React et Vue' },
   },
 }
 export default meta
 
-type Story = StoryObj<SwitchOptions>
+type Story = StoryObj<Args>
 
 const item = (options: Partial<SwitchOptions>) =>
   switchControl({ id: uid('notif'), label: 'Notifications', ...options })

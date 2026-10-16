@@ -11,7 +11,7 @@ import { defined, grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-type Args = IconButtonOptions & { icon: IconName }
+type Args = IconButtonOptions & { icon: IconName; onClick?: () => void }
 
 const VARIANTS = {
   primary: 'Primaire',
@@ -30,6 +30,7 @@ const meta: Meta<Args> = {
     variant: { control: 'select', options: Object.keys(VARIANTS) },
     size: { control: 'select', options: ['sm', 'md'] },
     disabled: { control: 'boolean' },
+    onClick: { action: 'click', description: 'React et Vue' },
   },
 }
 export default meta

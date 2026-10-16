@@ -12,13 +12,16 @@ import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const meta: Meta<TextFieldOptions> = {
+type Args = TextFieldOptions & { placeholder?: string; onChange?: () => void }
+
+const meta: Meta<Args> = {
   title: 'Formulaire/Champ texte',
   args: {
     id: 'email',
     label: 'E-mail',
     type: 'email',
     autocomplete: 'email',
+    placeholder: 'nom@exemple.fr',
     hint: '',
     error: '',
     required: false,
@@ -28,11 +31,15 @@ const meta: Meta<TextFieldOptions> = {
     ...FIELD_ARG_TYPES,
     type: { control: 'select', options: ['text', 'email', 'tel', 'url', 'password', 'search'] },
     autocomplete: { control: 'text' },
+    placeholder: {
+      control: 'text',
+      description: 'Attribut natif, React et Vue (absent du balisage de référence)',
+    },
   },
 }
 export default meta
 
-type Story = StoryObj<TextFieldOptions>
+type Story = StoryObj<Args>
 
 export const ToutesLesVariantes: Story = {
   name: 'Toutes les variantes',

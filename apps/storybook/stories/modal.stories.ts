@@ -16,14 +16,22 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 const meta: Meta<DialogArgs> = {
   title: 'Superpositions/Modale',
   args: {
+    id: 'brouillon',
     trigger: 'Supprimer le brouillon',
     title: 'Supprimer le brouillon ?',
     text: 'Le brouillon sera définitivement supprimé. Cette action est irréversible.',
     confirm: 'Supprimer',
     closeLabel: 'Fermer',
-    side: 'end',
   },
-  argTypes: { ...DIALOG_ARG_TYPES, side: { table: { disable: true } } },
+  argTypes: {
+    ...DIALOG_ARG_TYPES,
+    side: {
+      control: 'select',
+      options: ['aucun', 'start', 'end'],
+      mapping: { aucun: undefined },
+      description: 'Tiroir latéral : la modale s’ouvre contre le bord indiqué',
+    },
+  },
 }
 export default meta
 
@@ -60,11 +68,11 @@ export const ToutesLesVariantes: Story = {
 
 export const Fermee: Story = {
   name: 'HTML et vanilla',
-  render: (args) => dialogHtml('brouillon', args, false),
+  render: (args) => dialogHtml(args.id, args, false),
 }
 export const Ouverte: Story = {
   name: 'Ouverte (HTML et vanilla)',
-  render: (args) => dialogHtml('brouillon', args, false),
+  render: (args) => dialogHtml(args.id, args, false),
   play: openWithTrigger,
 }
 export const ReactOuverte: Story = {

@@ -12,13 +12,15 @@ import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
+type Args = SelectOptions & { onChange?: () => void }
+
 const OPTIONS = [
   { value: 'fr', label: 'France' },
   { value: 'be', label: 'Belgique' },
   { value: 'ch', label: 'Suisse' },
 ]
 
-const meta: Meta<SelectOptions> = {
+const meta: Meta<Args> = {
   title: 'Formulaire/Liste déroulante',
   args: {
     id: 'pays',
@@ -38,7 +40,7 @@ const meta: Meta<SelectOptions> = {
 }
 export default meta
 
-type Story = StoryObj<SelectOptions>
+type Story = StoryObj<Args>
 
 export const ToutesLesVariantes: Story = {
   name: 'Toutes les variantes',

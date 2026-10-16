@@ -12,14 +12,16 @@ import { grid, OVERVIEW } from './support/grid'
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
 interface Args {
+  id: string
   text: string
   label: string
 }
 
 const meta: Meta<Args> = {
   title: 'Superpositions/Info-bulle',
-  args: { text: 'Supprime l’article du panier', label: 'Supprimer' },
+  args: { id: 'info-bulle', text: 'Supprime l’article du panier', label: 'Supprimer' },
   argTypes: {
+    id: { control: 'text', description: 'Identifiant de la bulle, visé par aria-describedby' },
     text: { control: 'text', description: 'Description, liée par aria-describedby' },
     label: { control: 'text', description: 'Nom accessible du déclencheur' },
   },
@@ -28,7 +30,7 @@ export default meta
 
 type Story = StoryObj<Args>
 
-const html = (id: string, { text, label }: Args) =>
+const html = (id: string, { text, label }: Omit<Args, 'id'>) =>
   tooltip({
     id,
     text,
@@ -65,15 +67,15 @@ export const ToutesLesVariantes: Story = {
 
 export const Html: Story = {
   name: 'HTML et vanilla',
-  render: (args) => padded(html('tip-html', args)),
+  render: (args) => padded(html(args.id, args)),
 }
 
 export const React: Story = {
-  render: ({ text, label }) =>
+  render: ({ id, text, label }) =>
     padded(
       mountReact(
         createElement(ReactTooltip, {
-          id: 'tip-react',
+          id,
           text,
           children: (describedBy: string) =>
             createElement(ReactIconButton, {
@@ -88,13 +90,13 @@ export const React: Story = {
 }
 
 export const Vue: Story = {
-  render: ({ text, label }) =>
+  render: ({ id, text, label }) =>
     padded(
       mountVue({
         render: () =>
           h(
             VueTooltip,
-            { id: 'tip-vue', text },
+            { id, text },
             {
               default: ({ describedBy }: { describedBy: string }) =>
                 h(VueIconButton, {
