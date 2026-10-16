@@ -318,6 +318,12 @@ const CASES: Case[] = [
     vue: () => h(V.TextField, { id: 'nom', label: 'Nom' }),
   },
   {
+    name: 'champ texte avec exemple de saisie',
+    reference: ref.textField({ id: 'ville', label: 'Ville', placeholder: 'Marseille' }),
+    react: r(R.TextField, { id: 'ville', label: 'Ville', placeholder: 'Marseille' }),
+    vue: () => h(V.TextField, { id: 'ville', label: 'Ville', placeholder: 'Marseille' }),
+  },
+  {
     name: 'champ texte requis, aide et erreur',
     reference: ref.textField({
       id: 'email',
@@ -525,6 +531,12 @@ const CASES: Case[] = [
     reference: ref.textArea({ id: 'note', label: 'Note', disabled: true }),
     react: r(R.TextArea, { id: 'note', label: 'Note', disabled: true }),
     vue: () => h(V.TextArea, { id: 'note', label: 'Note', disabled: true }),
+  },
+  {
+    name: 'zone de texte avec exemple de saisie',
+    reference: ref.textArea({ id: 'avis', label: 'Avis', placeholder: 'Votre avis' }),
+    react: r(R.TextArea, { id: 'avis', label: 'Avis', placeholder: 'Votre avis' }),
+    vue: () => h(V.TextArea, { id: 'avis', label: 'Avis', placeholder: 'Votre avis' }),
   },
   {
     name: 'liste déroulante',

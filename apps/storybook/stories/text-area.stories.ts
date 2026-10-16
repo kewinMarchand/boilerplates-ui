@@ -12,7 +12,7 @@ import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-type Args = TextAreaOptions & { placeholder?: string; onChange?: () => void }
+type Args = TextAreaOptions & { onChange?: () => void }
 
 const meta: Meta<Args> = {
   title: 'Formulaire/Zone de texte',
@@ -31,7 +31,7 @@ const meta: Meta<Args> = {
     rows: { control: { type: 'number', min: 2, max: 12 } },
     placeholder: {
       control: 'text',
-      description: 'Attribut natif, React et Vue (absent du balisage de référence)',
+      description: 'Exemple de saisie, jamais à la place du libellé',
     },
   },
 }

@@ -134,12 +134,19 @@ const field = (options: FieldOptions, control: string) =>
 export interface TextFieldOptions extends FieldOptions {
   type?: 'text' | 'email' | 'tel' | 'url' | 'password' | 'search'
   autocomplete?: string
+  /** Exemple de saisie, jamais à la place du libellé. */
+  placeholder?: string
 }
 
-export const textField = ({ type = 'text', autocomplete, ...options }: TextFieldOptions) =>
+export const textField = ({
+  type = 'text',
+  autocomplete,
+  placeholder,
+  ...options
+}: TextFieldOptions) =>
   field(
     options,
-    `<input${attributes({ class: 'bui-field__input', type, autocomplete, ...fieldControlAttributes(options) })}>`,
+    `<input${attributes({ class: 'bui-field__input', type, autocomplete, placeholder, ...fieldControlAttributes(options) })}>`,
   )
 
 export interface CheckboxOptions extends FieldOptions {
@@ -300,12 +307,14 @@ export const chip = ({ label, href, current, removable }: ChipOptions) => {
 
 export interface TextAreaOptions extends FieldOptions {
   rows?: number
+  /** Exemple de saisie, jamais à la place du libellé. */
+  placeholder?: string
 }
 
-export const textArea = ({ rows = 4, ...options }: TextAreaOptions) =>
+export const textArea = ({ rows = 4, placeholder, ...options }: TextAreaOptions) =>
   field(
     options,
-    `<textarea${attributes({ class: 'bui-field__input bui-field__input--multiline', rows: String(rows), ...fieldControlAttributes(options) })}></textarea>`,
+    `<textarea${attributes({ class: 'bui-field__input bui-field__input--multiline', rows: String(rows), placeholder, ...fieldControlAttributes(options) })}></textarea>`,
   )
 
 export interface SelectOptions extends FieldOptions {

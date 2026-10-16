@@ -12,7 +12,7 @@ import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-type Args = TextFieldOptions & { placeholder?: string; onChange?: () => void }
+type Args = TextFieldOptions & { onChange?: () => void }
 
 const meta: Meta<Args> = {
   title: 'Formulaire/Champ texte',
@@ -33,7 +33,7 @@ const meta: Meta<Args> = {
     autocomplete: { control: 'text' },
     placeholder: {
       control: 'text',
-      description: 'Attribut natif, React et Vue (absent du balisage de référence)',
+      description: 'Exemple de saisie, jamais à la place du libellé',
     },
   },
 }
