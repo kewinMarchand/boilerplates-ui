@@ -2,6 +2,16 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.8.0
+
+### Ajouté
+
+- Briques de mise en page (`stack()`, `cluster()`, `grid()`, `container()` dans la référence ; `Stack`, `Cluster`, `Grid`, `Container` en React et Vue) : empilement vertical, rangée qui passe à la ligne (`justify`, `align`), grille de colonnes adaptatives (`min` : `sm` 160 px, 220 px par défaut, `lg` 280 px) et conteneur large de la spec (1440 px, gouttières de 16, 24 puis 32 px). Balise au choix (`as`), espacement dans l'échelle des jetons (`gap`, classes `bui-gap-*`) ; une liste utilisée comme brique perd ses puces. En React, tous les attributs HTML et `className` passent à l'élément.
+
+### Storybook
+
+- Fondations : histoire « Mise en page » et sa carte dans la vue d'ensemble.
+
 ## 0.7.0
 
 ### Ajouté
