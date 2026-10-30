@@ -740,3 +740,64 @@ export const table = ({ id, caption, columns, rows, sort }: TableOptions) =>
           .join('')}</tr>`,
     )
     .join('')}</tbody></table></div>`
+
+/** Espacement des briques de mise en page, dans l'échelle des jetons (`--bui-space-*`). */
+export type Gap = '1' | '2' | '3' | '4' | '6' | '8' | '12'
+
+/** Balises qu'une brique de mise en page peut rendre. */
+export type LayoutTag =
+  | 'div'
+  | 'section'
+  | 'article'
+  | 'aside'
+  | 'header'
+  | 'footer'
+  | 'main'
+  | 'nav'
+  | 'form'
+  | 'ul'
+  | 'ol'
+
+export interface LayoutOptions {
+  /** Contenu HTML déjà rendu. */
+  content: string
+  as?: LayoutTag
+  gap?: Gap
+}
+
+const layout = (
+  base: string,
+  { content, as = 'div', gap }: LayoutOptions,
+  ...modifiers: (string | false | undefined)[]
+) =>
+  `<${as}${attributes({ class: classes(base, ...modifiers, gap && `bui-gap-${gap}`) })}>${content}</${as}>`
+
+/** Empilement vertical. */
+export const stack = (options: LayoutOptions) => layout('bui-stack', options)
+
+export interface ClusterOptions extends LayoutOptions {
+  justify?: 'between' | 'end'
+  align?: 'start'
+}
+
+/** Rangée qui passe à la ligne. */
+export const cluster = ({ justify, align, ...options }: ClusterOptions) =>
+  layout(
+    'bui-cluster',
+    options,
+    justify && `bui-cluster--${justify}`,
+    align && `bui-cluster--${align}`,
+  )
+
+export interface GridOptions extends LayoutOptions {
+  /** Largeur minimale d'une colonne : `sm` 160 px, 220 px par défaut, `lg` 280 px. */
+  min?: 'sm' | 'lg'
+}
+
+/** Grille de colonnes aussi nombreuses que la largeur le permet. */
+export const grid = ({ min, ...options }: GridOptions) =>
+  layout('bui-grid', options, min && `bui-grid--${min}`)
+
+/** Conteneur large de la page : 1440 px au plus, gouttières selon la largeur. */
+export const container = ({ content, as = 'div' }: Omit<LayoutOptions, 'gap'>) =>
+  `<${as} class="bui-container">${content}</${as}>`

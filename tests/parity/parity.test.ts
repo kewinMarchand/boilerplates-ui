@@ -845,6 +845,47 @@ const CASES: Case[] = [
       }),
   },
   {
+    name: 'empilement',
+    reference: ref.stack({ content: 'Contenu' }),
+    react: r(R.Stack, null, 'Contenu'),
+    vue: () => h(V.Stack, null, { default: () => 'Contenu' }),
+  },
+  {
+    name: 'empilement en section, espacement 6',
+    reference: ref.stack({ content: 'Contenu', as: 'section', gap: '6' }),
+    react: r(R.Stack, { as: 'section', gap: '6' }, 'Contenu'),
+    vue: () => h(V.Stack, { as: 'section', gap: '6' }, { default: () => 'Contenu' }),
+  },
+  {
+    name: 'rangée répartie, alignée en haut, espacement 3',
+    reference: ref.cluster({
+      content: 'Contenu',
+      as: 'nav',
+      gap: '3',
+      justify: 'between',
+      align: 'start',
+    }),
+    react: r(R.Cluster, { as: 'nav', gap: '3', justify: 'between', align: 'start' }, 'Contenu'),
+    vue: () =>
+      h(
+        V.Cluster,
+        { as: 'nav', gap: '3', justify: 'between', align: 'start' },
+        { default: () => 'Contenu' },
+      ),
+  },
+  {
+    name: 'grille en liste, colonnes larges, espacement 8',
+    reference: ref.grid({ content: 'Contenu', as: 'ul', gap: '8', min: 'lg' }),
+    react: r(R.Grid, { as: 'ul', gap: '8', min: 'lg' }, 'Contenu'),
+    vue: () => h(V.Grid, { as: 'ul', gap: '8', min: 'lg' }, { default: () => 'Contenu' }),
+  },
+  {
+    name: 'conteneur de page',
+    reference: ref.container({ content: 'Contenu', as: 'main' }),
+    react: r(R.Container, { as: 'main' }, 'Contenu'),
+    vue: () => h(V.Container, { as: 'main' }, { default: () => 'Contenu' }),
+  },
+  {
     name: 'fil d’Ariane',
     reference: ref.breadcrumb({ items: CRUMBS }),
     react: r(R.Breadcrumb, { items: CRUMBS }),

@@ -11,7 +11,7 @@ Bibliothèque de composants commune aux cinq boilerplates (Next et React, Nuxt e
 | `packages/vue`     | Composants Vue typés                                                                                                                        |
 | `apps/storybook`   | Storybook de démonstration et documentation des tokens                                                                                      |
 
-Composants disponibles : bouton, bouton icône, lien, bouton-lien, puce, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, tiroir, toast, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, séparateur, indicateur de chargement, squelette, avatar, icône.
+Composants disponibles : bouton, bouton icône, lien, bouton-lien, puce, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, tiroir, toast, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, séparateur, indicateur de chargement, squelette, avatar, icône. Briques de mise en page : empilement, rangée, grille et conteneur de page, avec un espacement pris dans l'échelle des jetons.
 
 Le Storybook (vue d'ensemble de chaque composant, contrôles en direct, mode renforcé, thème sombre et couleurs globales dans la barre d'outils) est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
 
