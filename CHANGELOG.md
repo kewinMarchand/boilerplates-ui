@@ -2,6 +2,16 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.10.0
+
+### Ajouté
+
+- Menu déroulant : option `triggerVariant` (variante du bouton déclencheur, `outline` par défaut, `nav` sur fond primaire comme dans un header) et attributs de test (`testId` du déclencheur, `testId` de chaque élément, rendus en `data-testid`). Référence, React et Vue.
+
+### Storybook
+
+- Menu déroulant : déclencheur sur fond primaire dans la grille des états.
+
 ## 0.9.0
 
 ### Ajouté
