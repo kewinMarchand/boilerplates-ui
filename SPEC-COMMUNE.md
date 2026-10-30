@@ -93,7 +93,7 @@ Seconde API au **contrat identique** : `~/Applications/hono-mongo-test-api` (Hon
 
 Depuis la section 18, les tests et Lighthouse tournent dans le conteneur : leurs ports (3100 à 3250, faux GlitchTip 3231) sont internes au conteneur, sauf pour Symfony, vanilla et Hono dont le service `node` ou `contract` est sur le réseau de la machine. Seul le port de dev est publié. Un port de dev pris par un autre service se déplace par variable (`DEV_PORT` en Next et Nuxt, `HTTP_PORT` en Symfony).
 
-Ports pris sur la machine de l'auteur par d'autres services, à ne pas réattribuer : 2283 (Immich), 3000 (autre projet), 3030 (Forgejo), 3090 (LibreChat), 3100 et 3101 (Paperclip), 4533 (Navidrome), 8000 (GlitchTip), 8010 (Kimai), 8020 (Dolibarr), 8025 (Mailpit), 8030 (Matomo), 8040 (Teable), 8065 (Mattermost), 8070 (code-server), 8080 (open-webui), 8081 (HortusFox), 8092 (ntfy), 8096 (Jellyfin), 8097 (Linkwarden), 8200 (Windmill), 8300 (Nextcloud), 8444 (ntfy Tailscale), 8888 (SearXNG), 9001 (Penpot), 34400 (xTeVe).
+Ports pris sur la machine de l'auteur par d'autres services, à ne pas réattribuer : 2283 (Immich), 3000 (autre projet), 3030 (Forgejo), 3090 (LibreChat), 3100 et 3101 (Paperclip), 4533 (Navidrome), 8000 (GlitchTip), 8010 (Kimai), 8020 (Dolibarr), 8025 (Mailpit), 8030 (Matomo), 8040 (Teable), 8065 (Mattermost), 8070 (code-server), 8080 (open-webui), 8081 (HortusFox), 8085 (Lighthouse CI), 8092 (ntfy), 8093 (IA locale), 8096 (Jellyfin), 8097 (Linkwarden), 8100 (Tolgee), 8105 (Documenso), 8110 (Formbricks), 8115 (Docmost), 8200 (Windmill), 8300 (Nextcloud), 8444 (ntfy Tailscale), 8888 (SearXNG), 9001 (Penpot), 34400 (xTeVe).
 
 ## 8. Logo, favicons et images de partage
 
