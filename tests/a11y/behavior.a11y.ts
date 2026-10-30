@@ -134,3 +134,26 @@ test('bouton en chargement : nom accessible avec son espace', async ({ page }) =
     await expect(page.getByRole('button', { name: 'Envoyer (chargement en cours)' })).toBeVisible()
   }
 })
+
+test('menu à choix cochés (vanilla) : le choix coche l’option et décoche les autres', async ({
+  page,
+}) => {
+  await story(page, 'superpositions-menu-déroulant--choix-coches')
+  const trigger = page.getByRole('button', { name: 'Thème : système' })
+  await trigger.click()
+  await expect(page.getByRole('menuitemradio', { name: 'Système' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  )
+  await page.getByRole('menuitemradio', { name: 'Sombre' }).click()
+  await expect(page.getByRole('menu')).toBeHidden()
+  await trigger.click()
+  await expect(page.getByRole('menuitemradio', { name: 'Sombre' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  )
+  await expect(page.getByRole('menuitemradio', { name: 'Système' })).toHaveAttribute(
+    'aria-checked',
+    'false',
+  )
+})

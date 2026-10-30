@@ -51,6 +51,16 @@
     cursor: pointer;
   }
 
+  /* Choix exclusifs : la coche garde sa place sur chaque option, visible sur l'option cochée seulement */
+  .bui-menu__check {
+    flex-shrink: 0;
+    margin-inline-end: var(--bui-space-2);
+  }
+
+  .bui-menu__item[aria-checked='false'] .bui-menu__check {
+    visibility: hidden;
+  }
+
   .bui-menu__item:is(:hover, .bui-is-hover) {
     background: var(--bui-color-primary-surface-subtle);
   }

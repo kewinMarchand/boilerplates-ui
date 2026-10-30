@@ -58,6 +58,11 @@ const MENU = [
   { id: 'modifier', label: 'Modifier' },
   { id: 'supprimer', label: 'Supprimer' },
 ]
+const THEMES = [
+  { id: 'auto', label: 'Système' },
+  { id: 'light', label: 'Clair' },
+  { id: 'dark', label: 'Sombre' },
+]
 const CRUMBS = [
   { label: 'Accueil', href: '/' },
   { label: 'Catalogue', href: '/catalogue' },
@@ -812,6 +817,32 @@ const CASES: Case[] = [
     reference: ref.menu({ id: 'actions', label: 'Actions', items: MENU }),
     react: r(R.Menu, { id: 'actions', label: 'Actions', items: MENU, onSelect: () => {} }),
     vue: () => h(V.Menu, { id: 'actions', label: 'Actions', items: MENU }),
+  },
+  {
+    name: 'menu déroulant à choix cochés, déclencheur en bouton icône',
+    reference: ref.menu({
+      id: 'theme',
+      label: 'Thème : sombre',
+      items: THEMES,
+      checked: 'dark',
+      triggerIcon: 'moon',
+    }),
+    react: r(R.Menu, {
+      id: 'theme',
+      label: 'Thème : sombre',
+      items: THEMES,
+      checked: 'dark',
+      triggerIcon: 'moon',
+      onSelect: () => {},
+    }),
+    vue: () =>
+      h(V.Menu, {
+        id: 'theme',
+        label: 'Thème : sombre',
+        items: THEMES,
+        checked: 'dark',
+        triggerIcon: 'moon',
+      }),
   },
   {
     name: 'fil d’Ariane',

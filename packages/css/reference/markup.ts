@@ -619,22 +619,38 @@ export interface MenuOptions {
   id: string
   label: string
   items: { id: string; label: string }[]
+  /** Identifiant de l'option cochée : les éléments deviennent des choix exclusifs (`menuitemradio`, `aria-checked`). */
+  checked?: string
+  /** Déclencheur en bouton icône : le libellé devient son nom accessible. */
+  triggerIcon?: string
   /** État ouvert, pour la documentation : en vrai, le comportement l'ouvre. */
   open?: boolean
 }
 
-export const menu = ({ id, label, items, open = false }: MenuOptions) =>
+export const menu = ({ id, label, items, checked, triggerIcon, open = false }: MenuOptions) =>
   `<div class="bui-menu" data-bui-menu><button${attributes({
     type: 'button',
-    class: 'bui-button bui-button--outline bui-menu__trigger',
+    class: classes(
+      'bui-button bui-button--outline',
+      triggerIcon && 'bui-button--icon',
+      'bui-menu__trigger',
+    ),
     id: `${id}-trigger`,
+    'aria-label': triggerIcon ? label : undefined,
     'aria-haspopup': 'menu',
     'aria-expanded': String(open),
     'aria-controls': `${id}-list`,
-  })}>${escape(label)}${icon('chevron-down')}</button><ul${attributes({ class: 'bui-menu__list', role: 'menu', id: `${id}-list`, 'aria-labelledby': `${id}-trigger`, hidden: !open })}>${items
+  })}>${triggerIcon ? icon(triggerIcon) : `${escape(label)}${icon('chevron-down')}`}</button><ul${attributes({ class: 'bui-menu__list', role: 'menu', id: `${id}-list`, 'aria-labelledby': `${id}-trigger`, hidden: !open })}>${items
     .map(
       (item) =>
-        `<li role="none"><button type="button" class="bui-menu__item" role="menuitem" tabindex="-1" data-bui-menu-item="${escape(item.id)}">${escape(item.label)}</button></li>`,
+        `<li role="none"><button${attributes({
+          type: 'button',
+          class: 'bui-menu__item',
+          role: checked === undefined ? 'menuitem' : 'menuitemradio',
+          'aria-checked': checked === undefined ? undefined : String(item.id === checked),
+          tabindex: '-1',
+          'data-bui-menu-item': item.id,
+        })}>${checked === undefined ? '' : icon('check', 'bui-menu__check')}${escape(item.label)}</button></li>`,
     )
     .join('')}</ul></div>`
 

@@ -25,6 +25,12 @@ const toItems = (items: string) =>
     .filter(Boolean)
     .map((label, index) => ({ id: `item-${index}`, label }))
 
+const THEMES = [
+  { id: 'auto', label: 'Système' },
+  { id: 'light', label: 'Clair' },
+  { id: 'dark', label: 'Sombre' },
+]
+
 const meta: Meta<Args> = {
   title: 'Superpositions/Menu déroulant',
   args: { id: 'actions', label: 'Actions', items: 'Modifier, Dupliquer, Archiver' },
@@ -70,6 +76,12 @@ export const ToutesLesVariantes: Story = {
             `<div style="min-height: 180px">${menu({ id: 'vue-ouvert', label: args.label, items: toItems(args.items), open: true })}</div>`,
           ],
         },
+        {
+          label: 'Choix cochés, bouton icône',
+          cells: [
+            `<div style="min-height: 180px">${menu({ id: 'vue-coches', label: 'Thème : sombre', items: THEMES, checked: 'dark', triggerIcon: 'moon', open: true })}</div>`,
+          ],
+        },
       ],
     ),
 }
@@ -77,6 +89,19 @@ export const ToutesLesVariantes: Story = {
 export const Html: Story = {
   name: 'HTML et vanilla',
   render: (args) => space(menu({ id: args.id, label: args.label, items: toItems(args.items) })),
+}
+export const ChoixCoches: Story = {
+  name: 'Choix cochés',
+  render: () =>
+    space(
+      menu({
+        id: 'theme',
+        label: 'Thème : système',
+        items: THEMES,
+        checked: 'auto',
+        triggerIcon: 'monitor',
+      }),
+    ),
 }
 export const Ouvert: Story = {
   render: (args) => space(menu({ id: args.id, label: args.label, items: toItems(args.items) })),

@@ -3,12 +3,18 @@ import { nextTick, onBeforeUnmount, ref, useTemplateRef, watch } from 'vue'
 
 import Icon from './Icon.vue'
 
+import type { IconName } from './iconNames'
+
 defineOptions({ name: 'BuiMenu' })
 
-const { items } = defineProps<{
+const { items, checked } = defineProps<{
   id: string
   label: string
   items: { id: string; label: string }[]
+  /** Identifiant de l'option cochée : les éléments deviennent des choix exclusifs (`menuitemradio`, `aria-checked`). */
+  checked?: string
+  /** Déclencheur en bouton icône : le libellé devient son nom accessible. */
+  triggerIcon?: IconName
 }>()
 
 const emit = defineEmits<{ select: [id: string] }>()
@@ -74,14 +80,20 @@ const toggle = () => (open.value ? close() : void openAt(0))
       :id="`${id}-trigger`"
       ref="trigger"
       type="button"
-      class="bui-button bui-button--outline bui-menu__trigger"
+      :class="[
+        'bui-button bui-button--outline',
+        triggerIcon && 'bui-button--icon',
+        'bui-menu__trigger',
+      ]"
+      :aria-label="triggerIcon ? label : undefined"
       aria-haspopup="menu"
       :aria-expanded="open ? 'true' : 'false'"
       :aria-controls="`${id}-list`"
       @click="toggle"
       @keydown="onTriggerKeyDown"
     >
-      {{ label }}<Icon name="chevron-down" />
+      <Icon v-if="triggerIcon" :name="triggerIcon" />
+      <template v-else>{{ label }}<Icon name="chevron-down" /></template>
     </button>
     <ul
       :id="`${id}-list`"
@@ -95,11 +107,13 @@ const toggle = () => (open.value ? close() : void openAt(0))
           :ref="(element) => (buttons[index] = element as HTMLButtonElement | undefined)"
           type="button"
           class="bui-menu__item"
-          role="menuitem"
+          :role="checked === undefined ? 'menuitem' : 'menuitemradio'"
+          :aria-checked="checked === undefined ? undefined : item.id === checked ? 'true' : 'false'"
           tabindex="-1"
           @click="choose(item.id)"
           @keydown="onItemKeyDown($event, index)"
         >
+          <Icon v-if="checked !== undefined" name="check" class="bui-menu__check" />
           {{ item.label }}
         </button>
       </li>
