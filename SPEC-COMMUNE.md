@@ -10,7 +10,7 @@ Médias partagés, à copier dans les assets publics du dépôt sous `images/` (
 ## 1. Layout
 
 - Wrapper racine en `display: flex; flex-direction: column; min-height: 100vh`, `<main>` en `flex-grow: 1` : le footer reste collé en bas. Test e2e sur la 404 (bas du footer = bas du viewport, desktop et mobile).
-- **Conteneur large** : largeur max du contenu **1440 px** (token unique, ex. MUI `maxWidth="xl"` ou breakpoint personnalisé), gouttières 16 px mobile, 24 px tablette, 32 px desktop. Le header, le main et le footer partagent ce conteneur.
+- **Conteneur large** : largeur max du contenu **1440 px** (token unique des jetons de boilerplates-ui), gouttières 16 px mobile, 24 px tablette, 32 px desktop. Le header, le main et le footer partagent ce conteneur.
 - **Le mode renforcé ne doit jamais casser le layout** : header qui passe à la ligne proprement (nav et toggle en `flex-wrap`, menu qui reste utilisable), aucun débordement horizontal. Test e2e obligatoire, dans les deux modes, à 375, 768 et 1280 px de large, sur chaque route : `document.documentElement.scrollWidth <= window.innerWidth`. Captures d'écran Playwright de l'accueil dans les deux modes et aux trois largeurs, à regarder réellement (Read sur le PNG) avant de déclarer fini.
 - Header : skip link, nom du site, nav principale (`aria-current="page"`), bouton du mode accessibilité renforcée (section 4).
 - Footer : `<nav aria-label="Liens légaux">` vers les 4 pages légales, puis nom du site.
@@ -276,7 +276,7 @@ Dépôt public `kewinMarchand/boilerplates-ui`, monorepo, avec un Storybook de d
 
 - **Périmètre : tous les composants de base d'une interface**, sans se demander ce que MUI, Vuetify ou Tailwind fournissent déjà. Au minimum : bouton, bouton icône, lien, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio, interrupteur, groupe de champs avec légende et message d'erreur, carte, badge, alerte, toast, modale, tiroir, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, indicateur de chargement, squelette, avatar, séparateur, icône (sprite Lucide de la section 17).
 - **Couches**, une par paquet du monorepo :
-  - `tokens` : couleurs, espacements, typographie, rayons, ombres, points de rupture, en variables CSS et en JSON, avec les adaptateurs thème MUI, thème Vuetify et preset Tailwind ;
+  - `tokens` : couleurs, espacements, typographie, rayons, ombres, points de rupture, en variables CSS et en JSON, avec le preset Tailwind ;
   - `css` : chaque composant en HTML et CSS seuls, rendu serveur partout, utilisable tel quel par Twig, vanilla et Svelte ;
   - `vanilla` : le comportement des composants interactifs en JavaScript natif (éléments `<dialog>`, `<details>`, API Popover d'abord), sans dépendance ;
   - `react` et `vue` : des composants typés qui produisent exactement le balisage de `css` et branchent le comportement à la manière du framework.
@@ -284,6 +284,6 @@ Dépôt public `kewinMarchand/boilerplates-ui`, monorepo, avec un Storybook de d
 - **Storybook** : une histoire par composant et par état (normal, survol, focus, désactivé, erreur, chargement), en mode standard et renforcé, documentation des tokens, publié en site statique (GitHub Pages).
 - **Les chartes graphiques des 5 boilerplates sont conservées** (section 14).
 - **Distribution** : paquets npm publics sous `@kewinmarchand/` (connexion npm de Kewin requise pour publier). En attendant, dépendance git par étiquette de version.
-- **Intégration** : un boilerplate à la fois, chacun garde son kit natif et consomme les tokens et les composants qui lui manquent.
+- **Intégration** : aucun kit de composants tiers (décision du 30/10/2026, MUI et Vuetify retirés) : chaque boilerplate prend ses composants dans boilerplates-ui, en React pour Next, en Vue pour Nuxt, en CSS et vanilla pour SvelteKit, Symfony et le site HTML ; Tailwind reste un outil de style dans SvelteKit, branché sur les jetons. Un boilerplate à la fois. Les dépôts modèles gardent leur nom (`next-mui-query-boilerplate`, `nuxt-vuetify-query-boilerplate`), cité par les outils qui créent les projets ; les projets déjà créés à partir d'eux gardent leur kit, une migration se décide projet par projet.
 - **Composant manquant** : il entre d'abord dans la bibliothèque (CSS et balisage de référence, React, Vue, comportement vanilla si besoin, test de parité), puis dans le Storybook (variantes, états, modes standard, renforcé et sombre, axe), sort dans une version étiquetée, est intégré aux boilerplates, et enfin importé par le projet qui en a besoin. Jamais de composant écrit seulement dans un boilerplate ou un projet en attendant.
 - Mêmes règles que les boilerplates : conteneur seul prérequis (section 18), `make`, CI, aucune mention de l'employeur.
