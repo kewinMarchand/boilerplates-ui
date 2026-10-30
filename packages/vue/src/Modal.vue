@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue'
+import { nextTick, useTemplateRef, watch } from 'vue'
 
 import Icon from './Icon.vue'
 import { useModal } from './useModal'
@@ -13,6 +13,8 @@ const props = defineProps<{
   closeLabel?: string | undefined
   /** Tiroir latéral : la modale s'ouvre contre le bord indiqué. */
   side?: 'start' | 'end' | undefined
+  /** Le titre reçoit le focus à l'ouverture et à chaque changement (navigation à niveaux dans un tiroir). */
+  focusTitle?: boolean
 }>()
 
 const emit = defineEmits<{ close: [] }>()
@@ -26,6 +28,18 @@ useModal(
   () => props.open,
   () => emit('close'),
 )
+
+const titleElement = useTemplateRef<HTMLHeadingElement>('titleNode')
+
+watch(
+  () => [props.open, props.title] as const,
+  async ([open]) => {
+    if (!open || !props.focusTitle) return
+    await nextTick()
+    titleElement.value?.focus()
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -36,7 +50,14 @@ useModal(
     :aria-labelledby="`${id}-title`"
   >
     <div class="bui-modal__header">
-      <h2 :id="`${id}-title`" class="bui-modal__title">{{ title }}</h2>
+      <h2
+        :id="`${id}-title`"
+        ref="titleNode"
+        class="bui-modal__title"
+        :tabindex="focusTitle ? -1 : undefined"
+      >
+        {{ title }}
+      </h2>
       <button
         type="button"
         class="bui-modal__close"

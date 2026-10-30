@@ -9,6 +9,7 @@ const { side = 'end' } = defineProps<{
   open: boolean
   closeLabel?: string | undefined
   side?: 'start' | 'end'
+  focusTitle?: boolean
 }>()
 
 const emit = defineEmits<{ close: [] }>()
@@ -23,6 +24,7 @@ defineSlots<{ default(): unknown; footer?(): unknown }>()
     :open="open"
     :close-label="closeLabel"
     :side="side"
+    :focus-title="focusTitle"
     @close="emit('close')"
   >
     <slot />

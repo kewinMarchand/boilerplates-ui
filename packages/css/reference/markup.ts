@@ -215,10 +215,20 @@ export interface ModalOptions {
   closeLabel?: string
   /** Tiroir latéral : la modale s'ouvre contre le bord indiqué. */
   side?: 'start' | 'end'
+  /** Le titre reçoit le focus à l'ouverture et à chaque changement (navigation à niveaux dans un tiroir). */
+  focusTitle?: boolean
 }
 
-export const modal = ({ id, title, body, footer, closeLabel = 'Fermer', side }: ModalOptions) =>
-  `<dialog class="${classes('bui-modal', side && 'bui-modal--drawer', side === 'start' && 'bui-modal--start')}" id="${id}" aria-labelledby="${id}-title"><div class="bui-modal__header"><h2 class="bui-modal__title" id="${id}-title">${escape(title)}</h2><button${attributes(
+export const modal = ({
+  id,
+  title,
+  body,
+  footer,
+  closeLabel = 'Fermer',
+  side,
+  focusTitle,
+}: ModalOptions) =>
+  `<dialog class="${classes('bui-modal', side && 'bui-modal--drawer', side === 'start' && 'bui-modal--start')}" id="${id}" aria-labelledby="${id}-title"><div class="bui-modal__header"><h2${attributes({ class: 'bui-modal__title', id: `${id}-title`, tabindex: focusTitle ? '-1' : undefined })}>${escape(title)}</h2><button${attributes(
     {
       type: 'button',
       class: 'bui-modal__close',

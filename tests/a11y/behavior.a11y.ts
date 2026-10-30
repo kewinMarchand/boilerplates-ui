@@ -157,3 +157,13 @@ test('menu à choix cochés (vanilla) : le choix coche l’option et décoche le
     'false',
   )
 })
+
+for (const id of ['titre-focalise', 'titre-focalise-react', 'titre-focalise-vue']) {
+  test(`tiroir à titre focalisé (${id}) : le titre reçoit le focus à l’ouverture`, async ({
+    page,
+  }) => {
+    await story(page, `superpositions-tiroir--${id}`)
+    await page.getByRole('button', { name: 'Ouvrir les filtres' }).click()
+    await expect(page.getByRole('dialog').getByRole('heading', { name: 'Filtres' })).toBeFocused()
+  })
+}

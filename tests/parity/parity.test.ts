@@ -702,6 +702,24 @@ const CASES: Case[] = [
     vue: () => h(V.Avatar, { name: 'Kewin Marchand', src: '/a.webp', decorative: true }),
   },
   {
+    name: 'tiroir à titre focalisé',
+    reference: ref.drawer({ id: 'menu', title: 'Menu', body: '<p>Texte</p>', focusTitle: true }),
+    react: r(R.Drawer, {
+      id: 'menu',
+      title: 'Menu',
+      open: false,
+      onClose: () => {},
+      focusTitle: true,
+      children: r('p', null, 'Texte'),
+    }),
+    vue: () =>
+      h(
+        V.Drawer,
+        { id: 'menu', title: 'Menu', open: false, focusTitle: true },
+        { default: () => h('p', 'Texte') },
+      ),
+  },
+  {
     name: 'tiroir',
     reference: ref.drawer({ id: 'filtres', title: 'Filtres', body: '<p>Texte</p>', side: 'start' }),
     react: r(R.Drawer, {
