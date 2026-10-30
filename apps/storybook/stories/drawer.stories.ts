@@ -57,6 +57,21 @@ export const Ouvert: Story = {
   render: (args) => dialogHtml(args.id, args, true),
   play: openWithTrigger,
 }
+export const TitreFocalise: Story = {
+  name: 'Titre focalisé',
+  args: { focusTitle: true },
+  render: (args) => dialogHtml(args.id, args, true),
+}
+export const TitreFocaliseReact: Story = {
+  name: 'Titre focalisé React',
+  args: { focusTitle: true },
+  render: (args) => mountReact(createElement(ReactDialogDemo, { args, isDrawer: true })),
+}
+export const TitreFocaliseVue: Story = {
+  name: 'Titre focalisé Vue',
+  args: { focusTitle: true },
+  render: (args) => mountVue(vueDialogDemo(args, true)),
+}
 export const ReactOuvert: Story = {
   name: 'React ouvert',
   render: (args) => mountReact(createElement(ReactDialogDemo, { args, isDrawer: true })),

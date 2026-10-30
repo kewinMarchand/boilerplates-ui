@@ -19,6 +19,7 @@ export interface DialogArgs {
   confirm: string
   closeLabel: string
   side?: 'start' | 'end' | undefined
+  focusTitle?: boolean
   onClose?: () => void
 }
 
@@ -29,6 +30,10 @@ export const DIALOG_ARG_TYPES = {
   text: { control: 'text' },
   confirm: { control: 'text', description: 'Action principale du pied' },
   closeLabel: { control: 'text', description: 'Nom accessible du bouton de fermeture' },
+  focusTitle: {
+    control: 'boolean',
+    description: 'Le titre reçoit le focus à l’ouverture et à chaque changement',
+  },
   onClose: { action: 'close', description: 'React et Vue, à chaque fermeture' },
 } as const
 
@@ -44,6 +49,7 @@ export const dialogHtml = (id: string, args: DialogArgs, isDrawer: boolean) => {
     body: `<p>${args.text}</p>`,
     footer: `<button type="button" class="bui-button bui-button--outline" data-bui-modal-close>Annuler</button><button type="button" class="bui-button" data-bui-modal-close>${args.confirm}</button>`,
     ...(args.side ? { side: args.side } : {}),
+    ...(args.focusTitle ? { focusTitle: true } : {}),
   }
   return `<button type="button" class="bui-button" data-bui-modal-open="${id}">${args.trigger}</button>${
     isDrawer ? drawer(options) : modal(options)
@@ -61,6 +67,7 @@ export const ReactDialogDemo = ({ args, isDrawer }: { args: DialogArgs; isDrawer
       title: args.title,
       closeLabel: args.closeLabel,
       ...(args.side ? { side: args.side } : {}),
+      ...(args.focusTitle ? { focusTitle: true } : {}),
       open,
       onClose: () => {
         args.onClose?.()
@@ -94,6 +101,7 @@ export const vueDialogDemo = (args: DialogArgs, isDrawer: boolean) =>
           title: args.title,
           closeLabel: args.closeLabel,
           ...(args.side ? { side: args.side } : {}),
+          ...(args.focusTitle ? { focusTitle: true } : {}),
           open: open.value,
           onClose: () => {
             args.onClose?.()
