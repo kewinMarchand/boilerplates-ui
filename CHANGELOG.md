@@ -2,6 +2,21 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.7.0
+
+### Ajouté
+
+- Menu déroulant : option `checked` (identifiant de l'option cochée), qui fait des éléments des choix exclusifs (`role="menuitemradio"`, `aria-checked`, coche devant l'option cochée), dans la référence, React, Vue et le comportement vanilla (qui coche lui-même le choix) ; option `triggerIcon`, qui fait du déclencheur un bouton icône dont le libellé devient le nom accessible.
+- Icônes `monitor` et `moon`.
+
+### Retiré
+
+- Adaptateurs `tokens/mui.json` et `tokens/vuetify.json` : plus de kit de composants tiers dans les boilerplates (ADR 0003). Un projet qui les utilise reste sur la version 0.6.
+
+### Storybook
+
+- Menu déroulant : histoire « Choix cochés » et ligne « Choix cochés, bouton icône » dans la vue d'ensemble.
+
 ## 0.6.1
 
 ### Storybook
