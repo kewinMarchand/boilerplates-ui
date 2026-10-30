@@ -2,6 +2,12 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.10.1
+
+### Corrigé
+
+- Bouton React : il ne pose plus son propre gestionnaire de clic hors chargement. Sans `onClick` ni `loading`, il est rendable par un composant serveur (Next App Router). Pendant le chargement, le clic reste bloqué sans appeler `onClick`.
+
 ## 0.10.0
 
 ### Ajouté
