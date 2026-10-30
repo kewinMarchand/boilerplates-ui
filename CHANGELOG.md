@@ -2,6 +2,17 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.9.0
+
+### Ajouté
+
+- Modale et tiroir : option `focusTitle`, qui rend le titre focalisable (`tabindex="-1"`) et lui donne le focus à l'ouverture, et en React et Vue à chaque changement de titre (navigation à niveaux dans un tiroir, comme un menu mobile). Référence, React, Vue et comportement vanilla.
+- Modale et tiroir en React : les attributs HTML supplémentaires (`data-testid`…) passent au `<dialog>`, comme en Vue.
+
+### Storybook
+
+- Tiroir : histoires « Titre focalisé » en HTML, React et Vue.
+
 ## 0.8.0
 
 ### Ajouté
