@@ -58,6 +58,8 @@ export const ICON_NAMES = [
   'menu',
   'message-circle',
   'minus',
+  'monitor',
+  'moon',
   'mouse-pointer-click',
   'newspaper',
   'package',
