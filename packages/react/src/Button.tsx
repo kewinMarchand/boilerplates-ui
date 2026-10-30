@@ -95,20 +95,15 @@ export const Button = (props: ButtonProps) => {
     ...rest
   } = props
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (loading) {
-      event.preventDefault()
-      return
-    }
-    onClick?.(event)
-  }
+  // Sans `loading`, aucun gestionnaire propre : un bouton sans `onClick` reste rendable par un composant serveur.
+  const blockClick = (event: MouseEvent<HTMLButtonElement>) => event.preventDefault()
 
   return (
     <button
       type={type}
       className={classNameOf(variant, size, fullWidth, className)}
       aria-disabled={loading ? 'true' : undefined}
-      onClick={handleClick}
+      onClick={loading ? blockClick : onClick}
       {...rest}
     >
       {loading ? (
