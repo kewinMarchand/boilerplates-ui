@@ -7,14 +7,23 @@ import type { IconName } from './iconNames'
 
 defineOptions({ name: 'BuiMenu' })
 
-const { items, checked } = defineProps<{
+const {
+  items,
+  checked,
+  triggerVariant = 'outline',
+} = defineProps<{
   id: string
   label: string
-  items: { id: string; label: string }[]
+  /** `testId` : attribut de test de l'élément (`data-testid`). */
+  items: { id: string; label: string; testId?: string }[]
   /** Identifiant de l'option cochée : les éléments deviennent des choix exclusifs (`menuitemradio`, `aria-checked`). */
   checked?: string
   /** Déclencheur en bouton icône : le libellé devient son nom accessible. */
   triggerIcon?: IconName
+  /** Variante du déclencheur, `nav` sur fond primaire (header). */
+  triggerVariant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'nav'
+  /** Attribut de test du déclencheur (`data-testid`). */
+  testId?: string
 }>()
 
 const emit = defineEmits<{ select: [id: string] }>()
@@ -81,7 +90,8 @@ const toggle = () => (open.value ? close() : void openAt(0))
       ref="trigger"
       type="button"
       :class="[
-        'bui-button bui-button--outline',
+        'bui-button',
+        triggerVariant !== 'primary' && `bui-button--${triggerVariant}`,
         triggerIcon && 'bui-button--icon',
         'bui-menu__trigger',
       ]"
@@ -89,6 +99,7 @@ const toggle = () => (open.value ? close() : void openAt(0))
       aria-haspopup="menu"
       :aria-expanded="open ? 'true' : 'false'"
       :aria-controls="`${id}-list`"
+      :data-testid="testId"
       @click="toggle"
       @keydown="onTriggerKeyDown"
     >
@@ -110,6 +121,7 @@ const toggle = () => (open.value ? close() : void openAt(0))
           :role="checked === undefined ? 'menuitem' : 'menuitemradio'"
           :aria-checked="checked === undefined ? undefined : item.id === checked ? 'true' : 'false'"
           tabindex="-1"
+          :data-testid="item.testId"
           @click="choose(item.id)"
           @keydown="onItemKeyDown($event, index)"
         >

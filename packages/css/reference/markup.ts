@@ -628,20 +628,35 @@ export const tooltip = ({ id, text, trigger }: TooltipOptions) =>
 export interface MenuOptions {
   id: string
   label: string
-  items: { id: string; label: string }[]
+  /** `testId` : attribut de test de l'élément (`data-testid`). */
+  items: { id: string; label: string; testId?: string }[]
   /** Identifiant de l'option cochée : les éléments deviennent des choix exclusifs (`menuitemradio`, `aria-checked`). */
   checked?: string
   /** Déclencheur en bouton icône : le libellé devient son nom accessible. */
   triggerIcon?: string
+  /** Variante du déclencheur, `nav` sur fond primaire (header). */
+  triggerVariant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'nav'
+  /** Attribut de test du déclencheur (`data-testid`). */
+  testId?: string
   /** État ouvert, pour la documentation : en vrai, le comportement l'ouvre. */
   open?: boolean
 }
 
-export const menu = ({ id, label, items, checked, triggerIcon, open = false }: MenuOptions) =>
+export const menu = ({
+  id,
+  label,
+  items,
+  checked,
+  triggerIcon,
+  triggerVariant = 'outline',
+  testId,
+  open = false,
+}: MenuOptions) =>
   `<div class="bui-menu" data-bui-menu><button${attributes({
     type: 'button',
     class: classes(
-      'bui-button bui-button--outline',
+      'bui-button',
+      triggerVariant !== 'primary' && `bui-button--${triggerVariant}`,
       triggerIcon && 'bui-button--icon',
       'bui-menu__trigger',
     ),
@@ -650,6 +665,7 @@ export const menu = ({ id, label, items, checked, triggerIcon, open = false }: M
     'aria-haspopup': 'menu',
     'aria-expanded': String(open),
     'aria-controls': `${id}-list`,
+    'data-testid': testId,
   })}>${triggerIcon ? icon(triggerIcon) : `${escape(label)}${icon('chevron-down')}`}</button><ul${attributes({ class: 'bui-menu__list', role: 'menu', id: `${id}-list`, 'aria-labelledby': `${id}-trigger`, hidden: !open })}>${items
     .map(
       (item) =>
@@ -660,6 +676,7 @@ export const menu = ({ id, label, items, checked, triggerIcon, open = false }: M
           'aria-checked': checked === undefined ? undefined : String(item.id === checked),
           tabindex: '-1',
           'data-bui-menu-item': item.id,
+          'data-testid': item.testId,
         })}>${checked === undefined ? '' : icon('check', 'bui-menu__check')}${escape(item.label)}</button></li>`,
     )
     .join('')}</ul></div>`

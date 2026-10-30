@@ -82,6 +82,12 @@ export const ToutesLesVariantes: Story = {
             `<div style="min-height: 180px">${menu({ id: 'vue-coches', label: 'Thème : sombre', items: THEMES, checked: 'dark', triggerIcon: 'moon', open: true })}</div>`,
           ],
         },
+        {
+          label: 'Déclencheur sur fond primaire',
+          cells: [
+            `<div style="padding: 8px; background: var(--bui-color-primary)">${menu({ id: 'vue-nav', label: 'Thème : système', items: THEMES, checked: 'auto', triggerIcon: 'monitor', triggerVariant: 'nav' })}</div>`,
+          ],
+        },
       ],
     ),
 }

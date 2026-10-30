@@ -63,6 +63,7 @@ const THEMES = [
   { id: 'light', label: 'Clair' },
   { id: 'dark', label: 'Sombre' },
 ]
+const THEMES_TESTID = THEMES.map((theme) => ({ ...theme, testId: `theme-option-${theme.id}` }))
 const CRUMBS = [
   { label: 'Accueil', href: '/' },
   { label: 'Catalogue', href: '/catalogue' },
@@ -860,6 +861,38 @@ const CASES: Case[] = [
         items: THEMES,
         checked: 'dark',
         triggerIcon: 'moon',
+      }),
+  },
+  {
+    name: 'menu déroulant, déclencheur sur fond primaire et attributs de test',
+    reference: ref.menu({
+      id: 'theme',
+      label: 'Thème : système',
+      items: THEMES_TESTID,
+      checked: 'auto',
+      triggerIcon: 'monitor',
+      triggerVariant: 'nav',
+      testId: 'theme-toggle',
+    }),
+    react: r(R.Menu, {
+      id: 'theme',
+      label: 'Thème : système',
+      items: THEMES_TESTID,
+      checked: 'auto',
+      triggerIcon: 'monitor',
+      triggerVariant: 'nav',
+      testId: 'theme-toggle',
+      onSelect: () => {},
+    }),
+    vue: () =>
+      h(V.Menu, {
+        id: 'theme',
+        label: 'Thème : système',
+        items: THEMES_TESTID,
+        checked: 'auto',
+        triggerIcon: 'monitor',
+        triggerVariant: 'nav',
+        testId: 'theme-toggle',
       }),
   },
   {

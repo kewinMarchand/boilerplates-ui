@@ -7,15 +7,29 @@ import type { IconName } from './iconNames'
 export interface MenuProps {
   id: string
   label: string
-  items: { id: string; label: string }[]
+  /** `testId` : attribut de test de l'élément (`data-testid`). */
+  items: { id: string; label: string; testId?: string }[]
   onSelect: (id: string) => void
   /** Identifiant de l'option cochée : les éléments deviennent des choix exclusifs (`menuitemradio`, `aria-checked`). */
   checked?: string
   /** Déclencheur en bouton icône : le libellé devient son nom accessible. */
   triggerIcon?: IconName
+  /** Variante du déclencheur, `nav` sur fond primaire (header). */
+  triggerVariant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'nav'
+  /** Attribut de test du déclencheur (`data-testid`). */
+  testId?: string
 }
 
-export const Menu = ({ id, label, items, onSelect, checked, triggerIcon }: MenuProps) => {
+export const Menu = ({
+  id,
+  label,
+  items,
+  onSelect,
+  checked,
+  triggerIcon,
+  triggerVariant = 'outline',
+  testId,
+}: MenuProps) => {
   const { open, root, trigger, registerItem, toggle, close, onTriggerKeyDown, onItemKeyDown } =
     useMenu(items.length)
 
@@ -25,7 +39,8 @@ export const Menu = ({ id, label, items, onSelect, checked, triggerIcon }: MenuP
         ref={trigger}
         type="button"
         className={cx(
-          'bui-button bui-button--outline',
+          'bui-button',
+          triggerVariant !== 'primary' && `bui-button--${triggerVariant}`,
           triggerIcon && 'bui-button--icon',
           'bui-menu__trigger',
         )}
@@ -34,6 +49,7 @@ export const Menu = ({ id, label, items, onSelect, checked, triggerIcon }: MenuP
         aria-haspopup="menu"
         aria-expanded={open ? 'true' : 'false'}
         aria-controls={`${id}-list`}
+        data-testid={testId}
         onClick={toggle}
         onKeyDown={onTriggerKeyDown}
       >
@@ -62,6 +78,7 @@ export const Menu = ({ id, label, items, onSelect, checked, triggerIcon }: MenuP
               role={checked === undefined ? 'menuitem' : 'menuitemradio'}
               aria-checked={checked === undefined ? undefined : item.id === checked}
               tabIndex={-1}
+              data-testid={item.testId}
               onClick={() => {
                 onSelect(item.id)
                 close()
