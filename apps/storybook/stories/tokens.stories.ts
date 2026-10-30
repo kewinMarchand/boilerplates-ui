@@ -65,7 +65,7 @@ const scale = (items: [string, string][], render: (name: string, value: string) 
 
 export const Tokens: Story = {
   render: () => `<div class="sb-page">
-    <header><h1>Tokens</h1><p>Source unique : <code>packages/tokens/src/tokens.ts</code>, générée en variables CSS <code>--bui-*</code>, JSON, thème MUI, thème Vuetify et thème Tailwind. Le mode renforcé ne surcharge que quelques valeurs, indiquées ici.</p></header>
+    <header><h1>Tokens</h1><p>Source unique : <code>packages/tokens/src/tokens.ts</code>, générée en variables CSS <code>--bui-*</code>, JSON et thème Tailwind. Le mode renforcé ne surcharge que quelques valeurs, indiquées ici.</p></header>
     <section><h2>Couleurs</h2>${Object.entries(GROUPS)
       .map(
         ([group, pattern]) =>

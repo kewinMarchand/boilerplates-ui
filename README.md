@@ -1,10 +1,10 @@
 # boilerplates-ui
 
-Bibliothèque de composants commune aux cinq boilerplates (Next et MUI, Nuxt et Vuetify, SvelteKit et Tailwind, Symfony et Twig, HTML et CSS vanilla). Une source de tokens, un balisage HTML et CSS de référence, le comportement en JavaScript natif, et des composants React et Vue qui produisent exactement ce balisage. Accessibilité WCAG 2.1 AA en mode standard et en mode renforcé, vérifiée par axe sur chaque histoire du Storybook.
+Bibliothèque de composants commune aux cinq boilerplates (Next et React, Nuxt et Vue, SvelteKit et Tailwind, Symfony et Twig, HTML et CSS vanilla), sans kit de composants tiers (ADR 0003). Une source de tokens, un balisage HTML et CSS de référence, le comportement en JavaScript natif, et des composants React et Vue qui produisent exactement ce balisage. Accessibilité WCAG 2.1 AA en mode standard et en mode renforcé, vérifiée par axe sur chaque histoire du Storybook.
 
 | Paquet             | Contenu                                                                                                                                     |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `packages/tokens`  | Source `src/tokens.ts`, fichiers générés dans `generated/` : `tokens.css`, `tokens.json`, `mui.json`, `vuetify.json`, `tailwind.css`        |
+| `packages/tokens`  | Source `src/tokens.ts`, fichiers générés dans `generated/` : `tokens.css`, `tokens.json`, `tailwind.css`                                    |
 | `packages/css`     | Un fichier CSS par composant (`components/`), `index.css`, sprite d'icônes Lucide (`icons/`), balisage de référence (`reference/markup.ts`) |
 | `packages/vanilla` | Comportement natif sans dépendance (modale et tiroir sur `<dialog>`, onglets, menu, info-bulle, toast, tri de tableau)                      |
 | `packages/react`   | Composants React typés                                                                                                                      |
@@ -15,7 +15,7 @@ Composants disponibles : bouton, bouton icône, lien, bouton-lien, puce, champ t
 
 Le Storybook (vue d'ensemble de chaque composant, contrôles en direct, mode renforcé, thème sombre et couleurs globales dans la barre d'outils) est publié sur GitHub Pages à chaque push sur `main` : https://kewinmarchand.github.io/boilerplates-ui/.
 
-Points de rupture : 640, 768, 1024 et 1280 px (ceux de Tailwind), repris par l'adaptateur MUI.
+Points de rupture : 640, 768, 1024 et 1280 px (ceux de Tailwind).
 
 Mode sombre : sur demande, par un attribut sur l'élément racine. `<html data-color-scheme="auto">` suit le système, `data-color-scheme="dark"` force le sombre. Sans l'attribut, les tokens restent en clair, quel que soit le système. Le mode renforcé (`data-a11y-mode="enhanced"`) reste toujours en clair.
 
@@ -67,8 +67,6 @@ Créer une version : passer la même version dans les sept `package.json` (racin
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `@kewinmarchand/boilerplates-ui/tokens/tokens.css`   | Variables `--bui-*`, mode renforcé compris                                                                     |
 | `@kewinmarchand/boilerplates-ui/tokens/tailwind.css` | Thème Tailwind v4 (`@theme inline`) branché sur les variables                                                  |
-| `@kewinmarchand/boilerplates-ui/tokens/mui.json`     | Options de `createTheme`                                                                                       |
-| `@kewinmarchand/boilerplates-ui/tokens/vuetify.json` | Options de thème Vuetify, thèmes `light` et `enhanced`                                                         |
 | `@kewinmarchand/boilerplates-ui/css`                 | CSS de tous les composants                                                                                     |
 | `@kewinmarchand/boilerplates-ui/vanilla`             | `initModals()`, `initTabs()`, `initMenus()`, `initTooltips()`, `initToasts()` et `showToast()`, `initTables()` |
 | `@kewinmarchand/boilerplates-ui/react`               | Composants React                                                                                               |
@@ -76,8 +74,8 @@ Créer une version : passer la même version dans les sept `package.json` (racin
 
 Par stack :
 
-- **Next et MUI** : `transpilePackages: ['@kewinmarchand/boilerplates-ui']` dans `next.config.ts`, importer `tokens.css` puis `css` dans le layout racine, `createTheme(deepmerge(muiOptions, options propres))` si l'on reprend l'adaptateur.
-- **Nuxt et Vuetify** : `build: { transpile: ['@kewinmarchand/boilerplates-ui'] }`, les deux CSS dans `css`, les options de `vuetify.json` dans `createVuetify`. Le thème `enhanced` se sélectionne avec le mode renforcé.
+- **Next** : `transpilePackages: ['@kewinmarchand/boilerplates-ui']` dans `next.config.ts`, importer `tokens.css` puis `css` dans le layout racine, composants de `@kewinmarchand/boilerplates-ui/react`.
+- **Nuxt** : `build: { transpile: ['@kewinmarchand/boilerplates-ui'] }`, les deux CSS dans `css`, composants de `@kewinmarchand/boilerplates-ui/vue`.
 - **SvelteKit et Tailwind** : `@import` de `tokens.css`, puis `tailwindcss`, puis `tokens/tailwind.css` et `css`. Les composants Svelte recopient le balisage de `packages/css/reference/markup.ts` et appellent les `initX()` de vanilla.
 - **Symfony et Twig, HTML vanilla** : mêmes CSS, balisage recopié dans des partials, les `initX()` de vanilla au chargement.
 

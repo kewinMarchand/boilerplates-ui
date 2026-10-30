@@ -1,7 +1,7 @@
 {
   "name": "@kewinmarchand/tokens",
-  "version": "0.6.1",
-  "description": "Tokens de design : variables CSS, JSON, thème MUI, thème Vuetify et preset Tailwind",
+  "version": "0.7.0",
+  "description": "Tokens de design : variables CSS, JSON et preset Tailwind",
   "license": "MIT",
   "type": "module",
   "exports": {

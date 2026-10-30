@@ -69,11 +69,7 @@ describe('générateur de tokens', () => {
     expect(css).toContain(`--bui-color-surface: ${dark.color.surface};`)
   })
 
-  it('branche les adaptateurs sur les mêmes valeurs', () => {
-    const mui = JSON.parse(output['mui.json']!)
-    const vuetify = JSON.parse(output['vuetify.json']!)
-    expect(mui.palette.primary.main).toBe(tokens.color.primary)
-    expect(vuetify.theme.themes.enhanced.colors.primary).toBe(enhanced.color.primary)
+  it('branche le preset Tailwind sur les mêmes valeurs', () => {
     expect(output['tailwind.css']).toContain('--color-primary: var(--bui-color-primary);')
     expect(output['tailwind.css']).toContain('--container-content: var(--bui-container-content);')
   })

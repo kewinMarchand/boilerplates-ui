@@ -21,7 +21,7 @@ up: ## Lance le Storybook en développement (http://localhost:6006)
 storybook-build: ## Construit le Storybook statique dans apps/storybook/storybook-static
 	$(RUN) yarn storybook:build
 
-tokens: ## Génère les variables CSS et les adaptateurs MUI, Vuetify et Tailwind depuis les tokens
+tokens: ## Génère les variables CSS, le JSON et le preset Tailwind depuis les tokens
 	$(RUN) yarn tokens
 
 vanilla-types: ## Génère les déclarations TypeScript du paquet vanilla depuis ses JSDoc

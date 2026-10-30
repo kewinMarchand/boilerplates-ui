@@ -85,93 +85,10 @@ const toTailwind = () => {
   ].join('\n')
 }
 
-const px = (value: string) => Number.parseInt(value, 10)
-
-const toMui = () => {
-  const { color, font, radius, breakpoint } = tokens
-  const fontSize = (name: keyof typeof font.size) =>
-    `var(${cssVar(`font-size-${name}`)}, ${font.size[name]})`
-  return {
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: px(breakpoint.sm),
-        md: px(breakpoint.md),
-        lg: px(breakpoint.lg),
-        xl: px(breakpoint.xl),
-      },
-    },
-    palette: {
-      primary: {
-        main: color.primary,
-        dark: color['primary-dark'],
-        contrastText: color['on-primary'],
-      },
-      secondary: {
-        main: color.secondary,
-        dark: color['secondary-dark'],
-        contrastText: color['on-secondary'],
-      },
-      error: { main: color.error },
-      warning: { main: color.warning },
-      info: { main: color.info },
-      success: { main: color.success },
-      text: { primary: color.text, secondary: color['text-muted'] },
-      background: { default: color.surface, paper: color.surface },
-      divider: color['border-subtle'],
-    },
-    typography: {
-      fontFamily: font.family,
-      fontSize: px(font.size.body),
-      htmlFontSize: 16,
-      h1: {
-        fontSize: fontSize('h1'),
-        fontWeight: Number(font.weight.bold),
-        lineHeight: Number(font['line-height'].tight),
-      },
-      h2: { fontSize: fontSize('h2'), fontWeight: Number(font.weight.semibold) },
-      h3: { fontSize: fontSize('h3'), fontWeight: Number(font.weight.semibold) },
-      h4: { fontSize: fontSize('h4'), fontWeight: Number(font.weight.semibold) },
-      h5: { fontSize: fontSize('title'), fontWeight: Number(font.weight.semibold) },
-      subtitle1: { fontSize: fontSize('lead') },
-      caption: { fontSize: fontSize('caption') },
-      body1: { fontSize: fontSize('body') },
-      body2: { fontSize: fontSize('body-sm') },
-      overline: { fontSize: fontSize('overline') },
-    },
-    shape: { borderRadius: px(radius.md) },
-  }
-}
-
-const vuetifyColors = (color: Record<string, string>) => ({
-  primary: color.primary,
-  secondary: color.secondary,
-  error: color.error,
-  info: color.info,
-  success: color.success,
-  warning: color.warning,
-  background: color.surface,
-  surface: color.surface,
-  'on-background': color.text,
-  'on-surface': color.text,
-})
-
-const toVuetify = () => ({
-  theme: {
-    defaultTheme: 'light',
-    themes: {
-      light: { dark: false, colors: vuetifyColors(tokens.color) },
-      enhanced: { dark: false, colors: vuetifyColors({ ...tokens.color, ...enhanced.color }) },
-    },
-  },
-})
-
 const json = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`
 
 export const generate = (): Record<string, string> => ({
   'tokens.css': toCss(),
   'tokens.json': json({ tokens, enhanced, dark }),
   'tailwind.css': toTailwind(),
-  'mui.json': json(toMui()),
-  'vuetify.json': json(toVuetify()),
 })
