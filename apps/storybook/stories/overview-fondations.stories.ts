@@ -1,4 +1,4 @@
-import { icon, text } from '@kewinmarchand/css/reference/markup.ts'
+import { cluster, icon, text } from '@kewinmarchand/css/reference/markup.ts'
 
 import { familyOverview, OVERVIEW_PAGE } from './support/overview'
 
@@ -25,7 +25,7 @@ export const VueDEnsemble: StoryObj = {
   render: () =>
     familyOverview(
       'Fondations',
-      'Les valeurs partagées par tous les composants : tokens, typographie et icônes.',
+      'Les valeurs partagées par tous les composants : tokens, typographie, icônes et mise en page.',
       [
         {
           title: 'Tokens',
@@ -48,6 +48,18 @@ export const VueDEnsemble: StoryObj = {
           demo: ['info', 'circle-check', 'triangle-alert', 'circle-alert', 'mail', 'plus', 'x']
             .map((name) => icon(name, undefined, { size: 'lg' }))
             .join(''),
+        },
+        {
+          title: 'Mise en page',
+          story: 'fondations-mise-en-page--toutes-les-variantes',
+          demo: cluster({
+            content: ['Bloc 1', 'Bloc 2', 'Bloc 3']
+              .map(
+                (label) =>
+                  `<span style="padding: var(--bui-space-2); border: 1px dashed var(--bui-color-border)">${label}</span>`,
+              )
+              .join(''),
+          }),
         },
       ],
     ),
