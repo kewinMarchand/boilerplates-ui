@@ -7,3 +7,4 @@
 | [0003](0003-plus-de-kit-de-composants-tiers.md) | Plus de kit de composants tiers | Acceptée |
 | [0004](0004-couche-svelte.md)                   | Couche de composants Svelte     | Acceptée |
 | [0005](0005-depots-modeles-renommes.md)         | Dépôts modèles renommés         | Acceptée |
+| [0006](0006-api-de-test-renommees.md)           | API de test renommées           | Acceptée |
