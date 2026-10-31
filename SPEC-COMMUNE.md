@@ -2,7 +2,7 @@
 
 Architecture : voir `ARCHITECTURE-DDD.md` (décisions D1 à D12 acceptées). Vocabulaire : couche de routage, `views/`, `modules/<module>/{domain,application,infrastructure,ui}`, `shared/`.
 
-S'applique à : next-mui-query, nuxt-vuetify-query, sveltekit-tailwind-query, symfony-twig-stimulus, html-css-vanilla (tous dans `~/Applications/`). Même contenu, mêmes routes, mêmes `data-testid` partout, pour que les suites e2e se ressemblent d'un dépôt à l'autre. Chaque stack l'implémente avec ses conventions natives. Aucune dépendance ajoutée sans justification dans le CLAUDE.md du dépôt.
+S'applique à : boilerplate-next, boilerplate-nuxt, boilerplate-svelte, boilerplate-symfony, boilerplate-html (tous dans `~/Applications/`). Même contenu, mêmes routes, mêmes `data-testid` partout, pour que les suites e2e se ressemblent d'un dépôt à l'autre. Chaque stack l'implémente avec ses conventions natives. Aucune dépendance ajoutée sans justification dans le CLAUDE.md du dépôt.
 
 Médias partagés, à copier dans les assets publics du dépôt sous `images/` (et supprimer tout ancien placeholder dégradé) :
 `~/Applications/boilerplates-commun/shared-assets/` (photos de Kewin, EXIF et GPS retirés, et illustrations), chacune en `.avif` et `.webp`, ratio 16:9 : `hero-{640,1280,1920}` (jardin tropical), `slide-{1..5}-{640,1280}` (heliconia, anthurium, calliandra, strelitzia, nénuphar), `blog-{1..3}-{480,960}` (illustrations isométriques). Servir AVIF puis WebP (`<picture>` ou composant image du framework, `srcset`/`sizes`). Les composants image de Next et Nuxt peuvent partir de la plus grande variante. Supprimer les anciens `hero.webp` et `slide-N.webp` dégradés s'ils ont été copiés.
@@ -83,11 +83,11 @@ Seconde API au **contrat identique** : `~/Applications/hono-mongo-test-api` (Hon
 
 | Dépôt | dev | e2e Playwright | Lighthouse |
 |---|---|---|---|
-| next-mui-query | 3000 (publié par `DEV_PORT`, ex. `DEV_PORT=3160 make up` quand un autre projet occupe 3000) | 3100 | 3200 |
-| nuxt-vuetify-query | 3010 | 3110 | 3210 |
-| sveltekit-tailwind-query | 5173 | 3120 | 3220 |
-| symfony-twig-stimulus | 8095 | 8095 | 3230 |
-| html-css-vanilla | 3130 | 3130 | 3250 |
+| boilerplate-next | 3000 (publié par `DEV_PORT`, ex. `DEV_PORT=3160 make up` quand un autre projet occupe 3000) | 3100 | 3200 |
+| boilerplate-nuxt | 3010 | 3110 | 3210 |
+| boilerplate-svelte | 5173 | 3120 | 3220 |
+| boilerplate-symfony | 8095 | 8095 | 3230 |
+| boilerplate-html | 3130 | 3130 | 3250 |
 | api-platform-test-api | 8090 | | |
 | hono-mongo-test-api | 8091 | | |
 
@@ -284,7 +284,7 @@ Dépôt public `kewinMarchand/boilerplates-ui`, monorepo, avec un Storybook de d
 - **Storybook** : une histoire par composant et par état (normal, survol, focus, désactivé, erreur, chargement), en mode standard et renforcé, documentation des tokens, publié en site statique (GitHub Pages).
 - **Les chartes graphiques des 5 boilerplates sont conservées** (section 14).
 - **Distribution** : paquets npm publics sous `@kewinmarchand/` (connexion npm de Kewin requise pour publier). En attendant, dépendance git par étiquette de version.
-- **Intégration** : aucun kit de composants tiers (décision du 30/10/2026, MUI et Vuetify retirés) : chaque boilerplate prend ses composants dans boilerplates-ui, en React pour Next, en Vue pour Nuxt, en CSS et vanilla pour SvelteKit, Symfony et le site HTML ; Tailwind reste un outil de style dans SvelteKit, branché sur les jetons. Un boilerplate à la fois. Les dépôts modèles gardent leur nom (`next-mui-query-boilerplate`, `nuxt-vuetify-query-boilerplate`), cité par les outils qui créent les projets ; les projets déjà créés à partir d'eux gardent leur kit, une migration se décide projet par projet.
+- **Intégration** : aucun kit de composants tiers (décision du 30/10/2026, MUI et Vuetify retirés) : chaque boilerplate prend ses composants dans boilerplates-ui, en React pour Next, en Vue pour Nuxt, en CSS et vanilla pour SvelteKit, Symfony et le site HTML ; Tailwind reste un outil de style dans SvelteKit, branché sur les jetons. Un boilerplate à la fois. Les dépôts modèles sont renommés `boilerplate-<techno>` le 31/10/2026 (ADR 0005 de boilerplates-ui) ; les projets déjà créés à partir d'eux gardent leur kit, une migration se décide projet par projet.
 - **Composant manquant** : il entre d'abord dans la bibliothèque (CSS et balisage de référence, React, Vue, comportement vanilla si besoin, test de parité), puis dans le Storybook (variantes, états, modes standard, renforcé et sombre, axe), sort dans une version étiquetée, est intégré aux boilerplates, et enfin importé par le projet qui en a besoin. Jamais de composant écrit seulement dans un boilerplate ou un projet en attendant.
 - Mêmes règles que les boilerplates : conteneur seul prérequis (section 18), `make`, CI, aucune mention de l'employeur.
 

@@ -2,7 +2,7 @@
 
 **Statut** : ACCEPTÉE, recommandations D1 à D12 retenues sans réserve.
 **Révision** : ADR 0001 de `api-platform-test-api` (administration par EasyAdmin dans l'API Platform, commit `46df658`). Le catalogue gagne des écritures côté API Platform : §2.2, §4.4.2 et §5 sont annotés. Le reste ne change pas.
-**Périmètre** : `next-mui-query-boilerplate`, `nuxt-vuetify-query-boilerplate`, `sveltekit-tailwind-query-boilerplate`, `symfony-twig-stimulus-boilerplate`, `html-css-vanilla-boilerplate`, `api-platform-test-api`, `hono-mongo-test-api`.
+**Périmètre** : `boilerplate-next`, `boilerplate-nuxt`, `boilerplate-svelte`, `boilerplate-symfony`, `boilerplate-html`, `api-platform-test-api`, `hono-mongo-test-api`.
 
 ---
 
@@ -143,7 +143,7 @@ Gravité : **haute** = contredit un principe DDD ou casse une frontière, **moye
 | C11 | le modèle mélange données et libellés d'affichage (`EXPOSURE_LABELS`, `SORT_LABELS`, `label` dans chaque facette) | basse | Next `common/models/catalog.ts`, `catalogFilters.ts` | séparation domaine et présentation, Evans p. 53 |
 | C12 | mélange d'unités dans la même règle : `Catalog.Query.priceMin` est en euros, `Product.price` en centimes, la conversion `* 100` est noyée dans le filtre | moyenne | Next `catalogFilters.ts` l. 10-11, Symfony `CatalogSearch.php` | Khononov p. 82-83 (PDF 108-109) : la monnaie en primitives provoque des erreurs, cas typique de value object |
 
-### 3.2 next-mui-query-boilerplate
+### 3.2 boilerplate-next
 
 | Constat | Gravité | Preuve |
 |---|---|---|
@@ -155,7 +155,7 @@ Gravité : **haute** = contredit un principe DDD ou casse une frontière, **moye
 | `legal/SitemapView` importe `CATEGORY_TREE` depuis `core` : une page légale dépend d'une donnée catalogue cachée dans le socle | moyenne | `src/domains/legal/ui/SitemapView.tsx` l. 5 |
 | Bon point : une seule fonction SEO, vues déléguées par la couche de routage, `index.ts` public par domaine | | `src/app/**/page.tsx` |
 
-### 3.3 nuxt-vuetify-query-boilerplate
+### 3.3 boilerplate-nuxt
 
 | Constat | Gravité | Preuve |
 |---|---|---|
@@ -166,7 +166,7 @@ Gravité : **haute** = contredit un principe DDD ou casse une frontière, **moye
 | Bon point : la règle ESLint est générée par domaine depuis le disque (`readdirSync`), ce qui permet déjà des règles par module. Auto-imports désactivés, ce qui rend les dépendances visibles | | `eslint.config.mjs` |
 | Attention : le dépôt a des modifications non commitées (`git status`), à stabiliser avant toute refonte | risque | 9 fichiers `M`, 1 `??` |
 
-### 3.4 sveltekit-tailwind-query-boilerplate
+### 3.4 boilerplate-svelte
 
 Le plus proche de la cible.
 
@@ -179,7 +179,7 @@ Le plus proche de la cible.
 | Les dossiers sont à la racine de `src/` avec un alias `@/` maison au lieu de la convention `src/lib` et `$lib` du framework | basse | `vite.config.ts` |
 | `domains/error` au singulier, `errors` ailleurs | basse | |
 
-### 3.5 symfony-twig-stimulus-boilerplate
+### 3.5 boilerplate-symfony
 
 | Constat | Gravité | Preuve |
 |---|---|---|
@@ -191,7 +191,7 @@ Le plus proche de la cible.
 | La règle d'architecture est un `grep` sur les lignes `^use` : elle ne voit ni un nom pleinement qualifié dans le code, ni une dépendance `Domain` vers `Infrastructure` ou `UI`, ni un module qui en importe un autre | haute | `Makefile.qa.mk`, cible `lint` |
 | Le `CLAUDE.md` du dépôt assume l'absence de couche application. Le contrôleur du catalogue fait pourtant de l'orchestration (arbre, redirection canonique, recherche, 404 sur page hors bornes) | moyenne | `src/UI/Http/Controller/CatalogController.php` |
 
-### 3.6 html-css-vanilla-boilerplate
+### 3.6 boilerplate-html
 
 | Constat | Gravité | Preuve |
 |---|---|---|
