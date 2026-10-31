@@ -21,8 +21,6 @@
   target={external ? '_blank' : undefined}
   rel={external ? 'noopener noreferrer' : undefined}
   >{@render children()}{#if external}<Icon name="external-link" class="bui-link__icon" /><span
-      class="bui-visually-hidden"
-    >
-      (nouvelle fenêtre)</span
+      class="bui-visually-hidden">{' (nouvelle fenêtre)'}</span
     >{/if}</a
 >

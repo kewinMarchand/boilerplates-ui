@@ -28,6 +28,11 @@ export default defineConfig(
     languageOptions: { parserOptions: { parser: ts.parser, extraFileExtensions: ['.svelte'] } },
   },
   {
+    // Svelte 5 retire l'espace en bord de contenu d'un élément : `{' (obligatoire)'}` est le seul moyen de le garder.
+    files: ['packages/svelte/src/**/*.svelte'],
+    rules: { 'svelte/no-useless-mustaches': 'off' },
+  },
+  {
     files: ['**/*.vue'],
     languageOptions: { parserOptions: { parser: ts.parser } },
     rules: { 'vue/require-default-prop': 'off' },

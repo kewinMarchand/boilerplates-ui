@@ -18,7 +18,7 @@
 
 <fieldset {id} class="bui-fieldset" aria-describedby={describedBy(id, hint, error)}>
   <legend class="bui-fieldset__legend">
-    {legend}{#if required}<span class="bui-fieldset__required"> (obligatoire)</span>{/if}
+    {legend}{#if required}<span class="bui-fieldset__required">{' (obligatoire)'}</span>{/if}
   </legend>
   {#if hint}<p id="{id}-hint" class="bui-fieldset__hint">{hint}</p>{/if}
   <div class="bui-fieldset__content">{@render children()}</div>

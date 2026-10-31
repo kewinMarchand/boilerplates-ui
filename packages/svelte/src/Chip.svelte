@@ -18,14 +18,12 @@
 
 {#if href !== undefined}
   <a {...rest} class={['bui-chip', className]} {href}
-    >{#if removable}<span class="bui-visually-hidden"
-        >Retirer le filtre :
-      </span>{/if}{@render children()}{#if removable}<Icon name="x" />{/if}</a
+    >{#if removable}<span class="bui-visually-hidden">{'Retirer le filtre : '}</span
+      >{/if}{@render children()}{#if removable}<Icon name="x" />{/if}</a
   >
 {:else}
   <button {...rest} type="button" class={['bui-chip', className]}>
-    {#if removable}<span class="bui-visually-hidden"
-        >Retirer le filtre :
-      </span>{/if}{@render children()}{#if removable}<Icon name="x" />{/if}
+    {#if removable}<span class="bui-visually-hidden">{'Retirer le filtre : '}</span
+      >{/if}{@render children()}{#if removable}<Icon name="x" />{/if}
   </button>
 {/if}

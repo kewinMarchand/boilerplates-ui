@@ -37,7 +37,7 @@
             class="bui-pagination__link"
             href={href(item)}
             aria-current={item === page ? 'page' : undefined}
-            ><span class="bui-visually-hidden">Page </span>{item}</a
+            ><span class="bui-visually-hidden">{'Page '}</span>{item}</a
           >
         </li>
       {/if}

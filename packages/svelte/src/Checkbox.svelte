@@ -28,7 +28,7 @@
     {...rest}
   />
   <label class="bui-checkbox__label" for={id}
-    >{label}{#if required}<span class="bui-checkbox__required"> (obligatoire)</span>{/if}</label
+    >{label}{#if required}<span class="bui-checkbox__required">{' (obligatoire)'}</span>{/if}</label
   >
   {#if hint}<p id="{id}-hint" class="bui-checkbox__hint">{hint}</p>{/if}
   {#if error}<p id="{id}-error" class="bui-checkbox__error">

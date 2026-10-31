@@ -17,7 +17,7 @@
 
 <div class="bui-field">
   <label class="bui-field__label" for={id}
-    >{label}{#if required}<span class="bui-field__required"> (obligatoire)</span>{/if}</label
+    >{label}{#if required}<span class="bui-field__required">{' (obligatoire)'}</span>{/if}</label
   >
   {#if hint}<p id="{id}-hint" class="bui-field__hint">{hint}</p>{/if}
   {@render children()}

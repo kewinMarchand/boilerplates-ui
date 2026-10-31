@@ -82,6 +82,6 @@
     {/if}
     {@render children?.()}
     {#if !loading && icon && iconPosition === 'end'}<Icon name={icon} />{/if}
-    {#if loading}<span class="bui-visually-hidden"> (chargement en cours)</span>{/if}
+    {#if loading}<span class="bui-visually-hidden">{' (chargement en cours)'}</span>{/if}
   </button>
 {/if}
