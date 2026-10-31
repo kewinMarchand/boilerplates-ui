@@ -108,6 +108,9 @@ const s =
     () =>
       renderSvelte(Render, { props: { component, props, html } }).body
 
+/** Snippet Svelte au contenu HTML fixe (un seul élément racine). */
+const html = (markup: string) => createRawSnippet(() => ({ render: () => markup }))
+
 /** Plusieurs rendus Svelte à la suite, comme un fragment. */
 const all =
   (...renders: (() => string)[]) =>
@@ -535,12 +538,23 @@ const CASES: Case[] = [
           footer: () => h('a', { href: '/a' }, 'Lire'),
         },
       ),
+    svelte: s(
+      S.Card,
+      {
+        title: 'Titre',
+        headingLevel: 2,
+        media: html('<img src="/a.webp" alt="" width="320" height="180" loading="lazy">'),
+        footer: html('<a href="/a">Lire</a>'),
+      },
+      '<p>Texte</p>',
+    ),
   },
   {
     name: 'carte minimale',
     reference: ref.card({ title: 'Titre', body: '<p>Texte</p>' }),
     react: r(R.Card, { title: 'Titre', children: r('p', null, 'Texte') }),
     vue: () => h(V.Card, { title: 'Titre' }, { default: () => h('p', 'Texte') }),
+    svelte: s(S.Card, { title: 'Titre' }, '<p>Texte</p>'),
   },
   {
     name: 'modale',
@@ -924,6 +938,15 @@ const CASES: Case[] = [
         },
         { a: () => h('p', 'Un'), b: () => h('p', 'Deux') },
       ),
+    svelte: s(S.Tabs, {
+      id: 'fiche',
+      label: 'Fiche',
+      defaultTab: 'b',
+      tabs: [
+        { id: 'a', label: 'A', content: html('<p>Un</p>') },
+        { id: 'b', label: 'B', content: html('<p>Deux</p>') },
+      ],
+    }),
   },
   {
     name: 'accordéon',
@@ -953,6 +976,13 @@ const CASES: Case[] = [
         },
         { q1: () => h('p', 'R1'), q2: () => h('p', 'R2') },
       ),
+    svelte: s(S.Accordion, {
+      name: 'faq',
+      items: [
+        { id: 'q1', title: 'Q1', open: true, content: html('<p>R1</p>') },
+        { id: 'q2', title: 'Q2', content: html('<p>R2</p>') },
+      ],
+    }),
   },
   {
     name: 'info-bulle',
@@ -989,6 +1019,7 @@ const CASES: Case[] = [
     reference: ref.menu({ id: 'actions', label: 'Actions', items: MENU }),
     react: r(R.Menu, { id: 'actions', label: 'Actions', items: MENU, onSelect: () => {} }),
     vue: () => h(V.Menu, { id: 'actions', label: 'Actions', items: MENU }),
+    svelte: s(S.Menu, { id: 'actions', label: 'Actions', items: MENU }),
   },
   {
     name: 'menu déroulant à choix cochés, déclencheur en bouton icône',
@@ -1015,6 +1046,13 @@ const CASES: Case[] = [
         checked: 'dark',
         triggerIcon: 'moon',
       }),
+    svelte: s(S.Menu, {
+      id: 'theme',
+      label: 'Thème : sombre',
+      items: THEMES,
+      checked: 'dark',
+      triggerIcon: 'moon',
+    }),
   },
   {
     name: 'menu déroulant, déclencheur sur fond primaire et attributs de test',
@@ -1047,6 +1085,15 @@ const CASES: Case[] = [
         triggerVariant: 'nav',
         testId: 'theme-toggle',
       }),
+    svelte: s(S.Menu, {
+      id: 'theme',
+      label: 'Thème : système',
+      items: THEMES_TESTID,
+      checked: 'auto',
+      triggerIcon: 'monitor',
+      triggerVariant: 'nav',
+      testId: 'theme-toggle',
+    }),
   },
   {
     name: 'empilement',
@@ -1099,6 +1146,7 @@ const CASES: Case[] = [
     reference: ref.breadcrumb({ items: CRUMBS }),
     react: r(R.Breadcrumb, { items: CRUMBS }),
     vue: () => h(V.Breadcrumb, { items: CRUMBS }),
+    svelte: s(S.Breadcrumb, { items: CRUMBS }),
   },
   ...(
     [
@@ -1110,12 +1158,14 @@ const CASES: Case[] = [
     reference: ref.pagination({ page, count, href: HREF }),
     react: r(R.Pagination, { page, count, href: HREF }),
     vue: () => h(V.Pagination, { page, count, href: HREF }),
+    svelte: s(S.Pagination, { page, count, href: HREF }),
   })),
   {
     name: 'tableau trié',
     reference: ref.table(TABLE),
     react: r(R.Table, TABLE),
     vue: () => h(V.Table, TABLE),
+    svelte: s(S.Table, TABLE),
   },
 ]
 
