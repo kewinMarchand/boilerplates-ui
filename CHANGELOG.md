@@ -2,6 +2,17 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.11.0
+
+### Ajouté
+
+- Couche Svelte (`@kewinmarchand/boilerplates-ui/svelte`, ADR 0004) : les 37 composants de la couche Vue en Svelte 5 (runes, snippets), même balisage que la référence, React et Vue. Contenu par `children` et snippets nommés (`action`, `footer`, `media`, `content` des panneaux), événements par props de rappel (`onclick`, `onselect`, `onclose`, `onsort`), valeurs liées (`bind:value`, `bind:checked`, `bind:group`), `useToaster()` en module `.svelte.ts`.
+- Test de parité : chaque cas porte un rendu Svelte obligatoire (rendu serveur `svelte/server`) ; le test tourne en environnement `node` avec un DOM `jsdom` pour la normalisation.
+
+### Storybook
+
+- Une histoire Svelte par composant, à côté de HTML, React et Vue ; scénarios de comportement d'accessibilité joués aussi sur Svelte.
+
 ## 0.10.1
 
 ### Corrigé

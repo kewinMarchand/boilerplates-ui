@@ -1,6 +1,6 @@
 {
   "name": "@kewinmarchand/tokens",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Tokens de design : variables CSS, JSON et preset Tailwind",
   "license": "MIT",
   "type": "module",
