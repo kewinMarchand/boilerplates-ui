@@ -2,7 +2,7 @@
 
 Architecture : voir `ARCHITECTURE-DDD.md` (décisions D1 à D12 acceptées). Vocabulaire : couche de routage, `views/`, `modules/<module>/{domain,application,infrastructure,ui}`, `shared/`.
 
-S'applique à : boilerplate-next, boilerplate-nuxt, boilerplate-svelte, boilerplate-symfony, boilerplate-html (tous dans `~/Applications/`). Même contenu, mêmes routes, mêmes `data-testid` partout, pour que les suites e2e se ressemblent d'un dépôt à l'autre. Chaque stack l'implémente avec ses conventions natives. Aucune dépendance ajoutée sans justification dans le CLAUDE.md du dépôt.
+S'applique à : boilerplate-next, boilerplate-nuxt, boilerplate-svelte, boilerplate-symfony, boilerplate-html et boilerplate-astro (section 21), tous dans `~/Applications/`. Même contenu, mêmes routes, mêmes `data-testid` partout, pour que les suites e2e se ressemblent d'un dépôt à l'autre. Chaque stack l'implémente avec ses conventions natives. Aucune dépendance ajoutée sans justification dans le CLAUDE.md du dépôt.
 
 Médias partagés, à copier dans les assets publics du dépôt sous `images/` (et supprimer tout ancien placeholder dégradé) :
 `~/Applications/boilerplates-commun/shared-assets/` (photos de Kewin, EXIF et GPS retirés, et illustrations), chacune en `.avif` et `.webp`, ratio 16:9 : `hero-{640,1280,1920}` (jardin tropical), `slide-{1..5}-{640,1280}` (heliconia, anthurium, calliandra, strelitzia, nénuphar), `blog-{1..3}-{480,960}` (illustrations isométriques). Servir AVIF puis WebP (`<picture>` ou composant image du framework, `srcset`/`sizes`). Les composants image de Next et Nuxt peuvent partir de la plus grande variante. Supprimer les anciens `hero.webp` et `slide-N.webp` dégradés s'ils ont été copiés.
@@ -88,6 +88,7 @@ Seconde API au **contrat identique** : `~/Applications/boilerplate-hono` (Hono +
 | boilerplate-svelte | 5173 | 3120 | 3220 |
 | boilerplate-symfony | 8095 | 8095 | 3230 |
 | boilerplate-html | 3130 | 3130 | 3250 |
+| boilerplate-astro | 4321 | 3170 | 3270 |
 | boilerplate-api-platform | 8090 | | |
 | boilerplate-hono | 8091 | | |
 
@@ -100,7 +101,7 @@ Ports pris sur la machine de l'auteur par d'autres services, à ne pas réattrib
 Fichiers dans `shared-assets/brand/` : `logo-mark.svg` (pictogramme feuille, 64×64), `favicon.svg`, `favicon.ico` (16/32/48), `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png`, `og-image.jpg` (1200×630).
 
 - **Logo dans le header** : lien vers `/` (`data-testid="layout-logo"`), pictogramme SVG `aria-hidden="true"` (inline ou `<img alt="">`) + nom du site en **texte HTML** (pas de texte vectorisé). Nom accessible du lien = nom du site. Sur l'accueil, le lien garde son `href` mais porte `aria-current="page"`. Le pictogramme est aussi repris en petit dans le footer.
-- **Favicons et manifeste** : `<link rel="icon" href="/favicon.ico" sizes="48x48">`, `<link rel="icon" href="/favicon.svg" type="image/svg+xml">`, `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`, `manifest.webmanifest` (name, short_name, icons 192 et 512, `theme_color`, `background_color`, `lang: "fr"`, `start_url: "/"`, `display: "standalone"`). Utiliser les conventions natives du framework (fichiers `app/icon.svg`/`favicon.ico`/`manifest.ts` en Next, `useHead`/`app.head` en Nuxt, `app.html` en SvelteKit, `base.html.twig`, `<head>` statique en vanilla).
+- **Favicons et manifeste** : `<link rel="icon" href="/favicon.ico" sizes="48x48">`, `<link rel="icon" href="/favicon.svg" type="image/svg+xml">`, `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`, `manifest.webmanifest` (name, short_name, icons 192 et 512, `theme_color`, `background_color`, `lang: "fr"`, `start_url: "/"`, `display: "standalone"`). Utiliser les conventions natives du framework (fichiers `app/icon.svg`/`favicon.ico`/`manifest.ts` en Next, `useHead`/`app.head` en Nuxt, `app.html` en SvelteKit, `base.html.twig`, `<head>` statique en vanilla, layout `src/shared/ui/layout/BaseLayout.astro` en Astro).
 
 ## 9. Fil d'Ariane
 
@@ -184,7 +185,7 @@ Chaque dépôt a ses propres pages d'erreur, dans le layout du site (header, foo
 | 500 | Une erreur est survenue | Message neutre (jamais de trace ni de message technique), bouton « Réessayer » (recharge), lien vers l'accueil. |
 | 503 | Site en maintenance | Message de maintenance, `Retry-After` si la stack le permet. Page **statique autonome** (n'appelle ni API ni données), activable par une variable d'environnement `MAINTENANCE=1` quand la stack le permet simplement, sinon fichier statique servi par le serveur web (vanilla, Docker nginx/Caddy). |
 
-- Conventions natives : `not-found.tsx`, `error.tsx` et `global-error.tsx` (Next), `error.vue` (Nuxt), `+error.svelte` et `src/error.html` (SvelteKit), `templates/bundles/TwigBundle/Exception/error{404,500}.html.twig` (Symfony), `404.html`, `50x.html` et la config nginx (vanilla).
+- Conventions natives : `not-found.tsx`, `error.tsx` et `global-error.tsx` (Next), `error.vue` (Nuxt), `+error.svelte` et `src/error.html` (SvelteKit), `templates/bundles/TwigBundle/Exception/error{404,500}.html.twig` (Symfony), `404.html`, `50x.html` et la config nginx (vanilla), `src/pages/404.astro` et `src/pages/500.astro` (Astro).
 - `<meta name="robots" content="noindex">`, title propre, pas dans le sitemap.
 - Pour pouvoir tester la 500 : une route de déclenchement **disponible en dev et test uniquement** (`/_erreur-test` ou équivalent idiomatique : `/_error/500` en Symfony), introuvable (404) en production.
 - Tests e2e : 404 sur une route inconnue **et** sur un slug de catégorie inconnu (code + h1 + lien accueil), 500 sur la route de test (code + h1, aucun texte technique : ni « Error », ni « stack », ni anglais), axe sur 404 et 500.
@@ -236,6 +237,7 @@ Le dépôt ne suppose aucune instance précise : l'URL Matomo et le DSN GlitchTi
 | SvelteKit | `@sentry/sveltekit` (hooks client et serveur) |
 | Symfony | `sentry/sentry-symfony` (PHP) et `@sentry/browser` (navigateur) |
 | vanilla | `@sentry/browser`, copié dans `site/vendor/` comme Embla (pas de build) |
+| Astro | `@sentry/astro` |
 | API Platform | `sentry/sentry-symfony` |
 | Hono | `@sentry/node` |
 
@@ -284,7 +286,7 @@ Dépôt public `kewinMarchand/boilerplates-ui`, monorepo, avec un Storybook de d
 - **Storybook** : une histoire par composant et par état (normal, survol, focus, désactivé, erreur, chargement), en mode standard et renforcé, documentation des tokens, publié en site statique (GitHub Pages).
 - **Les chartes graphiques des 5 boilerplates sont conservées** (section 14).
 - **Distribution** : paquets npm publics sous `@kewinmarchand/` (connexion npm de Kewin requise pour publier). En attendant, dépendance git par étiquette de version.
-- **Intégration** : aucun kit de composants tiers (décision du 30/10/2026, MUI et Vuetify retirés) : chaque boilerplate prend ses composants dans boilerplates-ui, en React pour Next, en Vue pour Nuxt, en CSS et vanilla pour SvelteKit, Symfony et le site HTML ; Tailwind reste un outil de style dans SvelteKit, branché sur les jetons. Un boilerplate à la fois. Les dépôts modèles sont renommés `boilerplate-<techno>` le 31/10/2026 (ADR 0005 de boilerplates-ui) ; les projets déjà créés à partir d'eux gardent leur kit, une migration se décide projet par projet.
+- **Intégration** : aucun kit de composants tiers (décision du 30/10/2026, MUI et Vuetify retirés) : chaque boilerplate prend ses composants dans boilerplates-ui, en React pour Next, en Vue pour Nuxt, en Svelte pour SvelteKit (ADR 0004) et Astro (section 21), en CSS et vanilla pour Symfony et le site HTML ; Tailwind reste un outil de style dans SvelteKit, branché sur les jetons. Un boilerplate à la fois. Les dépôts modèles sont renommés `boilerplate-<techno>` le 31/10/2026 (ADR 0005 de boilerplates-ui) ; les projets déjà créés à partir d'eux gardent leur kit, une migration se décide projet par projet.
 - **Composant manquant** : il entre d'abord dans la bibliothèque (CSS et balisage de référence, React, Vue, comportement vanilla si besoin, test de parité), puis dans le Storybook (variantes, états, modes standard, renforcé et sombre, axe), sort dans une version étiquetée, est intégré aux boilerplates, et enfin importé par le projet qui en a besoin. Jamais de composant écrit seulement dans un boilerplate ou un projet en attendant.
 - Mêmes règles que les boilerplates : conteneur seul prérequis (section 18), `make`, CI, aucune mention de l'employeur.
 
@@ -302,3 +304,19 @@ Le site suit le thème du système par défaut, et l'utilisateur peut le forcer 
   - e2e, présence ET absence : chaque choix pose l'attribut et l'écrit en `localStorage` ; il persiste après rechargement ; « système » retire la clé et remet `auto` ; avec `prefers-color-scheme: dark` émulé, `auto` donne le sombre ; en mode renforcé, la page est en clair même avec `dark` ;
   - sans flash : l'attribut lu au premier `DOMContentLoaded` est déjà celui du stockage ;
   - axe sur chaque route en clair, en sombre et en mode renforcé ; Lighthouse en clair et en sombre.
+
+## 21. boilerplate-astro (sites de contenu)
+
+Sixième boilerplate, pour les sites où le contenu domine (vitrine, éditorial, documentation) : le HTML est rendu sur le serveur et la page n'envoie du JavaScript que là où l'interface en a besoin. Même contenu, mêmes routes, mêmes `data-testid` et mêmes tests que les cinq autres (sections 1 à 20). Cadrage décidé le 31/10/2026.
+
+- **Stack** : Astro 7, TypeScript strict, rendu serveur à la demande par `@astrojs/node` (mode `standalone`, image Docker Node). Les pages sans donnée (légales, plan du site) sont pré-rendues (`export const prerender = true`). Pas de Tailwind : styles scopés d'Astro sur les variables des jetons, comme Symfony et le site HTML.
+- **Composants** : la couche Svelte de boilerplates-ui (ADR 0004), par `@astrojs/svelte`. Les composants sans interaction sont **rendus sur le serveur, sans JavaScript** ; seuls les éléments interactifs sont des îlots hydratés (`client:load`, `client:idle` ou `client:visible`) : bascules du header, menus, carrousel, filtres du catalogue, formulaire de contact. Aucune couche Astro n'est créée dans la bibliothèque : le balisage Svelte est déjà vérifié par le test de parité, et ses composants interactifs dépendent du runtime Svelte, pas des comportements vanilla.
+- **Architecture** (ARCHITECTURE-DDD) : couche de routage `src/pages/` (un fichier par route, qui délègue à une vue ou à un module), `src/views/`, `src/modules/<module>/{domain,application,infrastructure,ui}`, `src/shared/`. Le domaine, l'application et l'infrastructure sont repris de boilerplate-svelte (TypeScript sans framework, mêmes tests unitaires) ; l'interface est en `.astro`, avec des composants Svelte pour les îlots.
+- **Données** : l'API commune (section 6) est appelée **sur le serveur** pendant le rendu, par le client typé (`openapi-fetch`, types générés par `make api-types`). Le catalogue lit son état dans l'URL et rend la page complète sur le serveur ; avec JavaScript, l'îlot des filtres navigue à chaque changement.
+- **Formulaire de contact** : Astro Actions (validation `zod`), envoi en `POST` natif sans JavaScript, violations 422 de l'API relayées sous les champs.
+- **Amorçage** : script inline du layout (`is:inline`) pour le mode renforcé et le thème, avant le premier rendu (sections 4 et 20).
+- **Erreurs** : `src/pages/404.astro` et `src/pages/500.astro` ; route de test `/_erreur-test` absente en production ; maintenance par `MAINTENANCE=1` (middleware Astro, 503 et `Retry-After`).
+- **Observabilité** (section 16) : `@sentry/astro`, chargé seulement si `PUBLIC_GLITCHTIP_DSN` est renseigné ; Matomo sans cookie si `PUBLIC_MATOMO_URL` et `PUBLIC_MATOMO_SITE_ID` le sont. CSP Report-Only par `@kewinmarchand/csp` dans un middleware.
+- **Ports** (section 7) : dev 4321, e2e 3170, Lighthouse 3270.
+- **Outillage** : identique aux autres (section 18) : Docker (image Playwright pour Node), `make`, ESLint (`eslint-plugin-astro`, règles de dépendance), Prettier (`prettier-plugin-astro`), `astro check`, Vitest, Playwright + axe, Lighthouse CI en clair et en sombre, hook Git qui appelle `make`, GitHub Actions.
+
