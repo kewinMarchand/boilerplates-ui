@@ -98,7 +98,7 @@ interface Case {
   reference: string
   react: ReactElement
   vue: () => VNode
-  svelte?: () => string
+  svelte: () => string
 }
 
 /** Rendu serveur d'un composant Svelte ; `html` remplit son contenu par défaut. */
@@ -578,6 +578,16 @@ const CASES: Case[] = [
         { id: 'confirmation', title: 'Confirmer', open: false },
         { default: () => h('p', 'Texte'), footer: () => h('button', { type: 'button' }, 'OK') },
       ),
+    svelte: s(
+      S.Modal,
+      {
+        id: 'confirmation',
+        title: 'Confirmer',
+        open: false,
+        footer: html('<button type="button">OK</button>'),
+      },
+      '<p>Texte</p>',
+    ),
   },
   {
     name: 'bouton icône',
@@ -878,6 +888,11 @@ const CASES: Case[] = [
         { id: 'menu', title: 'Menu', open: false, focusTitle: true },
         { default: () => h('p', 'Texte') },
       ),
+    svelte: s(
+      S.Drawer,
+      { id: 'menu', title: 'Menu', open: false, focusTitle: true },
+      '<p>Texte</p>',
+    ),
   },
   {
     name: 'tiroir',
@@ -896,6 +911,11 @@ const CASES: Case[] = [
         { id: 'filtres', title: 'Filtres', open: false, side: 'start' },
         { default: () => h('p', 'Texte') },
       ),
+    svelte: s(
+      S.Drawer,
+      { id: 'filtres', title: 'Filtres', open: false, side: 'start' },
+      '<p>Texte</p>',
+    ),
   },
   {
     name: 'file de toasts',
@@ -1180,7 +1200,7 @@ describe('parité du balisage avec la référence CSS', () => {
     )
   })
 
-  it.each(CASES.filter((testCase) => testCase.svelte))('Svelte, $name', ({ reference, svelte }) => {
-    expect(canonical(svelte?.() ?? '')).toBe(canonical(reference))
+  it.each(CASES)('Svelte, $name', ({ reference, svelte }) => {
+    expect(canonical(svelte())).toBe(canonical(reference))
   })
 })
