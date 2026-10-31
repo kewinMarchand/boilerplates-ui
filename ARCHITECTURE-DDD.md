@@ -1,8 +1,8 @@
 # Proposition d'architecture DDD pour les sept dépôts
 
 **Statut** : ACCEPTÉE, recommandations D1 à D12 retenues sans réserve.
-**Révision** : ADR 0001 de `api-platform-test-api` (administration par EasyAdmin dans l'API Platform, commit `46df658`). Le catalogue gagne des écritures côté API Platform : §2.2, §4.4.2 et §5 sont annotés. Le reste ne change pas.
-**Périmètre** : `boilerplate-next`, `boilerplate-nuxt`, `boilerplate-svelte`, `boilerplate-symfony`, `boilerplate-html`, `api-platform-test-api`, `hono-mongo-test-api`.
+**Révision** : ADR 0001 de `boilerplate-api-platform` (administration par EasyAdmin dans l'API Platform, commit `46df658`). Le catalogue gagne des écritures côté API Platform : §2.2, §4.4.2 et §5 sont annotés. Le reste ne change pas.
+**Périmètre** : `boilerplate-next`, `boilerplate-nuxt`, `boilerplate-svelte`, `boilerplate-symfony`, `boilerplate-html`, `boilerplate-api-platform`, `boilerplate-hono`.
 
 ---
 
@@ -49,14 +49,14 @@ Khononov propose de délimiter un sous-domaine comme un ensemble cohérent de ca
 
 | Sous-domaine | Type | Complexité réelle | Cas d'utilisation | Pattern de logique (Khononov p. 161-166, PDF 187-192) |
 |---|---|---|---|---|
-| **Catalogue** | générique dans la réalité, traité comme le module principal de la démo | moyenne, entièrement en lecture : arbre à 3 niveaux, filtres combinés, comptage disjonctif, tri, pagination | parcourir une catégorie, filtrer, trier, paginer ; côté API Platform, administrer catégories et produits (ADR 0001 de `api-platform-test-api`) | côté API : modèle de domaine **sans agrégat** (value objects + service de domaine pur) ; avec l'administration, agrégats `Category` et `Product` côté API Platform. Côté front : couches classiques, l'essentiel est de la traduction et de la présentation |
+| **Catalogue** | générique dans la réalité, traité comme le module principal de la démo | moyenne, entièrement en lecture : arbre à 3 niveaux, filtres combinés, comptage disjonctif, tri, pagination | parcourir une catégorie, filtrer, trier, paginer ; côté API Platform, administrer catégories et produits (ADR 0001 de `boilerplate-api-platform`) | côté API : modèle de domaine **sans agrégat** (value objects + service de domaine pur) ; avec l'administration, agrégats `Category` et `Product` côté API Platform. Côté front : couches classiques, l'essentiel est de la traduction et de la présentation |
 | **Blog** (contenu éditorial) | support | faible : lecture de 3 articles | lister les derniers articles | transaction script |
 | **Contact** | support | faible : valider une saisie puis l'enregistrer (« la logique ne va pas au-delà de valider des entrées », Khononov p. 8, PDF 34) | envoyer un message | transaction script, validation à la frontière |
 | **Tâches** | démonstration technique, hors métier | triviale | lister des tâches | transaction script |
 
 Pourquoi pas d'agrégat dans le catalogue : un agrégat est une frontière de cohérence qui protège des invariants lors des **modifications** (Evans p. 89-92, Khononov p. 84-85, PDF 110-111). Le catalogue n'a aucune écriture. Ses règles sont des calculs sur des données lues : ce sont des value objects et un service de domaine sans état (Evans p. 75-76, Khononov p. 92-93, PDF 118-119).
 
-**Révision** (ADR 0001 de `api-platform-test-api`, commit `46df658`) : l'administration ajoute des écritures au catalogue de l'API Platform, donc des invariants à protéger à la modification (slug unique dans sa branche, parent existant, 3 niveaux au plus, prix positif ou nul). `Category` et `Product` y deviennent des agrégats, et la règle ci-dessus s'applique telle quelle : agrégat dès qu'il y a écriture. La recherche reste un service de domaine sans état. Hono et les fronts restent en lecture, donc sans agrégat.
+**Révision** (ADR 0001 de `boilerplate-api-platform`, commit `46df658`) : l'administration ajoute des écritures au catalogue de l'API Platform, donc des invariants à protéger à la modification (slug unique dans sa branche, parent existant, 3 niveaux au plus, prix positif ou nul). `Category` et `Product` y deviennent des agrégats, et la règle ci-dessus s'applique telle quelle : agrégat dès qu'il y a écriture. La recherche reste un service de domaine sans état. Hono et les fronts restent en lecture, donc sans agrégat.
 
 ### 2.3 Ce qui n'est pas un domaine
 
@@ -200,7 +200,7 @@ Le plus proche de la cible.
 | `js/domains/` sans `home`, `legal` ni `errors` : ici l'absence de JS pour ces pages montre bien qu'elles ne sont pas des domaines | | `site/js/` |
 | 28 fichiers HTML référencent `/js/domains`, `/js/core` ou `/js/features` en dur : tout déplacement touche toutes les copies de pages | risque | `grep` sur `site/` |
 
-### 3.7 api-platform-test-api
+### 3.7 boilerplate-api-platform
 
 | Constat | Gravité | Preuve |
 |---|---|---|
@@ -212,7 +212,7 @@ Le plus proche de la cible.
 | `ProductListProvider` (adaptateur) lit les paramètres, appelle deux dépôts et le service de domaine, puis mappe : orchestration applicative logée dans l'adaptateur | moyenne | `Catalog/Infrastructure/ApiPlatform/State/ProductListProvider.php` |
 | Aucune vérification d'architecture (pas de deptrac) | haute | `Makefile.qa.mk` |
 
-### 3.8 hono-mongo-test-api
+### 3.8 boilerplate-hono
 
 | Constat | Gravité | Preuve |
 |---|---|---|
@@ -360,7 +360,7 @@ Un contexte, quatre modules. Ports et adaptateurs pour le catalogue (Khononov p.
 #### 4.4.2 Agrégats, value objects, dépôts
 
 - **Agrégats** : aucun à introduire. Les seules écritures sont `POST /api/contact_messages`, une création d'un objet isolé sans invariant entre objets. `ContactMessage` est trivialement son propre agrégat, le nommer ainsi n'apporte rien (Evans p. 92 : l'agrégat sert à garantir des invariants communs à plusieurs objets).
-  - **Révision** (ADR 0001 de `api-platform-test-api`, commit `46df658`) : dans l'API Platform, l'administration écrit par les cas d'usage de la couche application de `Catalog` (pas par des opérations API Platform). `Category` et `Product` deviennent des agrégats (voir §2.2). Articles, diapositives du carrousel et pages légales sont des écritures d'objets isolés : transaction scripts, sans agrégat nommé.
+  - **Révision** (ADR 0001 de `boilerplate-api-platform`, commit `46df658`) : dans l'API Platform, l'administration écrit par les cas d'usage de la couche application de `Catalog` (pas par des opérations API Platform). `Category` et `Product` deviennent des agrégats (voir §2.2). Articles, diapositives du carrousel et pages légales sont des écritures d'objets isolés : transaction scripts, sans agrégat nommé.
 - **Value objects** : `Price` (centimes, construit depuis l'entier stocké par `Product::price()`, colonne et mapping Doctrine inchangés, donc aucune migration). `CategoryTree` (parcours, branches, enfants). Pas d'`Email` ni de `Slug` dans l'API : la validation de l'e-mail est une contrainte de frontière d'un sous-domaine de support (Khononov p. 8, PDF 34), et le slug n'a aucune règle propre au-delà de la chaîne.
 - **Dépôts** : Evans autorise un dépôt à renvoyer des comptages et des sommes (p. 108). Le jour où le catalogue grossit, le comptage des facettes descend dans `DoctrineProductRepository` (SQL), et `ProductSearch` reste la référence de test. Tant que le jeu fait 24 produits, on garde le calcul en PHP, comme le `CLAUDE.md` de l'API le dit déjà.
 - **Cas d'utilisation** : seul `SearchProducts` se justifie (deux ports, un service, une décision 404 via `CategoryNotFound`).
@@ -569,7 +569,7 @@ Pourquoi `eslint-plugin-boundaries` plutôt que `no-restricted-imports` pour R1 
 
 | Pattern | Verdict | Raison |
 |---|---|---|
-| Agrégats dans le catalogue | **non**, sauf dans l'API Platform depuis l'ADR 0001 de `api-platform-test-api` | aucune écriture, donc aucun invariant de modification à protéger (Evans p. 89-92). L'administration en ajoute côté API Platform, donc des agrégats `Category` et `Product` |
+| Agrégats dans le catalogue | **non**, sauf dans l'API Platform depuis l'ADR 0001 de `boilerplate-api-platform` | aucune écriture, donc aucun invariant de modification à protéger (Evans p. 89-92). L'administration en ajoute côté API Platform, donc des agrégats `Category` et `Product` |
 | Événements de domaine | **non** | aucun abonné, aucun processus déclenché (Khononov p. 91-92, PDF 117-118) |
 | CQRS | **non** | un seul modèle persistant, ce que l'arbre de Khononov exige pour le justifier (p. 163-164, PDF 189-190) |
 | Event sourcing | **non** | ni argent réel, ni journal d'audit, ni analyse du comportement (Khononov p. 162, PDF 188) |

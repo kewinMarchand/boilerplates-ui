@@ -68,16 +68,16 @@ Vue `views/legal/` (pas un module : contenu statique sans métier, quatre pages)
 
 Ressources ajoutées : `GET /api/categories` (arbre), `GET /api/products` (filtres, tri, pagination et compteurs de facettes, section 11).
 
-Dépôt `~/Applications/api-platform-test-api` (API Platform 4 + PostgreSQL, port 8090). Ressources : `GET /api/tasks`, `GET /api/articles`, `POST /api/contact_messages` (422 avec messages français). En-tête `X-Scenario: error|empty` en dev/test. OpenAPI à `/api/docs.jsonopenapi`. Les fronts garderont leurs dépôts en mémoire tant que l'API n'est pas livrée : la couche `api/` des domaines est la seule à changer au branchement.
+Dépôt `~/Applications/boilerplate-api-platform` (API Platform 4 + PostgreSQL, port 8090). Ressources : `GET /api/tasks`, `GET /api/articles`, `POST /api/contact_messages` (422 avec messages français). En-tête `X-Scenario: error|empty` en dev/test. OpenAPI à `/api/docs.jsonopenapi`. Les fronts garderont leurs dépôts en mémoire tant que l'API n'est pas livrée : la couche `api/` des domaines est la seule à changer au branchement.
 
-Seconde API au **contrat identique** : `~/Applications/hono-mongo-test-api` (Hono + zod + MongoDB, port 8091), même OpenAPI à `/api/docs.jsonopenapi`, vérifiée par `make contract`. Au branchement, chaque front choisit l'une ou l'autre par une seule variable d'URL d'API (8090 par défaut), sans autre changement de code.
+Seconde API au **contrat identique** : `~/Applications/boilerplate-hono` (Hono + zod + MongoDB, port 8091), même OpenAPI à `/api/docs.jsonopenapi`, vérifiée par `make contract`. Au branchement, chaque front choisit l'une ou l'autre par une seule variable d'URL d'API (8090 par défaut), sans autre changement de code.
 
 **Branchement.**
 
 - `API_URL` choisit l'API (8090 API Platform par défaut, 8091 Hono), sans autre changement de code.
 - Types générés depuis l'OpenAPI par `make api-types`, consommés seulement par un client typé et une couche anti-corruption par module dans `infrastructure/http/` (ARCHITECTURE-DDD 4.3.4). Les composants ignorent le contrat. Les violations 422 du contact sont relayées vers les champs du formulaire.
 - L'adaptateur en mémoire quitte le code de production.
-- Tests : la CI e2e démarre une vraie API (`hono-mongo-test-api`, dépôt public, `make up`) et les états d'erreur et de liste vide passent par `X-Scenario`. En local, l'API de son choix est lancée à côté, le front la joint par `API_URL`.
+- Tests : la CI e2e démarre une vraie API (`boilerplate-hono`, dépôt public, `make up`) et les états d'erreur et de liste vide passent par `X-Scenario`. En local, l'API de son choix est lancée à côté, le front la joint par `API_URL`.
 
 ## 7. Ports
 
@@ -88,8 +88,8 @@ Seconde API au **contrat identique** : `~/Applications/hono-mongo-test-api` (Hon
 | boilerplate-svelte | 5173 | 3120 | 3220 |
 | boilerplate-symfony | 8095 | 8095 | 3230 |
 | boilerplate-html | 3130 | 3130 | 3250 |
-| api-platform-test-api | 8090 | | |
-| hono-mongo-test-api | 8091 | | |
+| boilerplate-api-platform | 8090 | | |
+| boilerplate-hono | 8091 | | |
 
 Depuis la section 18, les tests et Lighthouse tournent dans le conteneur : leurs ports (3100 à 3250, faux GlitchTip 3231) sont internes au conteneur, sauf pour Symfony, vanilla et Hono dont le service `node` ou `contract` est sur le réseau de la machine. Seul le port de dev est publié. Un port de dev pris par un autre service se déplace par variable (`DEV_PORT` en Next et Nuxt, `HTTP_PORT` en Symfony).
 
