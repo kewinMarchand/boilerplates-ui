@@ -386,12 +386,14 @@ const CASES: Case[] = [
     reference: ref.textField({ id: 'nom', label: 'Nom' }),
     react: r(R.TextField, { id: 'nom', label: 'Nom' }),
     vue: () => h(V.TextField, { id: 'nom', label: 'Nom' }),
+    svelte: s(S.TextField, { id: 'nom', label: 'Nom' }),
   },
   {
     name: 'champ texte avec exemple de saisie',
     reference: ref.textField({ id: 'ville', label: 'Ville', placeholder: 'Marseille' }),
     react: r(R.TextField, { id: 'ville', label: 'Ville', placeholder: 'Marseille' }),
     vue: () => h(V.TextField, { id: 'ville', label: 'Ville', placeholder: 'Marseille' }),
+    svelte: s(S.TextField, { id: 'ville', label: 'Ville', placeholder: 'Marseille' }),
   },
   {
     name: 'champ texte requis, aide et erreur',
@@ -423,12 +425,22 @@ const CASES: Case[] = [
         hint: 'Format : nom@domaine.fr',
         error: 'Saisir une adresse e-mail valide',
       }),
+    svelte: s(S.TextField, {
+      id: 'email',
+      label: 'E-mail',
+      type: 'email',
+      autocomplete: 'email',
+      required: true,
+      hint: 'Format : nom@domaine.fr',
+      error: 'Saisir une adresse e-mail valide',
+    }),
   },
   {
     name: 'case à cocher cochée',
     reference: ref.checkbox({ id: 'news', label: 'Recevoir la lettre', checked: true }),
     react: r(R.Checkbox, { id: 'news', label: 'Recevoir la lettre', defaultChecked: true }),
     vue: () => h(V.Checkbox, { id: 'news', label: 'Recevoir la lettre', modelValue: true }),
+    svelte: s(S.Checkbox, { id: 'news', label: 'Recevoir la lettre', checked: true }),
   },
   {
     name: 'case à cocher requise en erreur, désactivée',
@@ -457,6 +469,14 @@ const CASES: Case[] = [
         hint: 'Lecture conseillée',
         error: 'Cocher la case pour continuer',
       }),
+    svelte: s(S.Checkbox, {
+      id: 'cgu',
+      label: 'J’accepte les conditions',
+      required: true,
+      disabled: true,
+      hint: 'Lecture conseillée',
+      error: 'Cocher la case pour continuer',
+    }),
   },
   ...(['info', 'success', 'warning', 'error'] as const).map((variant) => ({
     name: `alerte ${variant}`,
@@ -600,18 +620,28 @@ const CASES: Case[] = [
         required: true,
         rows: 6,
       }),
+    svelte: s(S.TextArea, {
+      id: 'msg',
+      label: 'Message',
+      hint: 'Aide',
+      error: 'Trop court',
+      required: true,
+      rows: 6,
+    }),
   },
   {
     name: 'zone de texte désactivée',
     reference: ref.textArea({ id: 'note', label: 'Note', disabled: true }),
     react: r(R.TextArea, { id: 'note', label: 'Note', disabled: true }),
     vue: () => h(V.TextArea, { id: 'note', label: 'Note', disabled: true }),
+    svelte: s(S.TextArea, { id: 'note', label: 'Note', disabled: true }),
   },
   {
     name: 'zone de texte avec exemple de saisie',
     reference: ref.textArea({ id: 'avis', label: 'Avis', placeholder: 'Votre avis' }),
     react: r(R.TextArea, { id: 'avis', label: 'Avis', placeholder: 'Votre avis' }),
     vue: () => h(V.TextArea, { id: 'avis', label: 'Avis', placeholder: 'Votre avis' }),
+    svelte: s(S.TextArea, { id: 'avis', label: 'Avis', placeholder: 'Votre avis' }),
   },
   {
     name: 'liste déroulante',
@@ -643,12 +673,22 @@ const CASES: Case[] = [
         error: 'Requis',
         required: true,
       }),
+    svelte: s(S.Select, {
+      id: 'pays',
+      label: 'Pays',
+      placeholder: 'Choisir',
+      options: OPTIONS,
+      hint: 'Aide',
+      error: 'Requis',
+      required: true,
+    }),
   },
   {
     name: 'bouton radio seul',
     reference: ref.radio({ id: 'r1', name: 'r', value: 'a', label: 'A', disabled: true }),
     react: r(R.Radio, { id: 'r1', name: 'r', value: 'a', label: 'A', disabled: true }),
     vue: () => h(V.Radio, { id: 'r1', name: 'r', value: 'a', label: 'A', disabled: true }),
+    svelte: s(S.Radio, { id: 'r1', name: 'r', value: 'a', label: 'A', disabled: true }),
   },
   {
     name: 'groupe de boutons radio',
@@ -683,6 +723,16 @@ const CASES: Case[] = [
         error: 'Choisir',
         required: true,
       }),
+    svelte: s(S.RadioGroup, {
+      id: 'livraison',
+      name: 'livraison',
+      legend: 'Livraison',
+      options: OPTIONS,
+      value: 'be',
+      hint: 'Aide',
+      error: 'Choisir',
+      required: true,
+    }),
   },
   {
     name: 'groupe de champs',
@@ -690,18 +740,21 @@ const CASES: Case[] = [
     react: r(R.Fieldset, { id: 'contact', legend: 'Contact', children: r('p', null, 'Contenu') }),
     vue: () =>
       h(V.Fieldset, { id: 'contact', legend: 'Contact' }, { default: () => h('p', 'Contenu') }),
+    svelte: s(S.Fieldset, { id: 'contact', legend: 'Contact' }, '<p>Contenu</p>'),
   },
   {
     name: 'interrupteur activé',
     reference: ref.switchControl({ id: 'notif', label: 'Notifications', checked: true }),
     react: r(R.Switch, { id: 'notif', label: 'Notifications', defaultChecked: true }),
     vue: () => h(V.Switch, { id: 'notif', label: 'Notifications', modelValue: true }),
+    svelte: s(S.Switch, { id: 'notif', label: 'Notifications', checked: true }),
   },
   {
     name: 'interrupteur désactivé',
     reference: ref.switchControl({ id: 'off', label: 'Mode avion', disabled: true }),
     react: r(R.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
     vue: () => h(V.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
+    svelte: s(S.Switch, { id: 'off', label: 'Mode avion', disabled: true }),
   },
   ...(
     ['h1', 'h2', 'h3', 'h4', 'title', 'lead', 'body', 'body-sm', 'caption', 'overline'] as const
