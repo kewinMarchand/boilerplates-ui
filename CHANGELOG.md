@@ -2,6 +2,12 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.11.1
+
+### Corrigé
+
+- Couche Svelte : Svelte 5 retirait l'espace en bord des mentions « (obligatoire) », « (nouvelle fenêtre) », « (chargement en cours) », « Retirer le filtre : » et « Page » (« Nom(obligatoire) »). Les textes sont écrits comme expressions ; `packages/svelte/tests/espaces.test.ts` les vérifie, la normalisation du test de parité ne pouvant pas les voir.
+
 ## 0.11.0
 
 ### Ajouté
