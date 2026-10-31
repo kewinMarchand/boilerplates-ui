@@ -315,7 +315,7 @@ Sixième boilerplate, pour les sites où le contenu domine (vitrine, éditorial,
 - **Données** : l'API commune (section 6) est appelée **sur le serveur** pendant le rendu, par le client typé (`openapi-fetch`, types générés par `make api-types`). Le catalogue lit son état dans l'URL et rend la page complète sur le serveur ; avec JavaScript, l'îlot des filtres navigue à chaque changement.
 - **Formulaire de contact** : Astro Actions (validation `zod`), envoi en `POST` natif sans JavaScript, violations 422 de l'API relayées sous les champs.
 - **Amorçage** : script inline du layout (`is:inline`) pour le mode renforcé et le thème, avant le premier rendu (sections 4 et 20).
-- **Erreurs** : `src/pages/404.astro` et `src/pages/500.astro` ; route de test `/_erreur-test` absente en production ; maintenance par `MAINTENANCE=1` (middleware Astro, 503 et `Retry-After`).
+- **Erreurs** : `src/pages/404.astro` et `src/pages/500.astro` ; route de test `/erreur-test` absente en production (Astro ignore les fichiers de `src/pages/` préfixés par `_`) ; maintenance par `MAINTENANCE=1` (middleware Astro, 503 et `Retry-After`).
 - **Observabilité** (section 16) : `@sentry/astro`, chargé seulement si `PUBLIC_GLITCHTIP_DSN` est renseigné ; Matomo sans cookie si `PUBLIC_MATOMO_URL` et `PUBLIC_MATOMO_SITE_ID` le sont. CSP Report-Only par `@kewinmarchand/csp` dans un middleware.
 - **Ports** (section 7) : dev 4321, e2e 3170, Lighthouse 3270.
 - **Outillage** : identique aux autres (section 18) : Docker (image Playwright pour Node), `make`, ESLint (`eslint-plugin-astro`, règles de dépendance), Prettier (`prettier-plugin-astro`), `astro check`, Vitest, Playwright + axe, Lighthouse CI en clair et en sombre, hook Git qui appelle `make`, GitHub Actions.
