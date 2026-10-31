@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { button, type ButtonOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Button as ReactButton, ICON_NAMES, type IconName } from '@kewinmarchand/react'
+import { Button as SvelteButton } from '@kewinmarchand/svelte'
 import { Button as VueButton } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { defined, grid, OVERVIEW, sections, surFond } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -158,6 +159,19 @@ export const Vue: Story = {
             { default: () => label },
           ),
       }),
+    )
+  },
+}
+export const Svelte: Story = {
+  render: (args) => {
+    const { label, current, ...props } = defined(args)
+    return surFond(
+      args.variant,
+      mountSvelte(
+        SvelteButton,
+        { ...props, 'aria-current': current ? 'page' : undefined },
+        String(label),
+      ),
     )
   },
 }

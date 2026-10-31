@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { icon, type IconOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Icon as ReactIcon, ICON_NAMES, type IconName } from '@kewinmarchand/react'
+import { Icon as SvelteIcon } from '@kewinmarchand/svelte'
 import { Icon as VueIcon } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { defined, grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -64,3 +65,4 @@ export const Html: Story = {
 }
 export const React: Story = { render: (args) => mountReact(createElement(ReactIcon, clean(args))) }
 export const Vue: Story = { render: (args) => mountVue({ render: () => h(VueIcon, clean(args)) }) }
+export const Svelte: Story = { render: (args) => mountSvelte(SvelteIcon, clean(args)) }

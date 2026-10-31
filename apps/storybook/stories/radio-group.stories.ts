@@ -4,10 +4,11 @@ import { h } from 'vue'
 import { radioGroup, type RadioGroupOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { RadioGroup as ReactRadioGroup } from '@kewinmarchand/react'
+import { RadioGroup as SvelteRadioGroup } from '@kewinmarchand/svelte'
 import { RadioGroup as VueRadioGroup } from '@kewinmarchand/vue'
 
 import { FIELD_ARG_TYPES } from './support/fields'
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW, uid } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -95,4 +96,7 @@ export const React: Story = {
 export const Vue: Story = {
   render: ({ value, ...props }) =>
     mountVue({ render: () => h(VueRadioGroup, { ...props, modelValue: value ?? '' }) }),
+}
+export const Svelte: Story = {
+  render: ({ value, ...props }) => mountSvelte(SvelteRadioGroup, { ...props, value: value ?? '' }),
 }

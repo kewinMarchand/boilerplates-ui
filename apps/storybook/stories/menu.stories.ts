@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { menu } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Menu as ReactMenu } from '@kewinmarchand/react'
+import { Menu as SvelteMenu } from '@kewinmarchand/svelte'
 import { Menu as VueMenu } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -138,6 +139,17 @@ export const Vue: Story = {
             items: toItems(args.items),
             onSelect: (id: string) => args.onSelect?.(id),
           }),
+      }),
+    ),
+}
+export const Svelte: Story = {
+  render: (args) =>
+    space(
+      mountSvelte(SvelteMenu, {
+        id: args.id,
+        label: args.label,
+        items: toItems(args.items),
+        onselect: (id: string) => args.onSelect?.(id),
       }),
     ),
 }

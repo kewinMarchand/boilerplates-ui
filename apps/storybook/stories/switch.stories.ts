@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { switchControl, type SwitchOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Switch as ReactSwitch } from '@kewinmarchand/react'
+import { Switch as SvelteSwitch } from '@kewinmarchand/svelte'
 import { Switch as VueSwitch } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW, uid } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -65,4 +66,8 @@ export const React: Story = {
 export const Vue: Story = {
   render: ({ checked, ...props }) =>
     mountVue({ render: () => h(VueSwitch, { ...props, modelValue: Boolean(checked) }) }),
+}
+export const Svelte: Story = {
+  render: ({ checked, ...props }) =>
+    mountSvelte(SvelteSwitch, { ...props, checked: Boolean(checked) }),
 }

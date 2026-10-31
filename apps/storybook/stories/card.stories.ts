@@ -6,8 +6,9 @@ import { button, card } from '@kewinmarchand/css/reference/markup.ts'
 import { Button as ReactButton, Card as ReactCard } from '@kewinmarchand/react'
 import { Button as VueButton, Card as VueCard } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
+import CardDemo from './support/svelte/CardDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -120,6 +121,18 @@ export const Vue: Story = {
               ...(action ? { footer: () => h(VueButton, null, { default: () => action }) } : {}),
             },
           ),
+      }),
+    ),
+}
+export const Svelte: Story = {
+  render: ({ title, text, headingLevel, media, action }) =>
+    narrow(
+      mountSvelte(CardDemo, {
+        title,
+        text,
+        headingLevel,
+        image: media ? IMAGE : undefined,
+        action: action || undefined,
       }),
     ),
 }

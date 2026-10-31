@@ -4,10 +4,11 @@ import { h } from 'vue'
 import { textField, type TextFieldOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { TextField as ReactTextField } from '@kewinmarchand/react'
+import { TextField as SvelteTextField } from '@kewinmarchand/svelte'
 import { TextField as VueTextField } from '@kewinmarchand/vue'
 
 import { FIELD_ARG_TYPES, fieldRows } from './support/fields'
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -65,3 +66,4 @@ export const React: Story = {
 }
 
 export const Vue: Story = { render: (args) => mountVue({ render: () => h(VueTextField, args) }) }
+export const Svelte: Story = { render: (args) => mountSvelte(SvelteTextField, args) }

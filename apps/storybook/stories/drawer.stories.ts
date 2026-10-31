@@ -8,8 +8,9 @@ import {
   ReactDialogDemo,
   vueDialogDemo,
 } from './support/dialogs'
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
+import DialogDemo from './support/svelte/DialogDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -72,6 +73,11 @@ export const TitreFocaliseVue: Story = {
   args: { focusTitle: true },
   render: (args) => mountVue(vueDialogDemo(args, true)),
 }
+export const TitreFocaliseSvelte: Story = {
+  name: 'Titre focalisé Svelte',
+  args: { focusTitle: true },
+  render: (args) => mountSvelte(DialogDemo, { args, isDrawer: true }),
+}
 export const ReactOuvert: Story = {
   name: 'React ouvert',
   render: (args) => mountReact(createElement(ReactDialogDemo, { args, isDrawer: true })),
@@ -80,5 +86,10 @@ export const ReactOuvert: Story = {
 export const VueOuvert: Story = {
   name: 'Vue ouvert',
   render: (args) => mountVue(vueDialogDemo(args, true)),
+  play: openWithTrigger,
+}
+export const SvelteOuvert: Story = {
+  name: 'Svelte ouvert',
+  render: (args) => mountSvelte(DialogDemo, { args, isDrawer: true }),
   play: openWithTrigger,
 }

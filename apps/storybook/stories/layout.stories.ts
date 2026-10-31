@@ -6,7 +6,8 @@ import { cluster, container, grid, stack } from '@kewinmarchand/css/reference/ma
 import { Cluster as ReactCluster, Stack as ReactStack } from '@kewinmarchand/react'
 import { Cluster as VueCluster, Stack as VueStack } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
+import LayoutDemo from './support/svelte/LayoutDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -87,4 +88,7 @@ export const Vue: Story = {
           ...LABELS.map((label) => h('div', { style: 'padding: 8px; border: 1px dashed' }, label)),
         ]),
     }),
+}
+export const Svelte: Story = {
+  render: () => mountSvelte(LayoutDemo, { labels: LABELS }),
 }

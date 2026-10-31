@@ -1,3 +1,4 @@
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 import vue from '@vitejs/plugin-vue'
 
 import type { StorybookConfig } from '@storybook/html-vite'
@@ -12,7 +13,10 @@ const config: StorybookConfig = {
     { from: '../../../node_modules/@fontsource-variable/inter/files', to: '/fonts' },
   ],
   core: { disableTelemetry: true },
-  viteFinal: (viteConfig) => ({ ...viteConfig, plugins: [...(viteConfig.plugins ?? []), vue()] }),
+  viteFinal: (viteConfig) => ({
+    ...viteConfig,
+    plugins: [...(viteConfig.plugins ?? []), vue(), svelte()],
+  }),
 }
 
 export default config

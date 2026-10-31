@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { accordion } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Accordion as ReactAccordion } from '@kewinmarchand/react'
+import { Accordion as SvelteAccordion } from '@kewinmarchand/svelte'
 import { Accordion as VueAccordion } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue, snippet } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -108,5 +109,17 @@ export const Vue: Story = {
           },
           Object.fromEntries(ITEMS.map(({ id, text }) => [id, () => h('p', text)])),
         ),
+    }),
+}
+export const Svelte: Story = {
+  render: ({ exclusive, firstOpen }) =>
+    mountSvelte(SvelteAccordion, {
+      ...(exclusive ? { name: 'faq-svelte' } : {}),
+      items: ITEMS.map(({ id, title, text }, index) => ({
+        id,
+        title,
+        open: firstOpen && index === 0,
+        content: snippet(`<p>${text}</p>`),
+      })),
     }),
 }

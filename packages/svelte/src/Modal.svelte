@@ -16,7 +16,7 @@
     /** Le titre reçoit le focus à l'ouverture et à chaque changement (navigation à niveaux dans un tiroir). */
     focusTitle?: boolean
     onclose?: () => void
-    footer?: Snippet
+    footer?: Snippet | undefined
     children: Snippet
   }
 

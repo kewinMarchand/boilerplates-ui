@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { linkButton, type LinkButtonOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { LinkButton as ReactLinkButton } from '@kewinmarchand/react'
+import { LinkButton as SvelteLinkButton } from '@kewinmarchand/svelte'
 import { LinkButton as VueLinkButton } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -74,4 +75,12 @@ export const Vue: Story = {
           { default: () => label },
         ),
     }),
+}
+export const Svelte: Story = {
+  render: ({ label, type, fullWidth, onClick }) =>
+    mountSvelte(
+      SvelteLinkButton,
+      { type: type ?? 'button', fullWidth: fullWidth ?? false, onclick: onClick },
+      String(label),
+    ),
 }

@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { badge, type BadgeOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Badge as ReactBadge } from '@kewinmarchand/react'
+import { Badge as SvelteBadge } from '@kewinmarchand/svelte'
 import { Badge as VueBadge } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -56,4 +57,8 @@ export const Vue: Story = {
     mountVue({
       render: () => h(VueBadge, { variant: variant ?? 'neutral' }, { default: () => label }),
     }),
+}
+export const Svelte: Story = {
+  render: ({ label, variant }) =>
+    mountSvelte(SvelteBadge, { variant: variant ?? 'neutral' }, String(label)),
 }

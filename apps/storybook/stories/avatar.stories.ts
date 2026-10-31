@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { avatar, type AvatarOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Avatar as ReactAvatar } from '@kewinmarchand/react'
+import { Avatar as SvelteAvatar } from '@kewinmarchand/svelte'
 import { Avatar as VueAvatar } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { defined, grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -60,4 +61,7 @@ export const React: Story = {
 }
 export const Vue: Story = {
   render: (args) => mountVue({ render: () => h(VueAvatar, defined(args)) }),
+}
+export const Svelte: Story = {
+  render: (args) => mountSvelte(SvelteAvatar, defined(args)),
 }

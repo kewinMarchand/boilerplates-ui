@@ -4,10 +4,11 @@ import { h } from 'vue'
 import { checkbox, type CheckboxOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Checkbox as ReactCheckbox } from '@kewinmarchand/react'
+import { Checkbox as SvelteCheckbox } from '@kewinmarchand/svelte'
 import { Checkbox as VueCheckbox } from '@kewinmarchand/vue'
 
 import { FIELD_ARG_TYPES, fieldRows } from './support/fields'
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW, uid } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -73,4 +74,8 @@ export const React: Story = {
 export const Vue: Story = {
   render: ({ checked, ...props }) =>
     mountVue({ render: () => h(VueCheckbox, { ...props, modelValue: Boolean(checked) }) }),
+}
+export const Svelte: Story = {
+  render: ({ checked, ...props }) =>
+    mountSvelte(SvelteCheckbox, { ...props, checked: Boolean(checked) }),
 }

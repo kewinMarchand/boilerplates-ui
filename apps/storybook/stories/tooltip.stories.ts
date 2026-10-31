@@ -6,8 +6,9 @@ import { icon, tooltip } from '@kewinmarchand/css/reference/markup.ts'
 import { IconButton as ReactIconButton, Tooltip as ReactTooltip } from '@kewinmarchand/react'
 import { IconButton as VueIconButton, Tooltip as VueTooltip } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
+import TooltipDemo from './support/svelte/TooltipDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -109,4 +110,7 @@ export const Vue: Story = {
           ),
       }),
     ),
+}
+export const Svelte: Story = {
+  render: ({ id, text, label }) => padded(mountSvelte(TooltipDemo, { id, text, label })),
 }

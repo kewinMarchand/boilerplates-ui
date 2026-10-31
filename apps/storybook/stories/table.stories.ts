@@ -10,8 +10,9 @@ import {
 import { Table as ReactTable } from '@kewinmarchand/react'
 import { Table as VueTable } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
+import TableDemo from './support/svelte/TableDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -151,4 +152,13 @@ export const Vue: Story = {
           })
       }),
     ),
+}
+export const Svelte: Story = {
+  render: (args) =>
+    mountSvelte(TableDemo, {
+      build: (sort: Sort) => options(args.id, args.caption, sort),
+      initial: toSort(args),
+      next: nextSort,
+      onSort: args.onSort,
+    }),
 }

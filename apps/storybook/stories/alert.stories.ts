@@ -6,8 +6,9 @@ import { alert, type AlertOptions } from '@kewinmarchand/css/reference/markup.ts
 import { Alert as ReactAlert, Button as ReactButton } from '@kewinmarchand/react'
 import { Alert as VueAlert, Button as VueButton } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { defined, grid, OVERVIEW } from './support/grid'
+import AlertDemo from './support/svelte/AlertDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -105,4 +106,8 @@ export const Vue: Story = {
             : {}),
         }),
     }),
+}
+export const Svelte: Story = {
+  render: ({ text, actionLabel, ...args }) =>
+    mountSvelte(AlertDemo, { alert: defined(args), text, actionLabel }),
 }

@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { skeleton, type SkeletonOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Skeleton as ReactSkeleton } from '@kewinmarchand/react'
+import { Skeleton as SvelteSkeleton } from '@kewinmarchand/svelte'
 import { Skeleton as VueSkeleton } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -67,4 +68,7 @@ export const React: Story = {
 }
 export const Vue: Story = {
   render: (args) => busy(mountVue({ render: () => h(VueSkeleton, clean(args)) })),
+}
+export const Svelte: Story = {
+  render: (args) => busy(mountSvelte(SvelteSkeleton, clean(args))),
 }

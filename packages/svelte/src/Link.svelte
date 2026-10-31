@@ -7,7 +7,7 @@
   interface Props extends HTMLAnchorAttributes {
     href: string
     /** Ouvre dans une nouvelle fenêtre et l'annonce (icône et texte masqué). */
-    external?: boolean
+    external?: boolean | undefined
     children: Snippet
   }
 

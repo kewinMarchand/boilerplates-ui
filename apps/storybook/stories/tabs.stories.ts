@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { tabs } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Tabs as ReactTabs } from '@kewinmarchand/react'
+import { Tabs as SvelteTabs } from '@kewinmarchand/svelte'
 import { Tabs as VueTabs } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue, snippet } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -110,5 +111,18 @@ export const Vue: Story = {
           },
           Object.fromEntries(TABS.map(({ id, text }) => [id, () => h('p', text)])),
         ),
+    }),
+}
+export const Svelte: Story = {
+  render: ({ id, label, selected }) =>
+    mountSvelte(SvelteTabs, {
+      id,
+      label,
+      defaultTab: selected,
+      tabs: TABS.map(({ id: tabId, label: tabLabel, text }) => ({
+        id: tabId,
+        label: tabLabel,
+        content: snippet(`<p>${text}</p>`),
+      })),
     }),
 }

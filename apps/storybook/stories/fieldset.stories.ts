@@ -6,8 +6,9 @@ import { checkbox, fieldset, type FieldsetOptions } from '@kewinmarchand/css/ref
 import { Checkbox as ReactCheckbox, Fieldset as ReactFieldset } from '@kewinmarchand/react'
 import { Checkbox as VueCheckbox, Fieldset as VueFieldset } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW, uid } from './support/grid'
+import FieldsetDemo from './support/svelte/FieldsetDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -87,4 +88,7 @@ export const Vue: Story = {
             ),
         }),
     }),
+}
+export const Svelte: Story = {
+  render: (args) => mountSvelte(FieldsetDemo, { fieldset: args, choices: CHOICES }),
 }

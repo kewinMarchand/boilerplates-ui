@@ -6,8 +6,9 @@ import { link, type LinkOptions } from '@kewinmarchand/css/reference/markup.ts'
 import { Link as ReactLink } from '@kewinmarchand/react'
 import { Link as VueLink } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
+import LinkDemo from './support/svelte/LinkDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -67,4 +68,7 @@ export const Vue: Story = {
       render: () =>
         h('p', ['Pour toute question, ', h(VueLink, props, { default: () => label }), '.']),
     }),
+}
+export const Svelte: Story = {
+  render: ({ label, ...props }) => mountSvelte(LinkDemo, { label, ...props }),
 }

@@ -15,8 +15,9 @@ import {
   useToaster as useVueToaster,
 } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
+import ToastDemo from './support/svelte/ToastDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -145,4 +146,8 @@ export const Vue: Story = {
           ])
       }),
     ),
+}
+export const Svelte: Story = {
+  render: ({ message, variant, onClose }) =>
+    mountSvelte(ToastDemo, { message, variant, error: ERROR, onClose }),
 }

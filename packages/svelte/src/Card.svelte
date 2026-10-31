@@ -4,8 +4,8 @@
   interface Props {
     title: string
     headingLevel?: 2 | 3 | 4 | 5 | 6
-    media?: Snippet
-    footer?: Snippet
+    media?: Snippet | undefined
+    footer?: Snippet | undefined
     children: Snippet
   }
 

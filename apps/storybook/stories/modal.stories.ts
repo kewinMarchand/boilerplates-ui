@@ -8,8 +8,9 @@ import {
   ReactDialogDemo,
   vueDialogDemo,
 } from './support/dialogs'
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
+import DialogDemo from './support/svelte/DialogDemo.svelte'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
@@ -83,5 +84,10 @@ export const ReactOuverte: Story = {
 export const VueOuverte: Story = {
   name: 'Vue ouverte',
   render: (args) => mountVue(vueDialogDemo(args, false)),
+  play: openWithTrigger,
+}
+export const SvelteOuverte: Story = {
+  name: 'Svelte ouverte',
+  render: (args) => mountSvelte(DialogDemo, { args, isDrawer: false }),
   play: openWithTrigger,
 }

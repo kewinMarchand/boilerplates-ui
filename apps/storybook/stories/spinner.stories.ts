@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { spinner, type SpinnerOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Spinner as ReactSpinner } from '@kewinmarchand/react'
+import { Spinner as SvelteSpinner } from '@kewinmarchand/svelte'
 import { Spinner as VueSpinner } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -40,3 +41,4 @@ export const ToutesLesVariantes: Story = {
 export const Html: Story = { name: 'HTML', render: (args) => spinner(args) }
 export const React: Story = { render: (args) => mountReact(createElement(ReactSpinner, args)) }
 export const Vue: Story = { render: (args) => mountVue({ render: () => h(VueSpinner, args) }) }
+export const Svelte: Story = { render: (args) => mountSvelte(SvelteSpinner, args) }

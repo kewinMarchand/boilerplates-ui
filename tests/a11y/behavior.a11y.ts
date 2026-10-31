@@ -2,24 +2,26 @@ import { expect, type Page, test } from '@playwright/test'
 
 /**
  * Comportement clavier que axe ne vérifie pas : focus, Échap, retour du focus, flèches.
- * Chaque scénario tourne sur l'histoire HTML et vanilla, puis sur React et Vue.
+ * Chaque scénario tourne sur l'histoire HTML et vanilla, puis sur React, Vue et Svelte.
  */
 const story = (page: Page, id: string) =>
   page.goto(`/iframe.html?id=${encodeURIComponent(id)}&viewMode=story`)
 
-const IMPLEMENTATIONS = ['html', 'react', 'vue'] as const
+const IMPLEMENTATIONS = ['html', 'react', 'vue', 'svelte'] as const
 
 const DIALOGS = {
   modale: {
     html: 'superpositions-modale--ouverte',
     react: 'superpositions-modale--react-ouverte',
     vue: 'superpositions-modale--vue-ouverte',
+    svelte: 'superpositions-modale--svelte-ouverte',
     trigger: 'Supprimer le brouillon',
   },
   tiroir: {
     html: 'superpositions-tiroir--ouvert',
     react: 'superpositions-tiroir--react-ouvert',
     vue: 'superpositions-tiroir--vue-ouvert',
+    svelte: 'superpositions-tiroir--svelte-ouvert',
     trigger: 'Ouvrir les filtres',
   },
 }
@@ -28,6 +30,7 @@ const TWINS = (title: string) => ({
   html: `${title}--html`,
   react: `${title}--react`,
   vue: `${title}--vue`,
+  svelte: `${title}--svelte`,
 })
 
 for (const implementation of IMPLEMENTATIONS) {
@@ -129,7 +132,12 @@ for (const implementation of IMPLEMENTATIONS) {
 }
 
 test('bouton en chargement : nom accessible avec son espace', async ({ page }) => {
-  for (const id of ['actions-bouton--html', 'actions-bouton--react', 'actions-bouton--vue']) {
+  for (const id of [
+    'actions-bouton--html',
+    'actions-bouton--react',
+    'actions-bouton--vue',
+    'actions-bouton--svelte',
+  ]) {
     await page.goto(`/iframe.html?id=${id}&viewMode=story&args=loading:!true`)
     await expect(page.getByRole('button', { name: 'Envoyer (chargement en cours)' })).toBeVisible()
   }
@@ -158,7 +166,12 @@ test('menu à choix cochés (vanilla) : le choix coche l’option et décoche le
   )
 })
 
-for (const id of ['titre-focalise', 'titre-focalise-react', 'titre-focalise-vue']) {
+for (const id of [
+  'titre-focalise',
+  'titre-focalise-react',
+  'titre-focalise-vue',
+  'titre-focalise-svelte',
+]) {
   test(`tiroir à titre focalisé (${id}) : le titre reçoit le focus à l’ouverture`, async ({
     page,
   }) => {

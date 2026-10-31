@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { iconButton, type IconButtonOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { ICON_NAMES, IconButton as ReactIconButton, type IconName } from '@kewinmarchand/react'
+import { IconButton as SvelteIconButton } from '@kewinmarchand/svelte'
 import { IconButton as VueIconButton } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { defined, grid, OVERVIEW, surFond } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -78,4 +79,7 @@ export const React: Story = {
 export const Vue: Story = {
   render: (args) =>
     surFond(args.variant, mountVue({ render: () => h(VueIconButton, defined(args)) })),
+}
+export const Svelte: Story = {
+  render: (args) => surFond(args.variant, mountSvelte(SvelteIconButton, defined(args))),
 }

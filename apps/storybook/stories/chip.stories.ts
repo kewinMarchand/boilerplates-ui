@@ -4,9 +4,10 @@ import { h } from 'vue'
 import { chip, type ChipOptions } from '@kewinmarchand/css/reference/markup.ts'
 
 import { Chip as ReactChip } from '@kewinmarchand/react'
+import { Chip as SvelteChip } from '@kewinmarchand/svelte'
 import { Chip as VueChip } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { defined, grid, OVERVIEW, sections } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -116,5 +117,17 @@ export const Vue: Story = {
               slots,
             ),
     })
+  },
+}
+export const Svelte: Story = {
+  render: (args) => {
+    const { label, href, current, removable = false, onClick } = defined(args)
+    return mountSvelte(
+      SvelteChip,
+      href === undefined
+        ? { removable, onclick: onClick }
+        : { href, removable, 'aria-current': current ? 'page' : undefined, onclick: onClick },
+      String(label),
+    )
   },
 }

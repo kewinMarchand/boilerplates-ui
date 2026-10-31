@@ -23,7 +23,7 @@
     /** `alert` ou `status` seulement pour une alerte injectée après le chargement de la page. */
     role?: 'alert' | 'status' | undefined
     /** Action proposée, par exemple un bouton « Réessayer ». */
-    action?: Snippet
+    action?: Snippet | undefined
     children: Snippet
   }
 

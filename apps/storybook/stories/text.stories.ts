@@ -5,9 +5,10 @@ import { text, TEXT_ELEMENTS, type TextOptions } from '@kewinmarchand/css/refere
 import generated from '@kewinmarchand/tokens/tokens.json'
 
 import { Text as ReactText } from '@kewinmarchand/react'
+import { Text as SvelteText } from '@kewinmarchand/svelte'
 import { Text as VueText } from '@kewinmarchand/vue'
 
-import { mountReact, mountVue } from './support/frameworks'
+import { mountReact, mountSvelte, mountVue } from './support/frameworks'
 import { grid, OVERVIEW } from './support/grid'
 
 import type { Meta, StoryObj } from '@storybook/html-vite'
@@ -84,4 +85,8 @@ export const Vue: Story = {
       render: () =>
         h(VueText, { variant: variant ?? 'body', ...(as && { as }) }, { default: () => content }),
     }),
+}
+export const Svelte: Story = {
+  render: ({ text: content, variant, as }) =>
+    mountSvelte(SvelteText, { variant: variant ?? 'body', ...(as && { as }) }, String(content)),
 }
