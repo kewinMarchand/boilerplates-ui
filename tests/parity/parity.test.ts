@@ -109,18 +109,26 @@ const s =
     () =>
       renderSvelte(Render, { props: { component, props, html } }).body
 
+/** Plusieurs rendus Svelte à la suite, comme un fragment. */
+const all =
+  (...renders: (() => string)[]) =>
+  () =>
+    renders.map((render) => render()).join('')
+
 const CASES: Case[] = [
   {
     name: 'bouton primaire',
     reference: ref.button({ label: 'Envoyer' }),
     react: r(R.Button, null, 'Envoyer'),
     vue: () => h(V.Button, null, { default: () => 'Envoyer' }),
+    svelte: s(S.Button, {}, 'Envoyer'),
   },
   {
     name: 'bouton secondaire',
     reference: ref.button({ label: 'En savoir plus', variant: 'secondary' }),
     react: r(R.Button, { variant: 'secondary' }, 'En savoir plus'),
     vue: () => h(V.Button, { variant: 'secondary' }, { default: () => 'En savoir plus' }),
+    svelte: s(S.Button, { variant: 'secondary' }, 'En savoir plus'),
   },
   {
     name: 'bouton inverse, icône après le libellé',
@@ -141,6 +149,11 @@ const CASES: Case[] = [
         { variant: 'inverse', icon: 'chevron-right', iconPosition: 'end' },
         { default: () => 'Suivant' },
       ),
+    svelte: s(
+      S.Button,
+      { variant: 'inverse', icon: 'chevron-right', iconPosition: 'end' },
+      'Suivant',
+    ),
   },
   {
     name: 'bouton lien',
@@ -161,6 +174,11 @@ const CASES: Case[] = [
         { href: '/catalogue', icon: 'chevron-right', iconPosition: 'end' },
         { default: () => 'Voir le catalogue' },
       ),
+    svelte: s(
+      S.Button,
+      { href: '/catalogue', icon: 'chevron-right', iconPosition: 'end' },
+      'Voir le catalogue',
+    ),
   },
   {
     name: 'bouton lien désactivé',
@@ -177,6 +195,7 @@ const CASES: Case[] = [
         { href: '/catalogue', variant: 'outline', disabled: true },
         { default: () => 'Voir' },
       ),
+    svelte: s(S.Button, { href: '/catalogue', variant: 'outline', disabled: true }, 'Voir'),
   },
   {
     name: 'bouton de navigation, page courante',
@@ -193,6 +212,11 @@ const CASES: Case[] = [
         { variant: 'nav', href: '/catalogue', 'aria-current': 'page' },
         { default: () => 'Catalogue' },
       ),
+    svelte: s(
+      S.Button,
+      { variant: 'nav', href: '/catalogue', 'aria-current': 'page' },
+      'Catalogue',
+    ),
   },
   {
     name: 'boutons clairs sur photo',
@@ -210,6 +234,10 @@ const CASES: Case[] = [
         h(V.Button, { variant: 'light', href: '/taches' }, { default: () => 'Mes tâches' }),
         h(V.Button, { variant: 'outline-light', href: '/contact' }, { default: () => 'Contact' }),
       ]),
+    svelte: all(
+      s(S.Button, { variant: 'light', href: '/taches' }, 'Mes tâches'),
+      s(S.Button, { variant: 'outline-light', href: '/contact' }, 'Contact'),
+    ),
   },
   {
     name: 'bouton pleine largeur, et en lien',
@@ -227,12 +255,17 @@ const CASES: Case[] = [
         h(V.Button, { fullWidth: true }, { default: () => 'Envoyer' }),
         h(V.Button, { href: '/catalogue', fullWidth: true }, { default: () => 'Catalogue' }),
       ]),
+    svelte: all(
+      s(S.Button, { fullWidth: true }, 'Envoyer'),
+      s(S.Button, { href: '/catalogue', fullWidth: true }, 'Catalogue'),
+    ),
   },
   {
     name: 'bouton icône de navigation',
     reference: ref.iconButton({ label: 'Menu', icon: 'menu', variant: 'nav' }),
     react: r(R.IconButton, { label: 'Menu', icon: 'menu', variant: 'nav' }),
     vue: () => h(V.IconButton, { label: 'Menu', icon: 'menu', variant: 'nav' }),
+    svelte: s(S.IconButton, { label: 'Menu', icon: 'menu', variant: 'nav' }),
   },
   {
     name: 'bouton-lien',
@@ -268,6 +301,10 @@ const CASES: Case[] = [
           { default: () => 'Fougères' },
         ),
       ]),
+    svelte: all(
+      s(S.Chip, { href: '/catalogue/feuillages' }, 'Feuillages'),
+      s(S.Chip, { href: '/catalogue/fougeres', 'aria-current': 'page' }, 'Fougères'),
+    ),
   },
   {
     name: 'puces de filtre retirables, lien et bouton',
@@ -285,6 +322,10 @@ const CASES: Case[] = [
         h(V.Chip, { href: '/catalogue', removable: true }, { default: () => 'Mi-ombre' }),
         h(V.Chip, { removable: true }, { default: () => 'En stock' }),
       ]),
+    svelte: all(
+      s(S.Chip, { href: '/catalogue', removable: true }, 'Mi-ombre'),
+      s(S.Chip, { removable: true }, 'En stock'),
+    ),
   },
   {
     name: 'icône porteuse de sens, taille fixe',
@@ -323,6 +364,7 @@ const CASES: Case[] = [
     react: r(R.Button, { variant: 'outline', size: 'sm', icon: 'plus' }, 'Ajouter'),
     vue: () =>
       h(V.Button, { variant: 'outline', size: 'sm', icon: 'plus' }, { default: () => 'Ajouter' }),
+    svelte: s(S.Button, { variant: 'outline', size: 'sm', icon: 'plus' }, 'Ajouter'),
   },
   {
     name: 'bouton fantôme grand désactivé',
@@ -330,12 +372,14 @@ const CASES: Case[] = [
     react: r(R.Button, { variant: 'ghost', size: 'lg', disabled: true }, 'Annuler'),
     vue: () =>
       h(V.Button, { variant: 'ghost', size: 'lg', disabled: true }, { default: () => 'Annuler' }),
+    svelte: s(S.Button, { variant: 'ghost', size: 'lg', disabled: true }, 'Annuler'),
   },
   {
     name: 'bouton en chargement',
     reference: ref.button({ label: 'Envoyer', type: 'submit', loading: true }),
     react: r(R.Button, { type: 'submit', loading: true }, 'Envoyer'),
     vue: () => h(V.Button, { type: 'submit', loading: true }, { default: () => 'Envoyer' }),
+    svelte: s(S.Button, { type: 'submit', loading: true }, 'Envoyer'),
   },
   {
     name: 'champ texte simple',
@@ -494,18 +538,21 @@ const CASES: Case[] = [
     reference: ref.iconButton({ label: 'Supprimer', icon: 'trash', variant: 'ghost', size: 'sm' }),
     react: r(R.IconButton, { label: 'Supprimer', icon: 'trash', variant: 'ghost', size: 'sm' }),
     vue: () => h(V.IconButton, { label: 'Supprimer', icon: 'trash', variant: 'ghost', size: 'sm' }),
+    svelte: s(S.IconButton, { label: 'Supprimer', icon: 'trash', variant: 'ghost', size: 'sm' }),
   },
   {
     name: 'bouton icône secondaire',
     reference: ref.iconButton({ label: 'Partager', icon: 'share-2', variant: 'secondary' }),
     react: r(R.IconButton, { label: 'Partager', icon: 'share-2', variant: 'secondary' }),
     vue: () => h(V.IconButton, { label: 'Partager', icon: 'share-2', variant: 'secondary' }),
+    svelte: s(S.IconButton, { label: 'Partager', icon: 'share-2', variant: 'secondary' }),
   },
   {
     name: 'bouton icône désactivé',
     reference: ref.iconButton({ label: 'Modifier', icon: 'pencil', disabled: true }),
     react: r(R.IconButton, { label: 'Modifier', icon: 'pencil', disabled: true }),
     vue: () => h(V.IconButton, { label: 'Modifier', icon: 'pencil', disabled: true }),
+    svelte: s(S.IconButton, { label: 'Modifier', icon: 'pencil', disabled: true }),
   },
   {
     name: 'lien',
