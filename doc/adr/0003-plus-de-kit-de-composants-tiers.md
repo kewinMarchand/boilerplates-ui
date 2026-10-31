@@ -1,6 +1,6 @@
 # 0003 — Plus de kit de composants tiers
 
-- **Statut** : Acceptée, amendée par l'[ADR 0004](0004-couche-svelte.md) pour SvelteKit
+- **Statut** : Acceptée, amendée par l'[ADR 0004](0004-couche-svelte.md) pour SvelteKit, et par l'[ADR 0005](0005-depots-modeles-renommes.md) pour le nom des dépôts modèles
 - **Introduite par** : version `v0.7.0`
 - **Décideurs** : Kewin Marchand (30/10/2026)
 
