@@ -1,6 +1,7 @@
 import { JSDOM } from 'jsdom'
 import { createElement as r, Fragment, type ReactElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { type Component, createRawSnippet } from 'svelte'
 import { render as renderSvelte } from 'svelte/server'
 import { describe, expect, it } from 'vitest'
 import { createSSRApp, Fragment as VueFragment, h, type VNode } from 'vue'
@@ -13,8 +14,6 @@ import * as S from '@kewinmarchand/svelte'
 import * as V from '@kewinmarchand/vue'
 
 import Render from './Render.svelte'
-
-import type { Component } from 'svelte'
 
 /**
  * Forme canonique d'un fragment HTML : attributs `data-bui-*` (branchements du JS vanilla, absents
@@ -357,6 +356,17 @@ const CASES: Case[] = [
             h(V.Button, { variant: 'outline', size: 'sm' }, { default: () => 'Réessayer' }),
         },
       ),
+    svelte: s(
+      S.Alert,
+      {
+        variant: 'error',
+        action: createRawSnippet(() => ({
+          render: () =>
+            '<button type="button" class="bui-button bui-button--outline bui-button--sm">Réessayer</button>',
+        })),
+      },
+      'Envoi impossible.',
+    ),
   },
   {
     name: 'bouton contour petit avec icône',
@@ -489,12 +499,14 @@ const CASES: Case[] = [
     }),
     vue: () =>
       h(V.Alert, { variant, title: 'Titre', role: 'status' }, { default: () => h('p', 'Message') }),
+    svelte: s(S.Alert, { variant, title: 'Titre', role: 'status' }, '<p>Message</p>'),
   })),
   {
     name: 'alerte sans titre',
     reference: ref.alert({ body: 'Message' }),
     react: r(R.Alert, { children: 'Message' }),
     vue: () => h(V.Alert, null, { default: () => 'Message' }),
+    svelte: s(S.Alert, {}, 'Message'),
   },
   {
     name: 'carte complète',
@@ -876,6 +888,7 @@ const CASES: Case[] = [
     reference: ref.toaster(TOASTS),
     react: r(R.Toaster, { toasts: TOASTS, onClose: () => {} }),
     vue: () => h(V.Toaster, { toasts: TOASTS }),
+    svelte: s(S.Toaster, { toasts: TOASTS }),
   },
   {
     name: 'onglets',
@@ -963,6 +976,13 @@ const CASES: Case[] = [
             h('button', { type: 'button', 'aria-describedby': describedBy }, 'Aide'),
         },
       ),
+    svelte: s(S.Tooltip, {
+      id: 'aide',
+      text: 'Texte d’aide',
+      children: createRawSnippet((describedBy: () => string) => ({
+        render: () => `<button type="button" aria-describedby="${describedBy()}">Aide</button>`,
+      })),
+    }),
   },
   {
     name: 'menu déroulant',
