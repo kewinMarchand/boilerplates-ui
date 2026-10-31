@@ -1,0 +1,6 @@
+export { default as Icon } from './Icon.svelte'
+export type { IconName } from './iconNames'
+export { ICON_NAMES } from './iconNames'
+export { setIconSprite } from './iconSprite'
+export type { Gap, LayoutTag } from './layout'
+export { default as Text } from './Text.svelte'

@@ -1,6 +1,7 @@
-// @vitest-environment jsdom
+import { JSDOM } from 'jsdom'
 import { createElement as r, Fragment, type ReactElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { render as renderSvelte } from 'svelte/server'
 import { describe, expect, it } from 'vitest'
 import { createSSRApp, Fragment as VueFragment, h, type VNode } from 'vue'
 import { renderToString } from 'vue/server-renderer'
@@ -8,7 +9,12 @@ import { renderToString } from 'vue/server-renderer'
 import * as ref from '@kewinmarchand/css/reference/markup.ts'
 
 import * as R from '@kewinmarchand/react'
+import * as S from '@kewinmarchand/svelte'
 import * as V from '@kewinmarchand/vue'
+
+import Render from './Render.svelte'
+
+import type { Component } from 'svelte'
 
 /**
  * Forme canonique d'un fragment HTML : attributs `data-bui-*` (branchements du JS vanilla, absents
@@ -16,6 +22,9 @@ import * as V from '@kewinmarchand/vue'
  * textes adjacents fusionnés et espaces normalisés, attributs et classes triés.
  * Deux balisages égaux sous cette forme produisent le même DOM pour le CSS et l'accessibilité.
  */
+// Environnement node : Vitest compile alors les composants Svelte pour le serveur ; le DOM ne sert qu'à normaliser.
+const { document, Element, HTMLElement, Node, NodeFilter } = new JSDOM('').window
+
 const canonical = (html: string) => {
   const template = document.createElement('template')
   template.innerHTML = html
@@ -90,7 +99,15 @@ interface Case {
   reference: string
   react: ReactElement
   vue: () => VNode
+  svelte?: () => string
 }
+
+/** Rendu serveur d'un composant Svelte ; `html` remplit son contenu par défaut. */
+const s =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- n'importe quel composant de la bibliothèque
+  (component: Component<any>, props: Record<string, unknown> = {}, html?: string) =>
+    () =>
+      renderSvelte(Render, { props: { component, props, html } }).body
 
 const CASES: Case[] = [
   {
@@ -272,6 +289,7 @@ const CASES: Case[] = [
     reference: ref.icon('circle-check', undefined, { label: 'Validé', size: 'lg' }),
     react: r(R.Icon, { name: 'circle-check', label: 'Validé', size: 'lg' }),
     vue: () => h(V.Icon, { name: 'circle-check', label: 'Validé', size: 'lg' }),
+    svelte: s(S.Icon, { name: 'circle-check', label: 'Validé', size: 'lg' }),
   },
   {
     name: 'alerte avec action',
@@ -641,12 +659,14 @@ const CASES: Case[] = [
     reference: ref.text({ text: 'Vélo', variant }),
     react: r(R.Text, { variant, children: 'Vélo' }),
     vue: () => h(V.Text, { variant }, { default: () => 'Vélo' }),
+    svelte: s(S.Text, { variant }, 'Vélo'),
   })),
   {
     name: 'texte titre 2 rendu en titre 3',
     reference: ref.text({ text: 'Vélo', variant: 'h2', as: 'h3' }),
     react: r(R.Text, { variant: 'h2', as: 'h3', children: 'Vélo' }),
     vue: () => h(V.Text, { variant: 'h2', as: 'h3' }, { default: () => 'Vélo' }),
+    svelte: s(S.Text, { variant: 'h2', as: 'h3' }, 'Vélo'),
   },
   ...(['neutral', 'secondary', 'info', 'success', 'warning', 'error'] as const).map((variant) => ({
     name: `badge ${variant}`,
@@ -970,5 +990,9 @@ describe('parité du balisage avec la référence CSS', () => {
     expect(canonical(await renderToString(createSSRApp({ render: vue })))).toBe(
       canonical(reference),
     )
+  })
+
+  it.each(CASES.filter((testCase) => testCase.svelte))('Svelte, $name', ({ reference, svelte }) => {
+    expect(canonical(svelte?.() ?? '')).toBe(canonical(reference))
   })
 })

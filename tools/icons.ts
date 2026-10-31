@@ -8,7 +8,11 @@ import svgstore from 'svgstore'
  */
 const LIST = 'packages/css/icons/icons.json'
 const SPRITE = 'packages/css/icons/icons.svg'
-const NAMES = ['packages/react/src/iconNames.ts', 'packages/vue/src/iconNames.ts']
+const NAMES = [
+  'packages/react/src/iconNames.ts',
+  'packages/vue/src/iconNames.ts',
+  'packages/svelte/src/iconNames.ts',
+]
 
 const icons: Record<string, { body: string; width?: number; height?: number }> = lucide.icons
 const names = [...new Set(JSON.parse(readFileSync(LIST, 'utf8')) as string[])].sort()

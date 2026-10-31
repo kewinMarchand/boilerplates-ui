@@ -19,7 +19,12 @@
       "default": "./packages/vanilla/src/index.js"
     },
     "./react": "./packages/react/src/index.ts",
-    "./vue": "./packages/vue/src/index.ts"
+    "./vue": "./packages/vue/src/index.ts",
+    "./svelte": {
+      "types": "./packages/svelte/src/index.ts",
+      "svelte": "./packages/svelte/src/index.ts",
+      "default": "./packages/svelte/src/index.ts"
+    }
   },
   "files": [
     "packages/*/package.json",
@@ -52,7 +57,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "vue-tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit && svelte-check --tsconfig ./tsconfig.svelte.json --fail-on-warnings",
     "test:unit": "vitest run",
     "test:a11y": "playwright test",
     "tokens": "node packages/tokens/scripts/tokens.ts",
@@ -69,6 +74,8 @@
     "@eslint/js": "^10.0.1",
     "@iconify-json/lucide": "^1.2.143",
     "@playwright/test": "1.64.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/jsdom": "^28",
     "@types/node": "^24",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -77,13 +84,17 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-simple-import-sort": "^14.0.0",
+    "eslint-plugin-svelte": "^3.23.0",
     "eslint-plugin-vue": "^10.11.1",
     "globals": "^17.13.0",
     "jsdom": "^29",
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
+    "prettier-plugin-svelte": "^4.1.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
     "svgstore": "^3.0.1",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.71.2",

@@ -1,6 +1,6 @@
 # 0003 — Plus de kit de composants tiers
 
-- **Statut** : Acceptée
+- **Statut** : Acceptée, amendée par l'[ADR 0004](0004-couche-svelte.md) pour SvelteKit
 - **Introduite par** : version `v0.7.0`
 - **Décideurs** : Kewin Marchand (30/10/2026)
 

@@ -3,6 +3,7 @@ import { defineConfig } from 'eslint/config'
 import prettier from 'eslint-config-prettier'
 import reactHooks from 'eslint-plugin-react-hooks'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import svelte from 'eslint-plugin-svelte'
 import vue from 'eslint-plugin-vue'
 import globals from 'globals'
 import ts from 'typescript-eslint'
@@ -21,6 +22,11 @@ export default defineConfig(
   js.configs.recommended,
   ts.configs.recommended,
   vue.configs['flat/recommended'],
+  svelte.configs.recommended,
+  {
+    files: ['**/*.svelte', '**/*.svelte.ts'],
+    languageOptions: { parserOptions: { parser: ts.parser, extraFileExtensions: ['.svelte'] } },
+  },
   {
     files: ['**/*.vue'],
     languageOptions: { parserOptions: { parser: ts.parser } },
@@ -40,12 +46,12 @@ export default defineConfig(
         'error',
         {
           // Ordre de standards-front adapté au dépôt : 1 tiers, 3 socle (paquets sans framework),
-          // 4 modules (paquets React et Vue), 6 relatifs, 7 types, 8 styles et autres effets de bord.
+          // 4 modules (paquets React, Vue et Svelte), 6 relatifs, 7 types, 8 styles et autres effets de bord.
           // Les groupes 2 (bibliothèque commune) et 5 (vues) sont sans objet ici.
           groups: [
             ['^node:', '^(?!@kewinmarchand/)@?\\w'],
             ['^@kewinmarchand/(tokens|css|vanilla)(/|$)'],
-            ['^@kewinmarchand/(react|vue)(/|$)'],
+            ['^@kewinmarchand/(react|vue|svelte)(/|$)'],
             ['^\\.'],
             ['^.+\\u0000$'],
             ['^\\u0000'],
@@ -60,4 +66,5 @@ export default defineConfig(
     rules: { 'no-console': 'off' },
   },
   prettier,
+  svelte.configs.prettier,
 )

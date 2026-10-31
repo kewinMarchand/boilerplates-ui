@@ -1,0 +1,22 @@
+{
+  "name": "@kewinmarchand/svelte",
+  "version": "0.10.1",
+  "description": "Composants Svelte typés qui produisent le balisage de @kewinmarchand/css",
+  "license": "MIT",
+  "type": "module",
+  "svelte": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "svelte": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "svelte": ">=5.30"
+  }
+}
