@@ -56,7 +56,7 @@ Khononov propose de délimiter un sous-domaine comme un ensemble cohérent de ca
 
 Pourquoi pas d'agrégat dans le catalogue : un agrégat est une frontière de cohérence qui protège des invariants lors des **modifications** (Evans p. 89-92, Khononov p. 84-85, PDF 110-111). Le catalogue n'a aucune écriture. Ses règles sont des calculs sur des données lues : ce sont des value objects et un service de domaine sans état (Evans p. 75-76, Khononov p. 92-93, PDF 118-119).
 
-**Révision** (ADR 0001 de `boilerplate-api-platform`, commit `46df658`) : l'administration ajoute des écritures au catalogue de l'API Platform, donc des invariants à protéger à la modification (slug unique dans sa branche, parent existant, 3 niveaux au plus, prix positif ou nul). `Category` et `Product` y deviennent des agrégats, et la règle ci-dessus s'applique telle quelle : agrégat dès qu'il y a écriture. La recherche reste un service de domaine sans état. Hono et les fronts restent en lecture, donc sans agrégat.
+**Révision** (ADR 0001 de `boilerplate-api-platform`, commit `46df658`) : l'administration ajoute des écritures au catalogue de l'API Platform, donc des invariants à protéger à la modification (slug unique dans tout le catalogue, parent existant, 3 niveaux au plus, prix positif ou nul). `Category` et `Product` y deviennent des agrégats, et la règle ci-dessus s'applique telle quelle : agrégat dès qu'il y a écriture. La recherche reste un service de domaine sans état. Hono et les fronts restent en lecture, donc sans agrégat.
 
 ### 2.3 Ce qui n'est pas un domaine
 
