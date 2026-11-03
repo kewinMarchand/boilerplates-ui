@@ -1,7 +1,7 @@
 # Proposition d'architecture DDD pour les sept dépôts
 
 **Statut** : ACCEPTÉE, recommandations D1 à D12 retenues sans réserve.
-**Révision** : ADR 0001 de `boilerplate-api-platform` (administration par EasyAdmin dans l'API Platform, commit `46df658`). Le catalogue gagne des écritures côté API Platform : §2.2, §4.4.2 et §5 sont annotés. Le reste ne change pas.
+**Révision** : ADR 0001 de `boilerplate-api-platform` (administration par EasyAdmin dans l'API Platform, commit `46df658`). Le catalogue gagne des écritures côté API Platform, le blog aussi, et un module `content` (carrousel, pages légales) apparaît dans les deux API et les fronts : §2.2, §4.2, §4.3.2, §4.4.1, §4.4.2, §4.5 (API) et §5 sont annotés. Le reste ne change pas.
 **Périmètre** : `boilerplate-next`, `boilerplate-nuxt`, `boilerplate-svelte`, `boilerplate-symfony`, `boilerplate-html`, `boilerplate-api-platform`, `boilerplate-hono`.
 
 ---
@@ -50,13 +50,16 @@ Khononov propose de délimiter un sous-domaine comme un ensemble cohérent de ca
 | Sous-domaine | Type | Complexité réelle | Cas d'utilisation | Pattern de logique (Khononov p. 161-166, PDF 187-192) |
 |---|---|---|---|---|
 | **Catalogue** | générique dans la réalité, traité comme le module principal de la démo | moyenne, entièrement en lecture : arbre à 3 niveaux, filtres combinés, comptage disjonctif, tri, pagination | parcourir une catégorie, filtrer, trier, paginer ; côté API Platform, administrer catégories et produits (ADR 0001 de `boilerplate-api-platform`) | côté API : modèle de domaine **sans agrégat** (value objects + service de domaine pur) ; avec l'administration, agrégats `Category` et `Product` côté API Platform. Côté front : couches classiques, l'essentiel est de la traduction et de la présentation |
-| **Blog** (contenu éditorial) | support | faible : lecture de 3 articles | lister les derniers articles | transaction script |
+| **Blog** (contenu éditorial) | support | faible : lecture de 3 articles | lister les derniers articles ; côté API Platform, administrer les articles | transaction script ; côté API Platform, cas d'usage d'écriture (slug unique) |
+| **Contenus** (carrousel, pages légales), ajouté par l'ADR 0001 | support | faible : lire des diapositives et des pages de texte | afficher le carrousel et les pages légales ; côté API Platform, les administrer (pages légales en modification seule) | transaction script ; côté API Platform, cas d'usage d'écriture |
 | **Contact** | support | faible : valider une saisie puis l'enregistrer (« la logique ne va pas au-delà de valider des entrées », Khononov p. 8, PDF 34) | envoyer un message | transaction script, validation à la frontière |
 | **Tâches** | démonstration technique, hors métier | triviale | lister des tâches | transaction script |
 
 Pourquoi pas d'agrégat dans le catalogue : un agrégat est une frontière de cohérence qui protège des invariants lors des **modifications** (Evans p. 89-92, Khononov p. 84-85, PDF 110-111). Le catalogue n'a aucune écriture. Ses règles sont des calculs sur des données lues : ce sont des value objects et un service de domaine sans état (Evans p. 75-76, Khononov p. 92-93, PDF 118-119).
 
 **Révision** (ADR 0001 de `boilerplate-api-platform`, commit `46df658`) : l'administration ajoute des écritures au catalogue de l'API Platform, donc des invariants à protéger à la modification (slug unique dans tout le catalogue, parent existant, 3 niveaux au plus, prix positif ou nul). `Category` et `Product` y deviennent des agrégats, et la règle ci-dessus s'applique telle quelle : agrégat dès qu'il y a écriture. La recherche reste un service de domaine sans état. Hono et les fronts restent en lecture, donc sans agrégat.
+
+**Révision** (lot 6, novembre 2026) : le blog et le nouveau sous-domaine « Contenus » gagnent aussi des écritures dans l'API Platform. Ce sont des objets isolés (unicité du slug vérifiée par le cas d'usage, visuel borné vérifié par l'entité) : transaction scripts avec une couche application, sans agrégat nommé.
 
 ### 2.3 Ce qui n'est pas un domaine
 
@@ -247,7 +250,7 @@ Le plus proche de la cible.
 | Racine des pages sans module propre ou qui en composent plusieurs | `pages/`, `screens/`, `views/`, `site/` | **`views/`** (fronts JS), **`Site/`** (Symfony) | `pages/` est le dossier de routage de Nuxt. `site/` est la racine web du dépôt vanilla. En PHP, `View` évoque les templates, d'où `Site` |
 | Racine transverse | `core/`, `shared/`, `platform/`, `common/` | **`shared/`** | évite le faux ami avec le cœur métier. Nuance Nuxt 4 : le framework réserve un dossier `shared/` **à la racine du projet** pour le code commun app et serveur (connaissance générale). Le nôtre est `app/shared/`, à mentionner dans le `CLAUDE.md` du dépôt |
 | Couches d'un module | `api/ services/ common/models/ ui/` ou `domain/ application/ infrastructure/ ui/` | **`domain/ application/ infrastructure/ ui/`** | ce sont les quatre couches d'Evans (p. 53) et de Khononov (p. 124, PDF 150). Les noms disent la règle de dépendance |
-| Nom des modules | `tasks`, `task`, `home`... | `catalog`, `blog`, `contact`, `task` | alignés sur les modules de l'API (`Catalog`, `Blog`, `Contact`, `Task`), donc un seul vocabulaire de la base au navigateur |
+| Nom des modules | `tasks`, `task`, `home`... | `catalog`, `blog`, `contact`, `task`, puis `content` (révision lot 6 : carrousel et pages légales lus dans l'API) | alignés sur les modules de l'API (`Catalog`, `Blog`, `Contact`, `Task`), donc un seul vocabulaire de la base au navigateur |
 | `features/` | | **supprimé** | le carrousel va dans `shared/ui/carousel/`, l'adaptateur de formulaires de Nuxt dans `shared/forms/` |
 | Nom d'un sous-dossier d'adaptateurs | `api/`, `infrastructure/`, `adapters/` | `infrastructure/` avec des sous-dossiers par technologie quand il y en a deux (`in-memory/`, `http/`) | même vocabulaire que les deux API |
 
@@ -295,7 +298,7 @@ modules/catalog/
   index.ts           seul export public (index.server.ts en SvelteKit pour le code serveur)
 ```
 
-**Forme réduite** (transaction script : blog, contact, tâches) :
+**Forme réduite** (transaction script : blog, contact, tâches, et `content` depuis le lot 6) :
 
 ```
 modules/blog/
@@ -357,6 +360,8 @@ Un contexte, quatre modules. Ports et adaptateurs pour le catalogue (Khononov p.
 | Task | `Task`, port | aucune | idem |
 | Shared | | | scénarios `X-Scenario` |
 
+**Révision** (lot 6, ADR 0001) : cinq modules plus l'admin. `Catalog/Application` gagne `Create`/`Update`/`Delete` × `Category`/`Product` ; `Blog/Application` naît avec `Create`/`Update`/`DeleteArticle` ; `Content` (nouveau) a `Slide`, `LegalPage`, leurs ports, `Create`/`Update`/`DeleteSlide` et `UpdateLegalPage`, et en infrastructure les ressources `GET /api/slides`, `GET /api/legal_pages/{slug}` et la conversion du Markdown en sections HTML. `Admin` n'a qu'une couche `Infrastructure` (EasyAdmin, Security) : adaptateur d'entrée qui appelle les cas d'usage, seul module autorisé à en importer d'autres (règle deptrac).
+
 #### 4.4.2 Agrégats, value objects, dépôts
 
 - **Agrégats** : aucun à introduire. Les seules écritures sont `POST /api/contact_messages`, une création d'un objet isolé sans invariant entre objets. `ContactMessage` est trivialement son propre agrégat, le nommer ainsi n'apporte rien (Evans p. 92 : l'agrégat sert à garantir des invariants communs à plusieurs objets).
@@ -364,6 +369,7 @@ Un contexte, quatre modules. Ports et adaptateurs pour le catalogue (Khononov p.
 - **Value objects** : `Price` (centimes, construit depuis l'entier stocké par `Product::price()`, colonne et mapping Doctrine inchangés, donc aucune migration). `CategoryTree` (parcours, branches, enfants). Pas d'`Email` ni de `Slug` dans l'API : la validation de l'e-mail est une contrainte de frontière d'un sous-domaine de support (Khononov p. 8, PDF 34), et le slug n'a aucune règle propre au-delà de la chaîne.
 - **Dépôts** : Evans autorise un dépôt à renvoyer des comptages et des sommes (p. 108). Le jour où le catalogue grossit, le comptage des facettes descend dans `DoctrineProductRepository` (SQL), et `ProductSearch` reste la référence de test. Tant que le jeu fait 24 produits, on garde le calcul en PHP, comme le `CLAUDE.md` de l'API le dit déjà.
 - **Cas d'utilisation** : seul `SearchProducts` se justifie (deux ports, un service, une décision 404 via `CategoryNotFound`).
+  - **Révision** (lot 6) : les écritures de l'admin passent toutes par des cas d'usage (unicité, existence, suppression protégée), dans `Catalog`, `Blog` et `Content`.
 
 #### 4.4.3 Le langage publié dans Hono
 
@@ -518,6 +524,7 @@ src/
     Application/       + SearchProducts.php
     Infrastructure/    ApiPlatform/ (provider allégé), Doctrine/ (inchangé)
   Blog/, Contact/, Task/   inchangés
+  (révision lot 6 : + Blog/Application/, + Content/ en trois couches, + Admin/Infrastructure/)
   Shared/Infrastructure/ApiPlatform/Scenario/   inchangé
 deptrac.yaml           nouveau
 ```
@@ -538,6 +545,7 @@ src/
                        contract.ts (nouveau : schéma OpenAPI, codes Symfony, messages, phpTrim)
     infrastructure/    mongoContactMessage.ts
   blog/, task/         même découpage (contract.ts côté http)
+  content/             (révision lot 6) domain/, http/, infrastructure/ (fixtures, HTML des pages légales recopié de l'API Platform)
   shared/              http/, infrastructure/ inchangés
 ```
 
@@ -577,7 +585,7 @@ Pourquoi `eslint-plugin-boundaries` plutôt que `no-restricted-imports` pour R1 
 | Conteneur d'injection ou interfaces de ports dans les fronts | **non** | un seul adaptateur actif à la fois, la signature exportée suffit (4.3.2) |
 | Value objects en classes dans les fronts | **non** | doivent rester sérialisables. Données immuables et fonctions pures |
 | `Email`, `Slug` en value object | **non** | règle de frontière d'un sous-domaine de support. Rien à encapsuler au-delà de la validation |
-| `application/` dans blog, contact, tâches | **non tant qu'aucune décision n'apparaît** | elle répéterait l'infrastructure (Khononov p. 124, PDF 150) |
+| `application/` dans blog, contact, tâches | **non tant qu'aucune décision n'apparaît** (révision lot 6 : oui pour le blog de l'API Platform, dont l'admin vérifie l'unicité du slug) | elle répéterait l'infrastructure (Khononov p. 124, PDF 150) |
 | `shared/kernel/` | **non** | aucun concept métier n'est aujourd'hui partagé entre deux modules. Un noyau partagé se justifie quand dupliquer coûte plus que coordonner (Khononov p. 52, PDF 78). À créer à la deuxième occurrence réelle |
 | Un dossier par couche même vide | **non** | forme réduite autorisée (4.3.2) |
 | Séparer les fronts en plusieurs contextes | **non** | une équipe, un déploiement, un langage. Commencer large et découper au besoin (Khononov p. 160-161, PDF 186-187) |
