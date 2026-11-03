@@ -76,7 +76,7 @@
     "@playwright/test": "1.64.1",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@types/jsdom": "^30",
-    "@types/node": "^24",
+    "@types/node": "^26",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-vue": "^6.0.10",
@@ -106,7 +106,7 @@
   },
   "packageManager": "yarn@1.22.22",
   "engines": {
-    "node": ">=24.15.0"
+    "node": ">=26.13.0"
   },
   "lint-staged": {
     "*.{ts,tsx,vue,js}": [
