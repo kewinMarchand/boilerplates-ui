@@ -396,3 +396,25 @@ L'habillage d'un site (nom, accroche, logo, couleurs, thème par défaut) se sai
 - `defaultColorScheme` : valeur de `data-color-scheme` servie quand l'utilisateur n'a rien choisi (section 20) ; le choix mémorisé l'emporte. Pour que « système » reste un choix possible quand le défaut est `light` ou `dark`, choisir « système » écrit `auto` dans la clé `color-scheme` (au lieu de la retirer) ; une clé absente signifie « défaut du site ».
 - API en erreur ou injoignable : les valeurs de la configuration du front (`site.ts` ou équivalent) servent de repli, la page reste servie.
 - **Tests** : unitaires de la traduction ; e2e, présence ET absence du logo (`X-Scenario` ou fixture), nom de l'API dans le header et le `<title>`, sans couleurs saisies, aucun bloc de style et les jetons de la bibliothèque ; avec couleurs, variable `--bui-color-primary` calculée sur `<html>` égale à `theme.light.primary` en clair, à `theme.dark.primary` en sombre, et à la valeur de la bibliothèque en mode renforcé ; axe dans les trois modes.
+
+## 23. Attributs de produit configurables
+
+Les caractéristiques d'un produit propres à un client (diamètre, entraxe et déport d'une jante ; kilométrage et énergie d'un véhicule ; durée d'une expérience) se définissent dans l'admin, sans changer le code. Elles s'ajoutent à l'exposition et à la taille du modèle, qui restent telles quelles (le contrat existant ne change pas).
+
+**Définition (admin, section « Attributs »)** : `code` (identifiant, `^[a-z][a-z0-9-]{0,39}$`, unique, non modifiable après création), `label` (1 à 60 caractères), `type` (`choice` : liste de valeurs ; `number` : nombre ; `text` : texte libre), `unit` (facultative, 0 à 10 caractères, par exemple « mm », « km »), `filterable` (pour `choice` seulement : facette du catalogue), `position` (ordre d'affichage). Un attribut `choice` porte ses valeurs ordonnées : `value` (code, `^[a-z0-9][a-z0-9-]{0,39}$`, unique dans l'attribut) et `label`. Refus en français : code déjà pris, valeur en double, suppression d'une valeur portée par un produit (« La valeur X est utilisée par N produits. »). Supprimer un attribut retire ses valeurs des produits.
+
+**Produit (admin)** : un champ par attribut défini (liste pour `choice`, nombre pour `number`, texte de 0 à 120 caractères pour `text`), facultatif.
+
+**Contrat** :
+- `Product` (liste, à la une) et `ProductDetail` gagnent `attributes` : tableau ordonné par `position` des attributs renseignés sur le produit, `{ code, label, type, value, valueLabel, unit }` (`value` en chaîne ; pour `choice`, `value` est le code et `valueLabel` son libellé ; sinon `valueLabel` = `value` ; `unit` vaut `null` si absente). Tableau vide si aucun.
+- `GET /api/products` et `GET /api/product-facets` acceptent `attributes[<code>][]=<value>` pour les attributs `choice` filtrables : valeurs d'un même attribut en OU, attributs entre eux et avec les autres filtres en ET. Code ou valeur inconnus ignorés (règle des paramètres invalides).
+- `GET /api/product-facets` gagne `attributes` : un objet par attribut `choice` filtrable porté par au moins un produit de la branche de catégorie demandée, `{ code, label, values: [{ value, label, count }] }`, toutes les valeurs y compris à 0, compteurs **disjonctifs** comme l'exposition (le compteur d'une valeur applique tous les filtres sauf celui de son propre attribut).
+- `X-Scenario: empty` : `attributes: []` dans les facettes.
+
+**Fronts** :
+- Fiche produit : les attributs dans une liste de définitions (`<dl data-testid="product-attributes">`, libellé, valeur et unité), sous la `<dl>` existante ; absente si vide.
+- Catalogue : une facette par attribut des facettes (groupe de cases à cocher comme l'exposition, `data-testid="catalog-filter-attribute-<code>-<value>"`, compteur), état dans l'URL par le paramètre `attr-<code>` répété (une valeur par occurrence), traduit en `attributes[<code>][]` par la couche anti-corruption ; puces des filtres actifs et « Tout effacer » comme les autres facettes ; tout changement remet la page à 1.
+- Carte produit : inchangée (un client peut afficher des attributs dans sa propre vue).
+- **Tests** : unitaires de la traduction (URL ↔ API, facettes) ; e2e avec un attribut défini (fixture ou API simulée selon le dépôt) : la facette filtre et met à jour l'URL, la fiche affiche la liste, absence de la facette et de la liste sans attribut ; axe.
+
+**Fixtures des API** : un attribut de démonstration, `feuillage` (« Feuillage », `choice`, filtrable : `persistant` « Persistant », `caduc` « Caduc »), renseigné sur quelques plantes, et `hauteur-adulte` (« Hauteur adulte », `number`, unité « cm »), pour exercer les deux types.
