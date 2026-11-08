@@ -462,3 +462,25 @@ Le référencement se règle dans l'admin, sans changer le code. Chaque champ es
 - **Tests** : unitaires de la traduction ; e2e avec métadonnées saisies (API simulée ou fixture) ET sans (valeurs actuelles) ; contrôle de longueur des titres et descriptions servis.
 - **Fixtures** : aucune métadonnée saisie (les fronts gardent leurs valeurs), sauf la description de la page `blog` pour exercer le contrat.
 
+
+## 27. Vente en ligne et demande de renseignement
+
+Un client peut présenter ses produits sans les vendre en ligne : une case de l'admin coupe les prix et le panier, et chaque produit propose une demande de renseignement, envoyée par mail par l'API (jamais de `mailto:`).
+
+**Identité du site** (section 22) : champ `salesEnabled` (booléen, `required`), case « Vente en ligne (prix, panier et commande) » dans la fiche « Identité du site », cochée par défaut et dans les fixtures. Le parcours de commande, quand il existera, dépendra de la même case. Champ privé de la même fiche, absent du contrat : « Adresse qui reçoit les messages » (`contactRecipient`, adresse mail obligatoire, `contact@example.com` dans les fixtures).
+
+**Contact** (`POST /api/contact_messages`) : champ facultatif `product` (slug d'un produit, `null` ou absent pour un message de contact simple). Slug inconnu : 422 sur `product`, « Ce produit n'existe pas. ». Le message est enregistré, puis l'API **envoie un mail** par SMTP (`MAILER_DSN`) à `contactRecipient` :
+- expéditeur `MAILER_FROM` (variable d'environnement), `Reply-To` = adresse saisie par le visiteur ;
+- sujet « Demande de renseignement : <nom du produit> » avec un produit, sinon « Message de contact : <nom saisi> » ;
+- corps en texte brut : nom, adresse, produit (nom et slug) s'il y en a un, message. Aucun HTML, rien de saisi n'est interprété.
+- Envoi en échec : le message reste enregistré en base, l'erreur est journalisée, la réponse reste 201. Le visiteur n'a pas à réessayer un message déjà reçu.
+- Dev : un service Mailpit dans le compose de chaque API (interface sur 8026 pour l'API Platform, 8027 pour Hono, SMTP interne au réseau du compose). Tests : transport de test du framework (aucun mail réel), un test par sujet (avec et sans produit), un test d'envoi en échec (201 et message enregistré).
+
+**Fronts**, quand `salesEnabled` vaut `false` (lu avec l'identité, même cache, même repli : la config du front vaut `true`) :
+- **Aucun prix affiché** : carte du catalogue, diapositive du carrousel, fiche produit (`product-price` absent). JSON-LD `Product` sans `offers`.
+- **Catalogue** : filtre de prix (`catalog-filter-price-min` et `-max`) et tris `prix-asc` / `prix-desc` absents ; ces paramètres d'URL sont ignorés (comme une valeur invalide, section 11).
+- **Panier absent** : lien du header (`cart-link`) absent, `/panier` répond 404, le contenu du stockage `panier` n'est ni lu ni effacé (il revient si la case est recochée).
+- **Fiche produit** : à la place de « Ajouter au panier », un lien bouton « Demande de renseignement » (`data-testid="product-inquiry"`, ≥ 44 px, nom accessible « Demande de renseignement sur Monstera deliciosa ») vers `/contact?produit=<slug>`, présent même en rupture de stock et sans JavaScript.
+- **Page `/contact`**, avec `produit` dans l'URL et un produit trouvé dans l'API (`GET /api/products/{slug}`, rendu serveur) : au-dessus du formulaire, « Votre demande concerne : <nom lié à la fiche> » (`data-testid="contact-product"`), champ caché `product` envoyé avec le message ; le message de confirmation devient « Votre demande de renseignement a bien été envoyée. ». Slug inconnu ou API en erreur : formulaire de contact simple, sans la ligne. Cette prise en charge de `produit` vaut aussi quand la vente est active. La page garde sa canonique `/contact`.
+- `salesEnabled` à `true` : rien ne change (sections 11, 11 bis, 11 ter).
+- **Tests** : unitaires de la traduction de `salesEnabled` ; e2e dans les deux états (identité simulée comme pour le logo, section 22) : à `false`, aucun prix sur le catalogue et la fiche, pas de filtre ni de tri par prix, pas de lien du panier, `/panier` en 404, clic sur « Demande de renseignement » → `/contact?produit=<slug>` avec la ligne du produit, envoi → confirmation, et le corps de la requête porte `product` ; à `true`, le bouton d'ajout au panier reste et aucun lien de demande n'apparaît ; axe sur la fiche et sur `/contact?produit=…` dans les modes.
