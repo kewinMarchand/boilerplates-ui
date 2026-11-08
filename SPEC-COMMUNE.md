@@ -474,6 +474,7 @@ Un client peut présenter ses produits sans les vendre en ligne : une case de l'
 - sujet « Demande de renseignement : <nom du produit> » avec un produit, sinon « Message de contact : <nom saisi> » ;
 - corps en texte brut : nom, adresse, produit (nom et slug) s'il y en a un, message. Aucun HTML, rien de saisi n'est interprété.
 - Envoi en échec : le message reste enregistré en base, l'erreur est journalisée, la réponse reste 201. Le visiteur n'a pas à réessayer un message déjà reçu.
+- Messages visibles dans l'admin, rubrique « Messages », en lecture seule : liste du plus récent au plus ancien (date, nom, adresse, produit lié, début du message) et détail du message complet, échappé.
 - Dev : un service Mailpit dans le compose de chaque API (interface sur 8026 pour l'API Platform, 8027 pour Hono, SMTP interne au réseau du compose). Tests : transport de test du framework (aucun mail réel), un test par sujet (avec et sans produit), un test d'envoi en échec (201 et message enregistré).
 
 **Fronts**, quand `salesEnabled` vaut `false` (lu avec l'identité, même cache, même repli : la config du front vaut `true`) :
