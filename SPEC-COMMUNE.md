@@ -35,6 +35,16 @@ Route `/blog/<slug>`, vue `views/article/` (ou page du module `blog`), lue dans 
 - SEO (section 10) : title = titre de l'article, description = extrait, canonique, `og:type` `article`, `article:published_time`, image de partage = plus grande variante WebP de l'image de l'article (image par défaut si `null`), JSON-LD `BlogPosting` (`headline`, `datePublished`, `image`, `description`) + `BreadcrumbList`. Chaque fiche dans le sitemap.
 - Tests e2e : depuis l'accueil, un clic sur une carte ouvre sa fiche (titre, texte, image servie par l'API) ; slug inconnu → 404 ; axe dans les modes ; une fiche dans les routes SEO et Lighthouse.
 
+## 2 ter. Liste des articles
+
+Route `/blog`, vue `views/blog/` (ou page du module `blog`), lue dans l'API par le module `blog` (`GET /api/articles`, du plus récent au plus ancien, sans pagination). Rendu serveur.
+
+- `<h1>` « Blog », fil d'Ariane Accueil › Blog, puis la grille des articles (`data-testid="blog-list"`, une carte `<article data-testid="blog-card">` par article, mêmes cartes que la grille de l'accueil : image, `<h3>` qui porte le lien étiré vers `/blog/<slug>`, extrait, `<time datetime>`), 1 colonne en mobile, 2 en tablette, 3 en desktop.
+- Les 3 états : chargement si la pile en a un, erreur avec relance, liste vide avec message amical (`data-testid="blog-empty"`).
+- Lien « Blog » dans la navigation principale, après « Catalogue » ; lien « Tous les articles » (`data-testid="home-blog-all"`) sous la grille de l'accueil ; fil d'Ariane de la fiche article : Accueil › Blog › <titre>.
+- SEO : title « Blog », description, canonique, JSON-LD `Blog` + `BreadcrumbList` ; `/blog` dans le sitemap, dans les ROUTES e2e/a11y et les URL Lighthouse.
+- Tests e2e : la liste affiche les articles de l'API, une carte ouvre sa fiche, le fil d'Ariane de la fiche mène à `/blog`, état vide (`X-Scenario: empty`) et erreur (`X-Scenario: error`).
+
 ## 3. Pages légales
 
 Vue `views/legal/` (quatre pages). Depuis l'ADR 0001 de l'API Platform, le texte des mentions légales, des données personnelles et de la déclaration d'accessibilité est administré dans l'API : `GET /api/legal_pages/{slug}` renvoie `title` (le `<h1>`), `introduction` et `sections` (`title` en `<h2>`, `html` injecté tel quel, l'API échappant le HTML saisi), lus par le module `content`. Chaque section porte `data-testid="legal-section"` ; API en erreur → `<h1>` de repli et message (`data-testid="legal-error"`) ; page inconnue de l'API → 404. Routes et `<h1>` :
