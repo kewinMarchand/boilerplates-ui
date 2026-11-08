@@ -39,7 +39,7 @@ Route `/blog/<slug>`, vue `views/article/` (ou page du module `blog`), lue dans 
 
 Route `/blog`, vue `views/blog/` (ou page du module `blog`), lue dans l'API par le module `blog` (`GET /api/articles`, du plus récent au plus ancien, sans pagination). Rendu serveur.
 
-- `<h1>` « Blog », fil d'Ariane Accueil › Blog, puis la grille des articles (`data-testid="blog-list"`, une carte `<article data-testid="blog-card">` par article, mêmes cartes que la grille de l'accueil : image, `<h3>` qui porte le lien étiré vers `/blog/<slug>`, extrait, `<time datetime>`), 1 colonne en mobile, 2 en tablette, 3 en desktop.
+- `<h1>` « Blog », fil d'Ariane Accueil › Blog, puis la grille des articles (`data-testid="blog-list"`, une carte `<article data-testid="blog-card">` par article, mêmes cartes que la grille de l'accueil, mais titre en `<h2>` (pas de saut de niveau depuis le `<h1>`, WCAG 1.3.1), qui porte le lien étiré vers `/blog/<slug>`, image, extrait, `<time datetime>`), 1 colonne en mobile, 2 en tablette, 3 en desktop.
 - Les 3 états : chargement si la pile en a un, erreur avec relance, liste vide avec message amical (`data-testid="blog-empty"`).
 - Lien « Blog » dans la navigation principale, après « Catalogue » ; lien « Tous les articles » (`data-testid="home-blog-all"`) sous la grille de l'accueil ; fil d'Ariane de la fiche article : Accueil › Blog › <titre>.
 - SEO : title « Blog », description, canonique, JSON-LD `Blog` + `BreadcrumbList` ; `/blog` dans le sitemap, dans les ROUTES e2e/a11y et les URL Lighthouse.
