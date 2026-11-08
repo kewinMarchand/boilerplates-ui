@@ -79,7 +79,7 @@ Vue `views/legal/` (quatre pages). Depuis l'ADR 0001 de l'API Platform, le texte
 
 ## 6. API commune (phase suivante, ne pas brancher tout de suite)
 
-Ressources ajoutées : `GET /api/categories` (arbre), `GET /api/products` (filtres, tri, pagination et compteurs de facettes, section 11).
+Ressources ajoutées : `GET /api/categories` (arbre), `GET /api/products` (une page de produits filtrée et triée, tableau de `Product`) et `GET /api/product-facets` (total et compteurs de facettes, mêmes filtres), section 11.
 
 Dépôt `~/Applications/boilerplate-api-platform` (API Platform 4 + PostgreSQL, port 8090). Ressources : `GET /api/tasks`, `GET /api/articles`, `POST /api/contact_messages` (422 avec messages français). En-tête `X-Scenario: error|empty` en dev/test. OpenAPI à `/api/docs.jsonopenapi`. Les fronts garderont leurs dépôts en mémoire tant que l'API n'est pas livrée : la couche `api/` des domaines est la seule à changer au branchement.
 
@@ -90,9 +90,10 @@ Seconde API au **contrat identique** : `~/Applications/boilerplate-hono` (Hono +
 - `API_URL` choisit l'API (8090 API Platform par défaut, 8091 Hono), sans autre changement de code.
 - Types générés depuis l'OpenAPI par `make api-types`, consommés seulement par un client typé et une couche anti-corruption par module dans `infrastructure/http/` (ARCHITECTURE-DDD 4.3.4). Les composants ignorent le contrat. Les violations 422 du contact sont relayées vers les champs du formulaire.
 - L'adaptateur en mémoire quitte le code de production.
+- **Catalogue** (ADR 0005 de l'API Platform) : `GET /api/products` renvoie un tableau de `Product` (une page : `page`, `itemsPerPage` de 1 à 48, 12 par défaut ; au-delà de la dernière page, tableau vide). `GET /api/product-facets` renvoie `{ totalItems, exposure, size, category }` pour les mêmes filtres, sans tri ni pagination. La page du catalogue lit les deux en parallèle et calcule le nombre de pages (`ceil(totalItems / itemsPerPage)`). La liste de tous les slugs (sitemap, pré-rendu) lit les pages jusqu'à une page incomplète. Catégorie inconnue : 404 sur les deux.
 - **Fiche article** : `GET /api/articles/{slug}` (`ArticleDetail`), section 2 bis ; 404 pour un slug inconnu.
 - **Fiche produit** : `GET /api/products/{slug}` (`ProductDetail`) : champs de la liste plus `categoryPath` (`[{ slug, name }]`, de la racine à la catégorie du produit) et `description` (texte brut saisi dans l'admin, paragraphes séparés par une ligne vide, chaîne vide si aucune ; absente de la liste et du carrousel), section 11 bis ; 404 pour un slug inconnu.
-- **Produits à la une** : `GET /api/featured-products` (tableau d'éléments de la liste, schéma `FeaturedProduct.ProductItem`, par nom) : le carrousel de l'accueil (section 2). Les diapositives (`GET /api/slides`) sont retirées des API (ADR 0004 de l'API Platform).
+- **Produits à la une** : `GET /api/featured-products` (tableau de `Product`, par nom) : le carrousel de l'accueil (section 2). Les diapositives (`GET /api/slides`) sont retirées des API (ADR 0004 de l'API Platform).
 - **Images** (ADR 0002 de l'API Platform, adoptée par Hono) : les produits et les articles portent `image`, objet ou `null` : `{ alt, width, height, sources: [{ type: "image/avif" | "image/webp", srcset }], src }`. Adresses absolues sur l'origine de l'API (`MEDIA_BASE_URL`), fichiers immuables (`Cache-Control: immutable`). Le front pose `sources` dans un `<picture>` (AVIF puis WebP), `src`, `width`, `height` et `alt` sur l'`<img>`, et choisit lui-même `sizes`, `loading` et la priorité. Il ne construit aucun chemin et n'utilise pas d'optimiseur à la volée. `image` à `null` : pas d'image (aucun placeholder cassé). La CSP du front autorise l'origine de l'API en `img-src`. Largeurs servies : article 16:9 480 et 960, produit 1:1 400, 640 et 800 (ADR 0003).
 - Tests : la CI e2e démarre une vraie API (`boilerplate-hono`, dépôt public, `make up`) et les états d'erreur et de liste vide passent par `X-Scenario`. En local, l'API de son choix est lancée à côté, le front la joint par `API_URL`.
 
