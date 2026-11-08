@@ -6,7 +6,7 @@ Bibliothèque de composants commune aux cinq boilerplates (Next et React, Nuxt e
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `packages/tokens`  | Source `src/tokens.ts`, fichiers générés dans `generated/` : `tokens.css`, `tokens.json`, `tailwind.css`                                    |
 | `packages/css`     | Un fichier CSS par composant (`components/`), `index.css`, sprite d'icônes Lucide (`icons/`), balisage de référence (`reference/markup.ts`) |
-| `packages/vanilla` | Comportement natif sans dépendance (modale et tiroir sur `<dialog>`, onglets, menu, info-bulle, toast, tri de tableau)                      |
+| `packages/vanilla` | Comportement natif sans dépendance (modale et tiroir sur `<dialog>`, onglets, menu, info-bulle, toast, tri de tableau, image en échec)      |
 | `packages/react`   | Composants React typés                                                                                                                      |
 | `packages/vue`     | Composants Vue typés                                                                                                                        |
 | `packages/svelte`  | Composants Svelte 5 typés (runes, snippets), même liste et même API que Vue aux conventions de Svelte près (ADR 0004)                       |
@@ -64,15 +64,15 @@ En attendant la publication npm, la dépendance est le dépôt git sur une étiq
 
 Créer une version : passer la même version dans les sept `package.json` (racine, `packages/*`, `apps/storybook`), y compris les dépendances internes de `apps/storybook/package.json`, qui sont en version exacte (sinon `make install` échoue en CI, faute de paquet sur le registre npm), compléter `CHANGELOG.md`, puis, CI verte, `git tag v0.1.0 && git push origin v0.1.0`. Monter de version dans un boilerplate : changer l'étiquette, puis `make install`.
 
-| Import                                               | Contenu                                                                                                        |
-| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `@kewinmarchand/boilerplates-ui/tokens/tokens.css`   | Variables `--bui-*`, mode renforcé compris                                                                     |
-| `@kewinmarchand/boilerplates-ui/tokens/tailwind.css` | Thème Tailwind v4 (`@theme inline`) branché sur les variables                                                  |
-| `@kewinmarchand/boilerplates-ui/css`                 | CSS de tous les composants                                                                                     |
-| `@kewinmarchand/boilerplates-ui/vanilla`             | `initModals()`, `initTabs()`, `initMenus()`, `initTooltips()`, `initToasts()` et `showToast()`, `initTables()` |
-| `@kewinmarchand/boilerplates-ui/react`               | Composants React                                                                                               |
-| `@kewinmarchand/boilerplates-ui/vue`                 | Composants Vue                                                                                                 |
-| `@kewinmarchand/boilerplates-ui/svelte`              | Composants Svelte                                                                                              |
+| Import                                               | Contenu                                                                                                                               |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `@kewinmarchand/boilerplates-ui/tokens/tokens.css`   | Variables `--bui-*`, mode renforcé compris                                                                                            |
+| `@kewinmarchand/boilerplates-ui/tokens/tailwind.css` | Thème Tailwind v4 (`@theme inline`) branché sur les variables                                                                         |
+| `@kewinmarchand/boilerplates-ui/css`                 | CSS de tous les composants                                                                                                            |
+| `@kewinmarchand/boilerplates-ui/vanilla`             | `initModals()`, `initTabs()`, `initMenus()`, `initTooltips()`, `initToasts()` et `showToast()`, `initTables()`, `initImageFallback()` |
+| `@kewinmarchand/boilerplates-ui/react`               | Composants React                                                                                                                      |
+| `@kewinmarchand/boilerplates-ui/vue`                 | Composants Vue                                                                                                                        |
+| `@kewinmarchand/boilerplates-ui/svelte`              | Composants Svelte                                                                                                                     |
 
 Par stack :
 
@@ -107,6 +107,7 @@ Pour montrer un état dans une charte graphique, poser une classe sur l'élémen
 - **Svelte** : contenu par `children` et snippets nommés (`action`, `footer`, `media`, `content` des panneaux d'accordéon et d'onglets), événements par props de rappel (`onclick`, `onselect`, `onclose`, `onsort`), valeurs liées par `bind:value`, `bind:checked` ou `bind:group`. `useToaster()` vient d'un module `.svelte.ts` (file en `$state`, lue par `toaster.toasts`).
 - **Icône** : `label` pour une icône porteuse de sens (`role="img"`), `size` (`sm`, `md`, `lg`, sinon 1em).
 - **Carte** : `.bui-card__media` accepte une `<img>` ou une `<picture>`.
+- **Image en échec** : `<picture class="bui-picture">` autour d'une image de l'API (`width` et `height` ou un ratio sur l'`<img>`). `initImageFallback()`, appelé une fois côté client, pose `data-image-error` sur le `<picture>` quand l'image échoue (y compris avant le chargement du JavaScript) et le retire au chargement d'une source : l'image reste à sa place, invisible, sur un fond neutre. Le `<picture>` passe en bloc ; dans une boîte de hauteur fixe, lui donner `height: 100%`. Pas de composant React, Vue ou Svelte : la classe se pose sur le `<picture>` du site.
 - **Vanilla** : déclarations TypeScript publiées dans `packages/vanilla/types`, générées depuis les JSDoc par `make vanilla-types` et vérifiées par `make qa`.
 
 ## Dépendances

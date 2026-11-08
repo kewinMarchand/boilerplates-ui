@@ -1,5 +1,6 @@
 import { setIconSprite as setReferenceSprite } from '@kewinmarchand/css/reference/markup.ts'
 import {
+  initImageFallback,
   initMenus,
   initModals,
   initTables,
@@ -34,6 +35,7 @@ initMenus()
 initTooltips()
 initToasts()
 initTables()
+initImageFallback()
 
 /** Plan de travail blanc (surface des tokens) sur le fond gris de l'aperçu. */
 const workbench = (content: unknown) => {

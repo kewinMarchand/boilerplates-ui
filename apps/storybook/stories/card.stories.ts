@@ -81,6 +81,12 @@ export const ToutesLesVariantes: Story = {
           ],
         },
         {
+          label: 'Image en échec',
+          cells: [
+            `<div style="max-width: 320px">${card({ title: args.title, headingLevel: args.headingLevel, body: `<p>${args.text}</p>`, media: `<picture class="bui-picture" data-image-error><img src="image-introuvable.jpg" alt="Sentier côtier au-dessus d’une calanque" width="${IMAGE.width}" height="${IMAGE.height}"></picture>` })}</div>`,
+          ],
+        },
+        {
           label: 'Minimale',
           cells: [
             `<div style="max-width: 320px">${html({ ...args, media: false, action: '' })}</div>`,
