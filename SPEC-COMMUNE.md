@@ -334,13 +334,13 @@ Dépôt public `kewinMarchand/boilerplates-ui`, monorepo, avec un Storybook de d
 Le site suit le thème du système par défaut, et l'utilisateur peut le forcer en clair ou en sombre ; le mode renforcé (section 4) reste toujours en clair.
 
 - **État** sur `<html data-color-scheme="…">`, trois valeurs : `auto` (suit `prefers-color-scheme`, valeur écrite dans le HTML servi), `light` (clair forcé), `dark` (sombre forcé). Les couleurs viennent des jetons de boilerplates-ui (section 19), qui ne posent le sombre que sous `[data-color-scheme="dark"]` et sous `[data-color-scheme="auto"]` avec `prefers-color-scheme: dark`, jamais avec `[data-a11y-mode="enhanced"]`. `<meta name="color-scheme" content="light dark">` dans `<head>`.
-- **Persistance** en `localStorage`, clé `color-scheme`, valeur `light` ou `dark` ; absente pour « système ». Appliquée **avant le premier rendu** par le même script inline que le mode renforcé (section 4), lecture et écriture enveloppées dans try/catch : sans stockage, le site reste en `auto`.
+- **Persistance** en `localStorage`, clé `color-scheme`, valeur `auto`, `light` ou `dark` ; absente tant que l'utilisateur n'a rien choisi (le thème par défaut du site s'applique, section 22). Appliquée **avant le premier rendu** par le même script inline que le mode renforcé (section 4), lecture et écriture enveloppées dans try/catch : sans stockage, le site reste en `auto`.
 - **Bascule dans le header**, à côté du bouton du mode renforcé : un bouton icône `data-testid="color-scheme-toggle"`, nom accessible « Thème : système », « Thème : clair » ou « Thème : sombre » selon l'état, qui ouvre un menu de trois choix (`role="menuitemradio"`, `aria-checked`, `data-testid="color-scheme-option-auto|light|dark"`), cible ≥ 44 px. Construite avec les composants bouton icône et menu déroulant de boilerplates-ui : aucun composant local (section 19). Icônes du sprite Lucide (section 17) : `monitor`, `sun`, `moon`.
 - **Mode renforcé prioritaire** : quand `data-a11y-mode="enhanced"` est posé, la page est en clair quel que soit le choix, le choix reste mémorisé et revient quand le mode renforcé est coupé. La bascule reste utilisable et l'indique (« Thème : sombre, suspendu par l'accessibilité renforcée »).
 - **Composants et jetons seulement** : les cinq boilerplates prennent leurs couleurs dans les variables CSS des jetons et leurs composants dans boilerplates-ui (section 19), qui suivent `data-color-scheme` et le mode renforcé d'eux-mêmes : aucun thème à générer ni à basculer à part.
 - **Tests** :
   - unitaire de la bascule : état affiché, `aria-checked`, nom accessible ;
-  - e2e, présence ET absence : chaque choix pose l'attribut et l'écrit en `localStorage` ; il persiste après rechargement ; « système » retire la clé et remet `auto` ; avec `prefers-color-scheme: dark` émulé, `auto` donne le sombre ; en mode renforcé, la page est en clair même avec `dark` ;
+  - e2e, présence ET absence : chaque choix pose l'attribut et l'écrit en `localStorage` ; il persiste après rechargement ; « système » écrit `auto` et remet `auto`, y compris avec un thème par défaut sombre ; avec `prefers-color-scheme: dark` émulé, `auto` donne le sombre ; en mode renforcé, la page est en clair même avec `dark` ;
   - sans flash : l'attribut lu au premier `DOMContentLoaded` est déjà celui du stockage ;
   - axe sur chaque route en clair, en sombre et en mode renforcé ; Lighthouse en clair et en sombre.
 
@@ -359,3 +359,40 @@ Sixième boilerplate, pour les sites où le contenu domine (vitrine, éditorial,
 - **Ports** (section 7) : dev 4321, e2e 3170, Lighthouse 3270.
 - **Outillage** : identique aux autres (section 18) : Docker (image Playwright pour Node), `make`, ESLint (`eslint-plugin-astro`, règles de dépendance), Prettier (`prettier-plugin-astro`), `astro check`, Vitest, Playwright + axe, Lighthouse CI en clair et en sombre, hook Git qui appelle `make`, GitHub Actions.
 
+
+## 22. Identité du site, administrée dans l'API
+
+L'habillage d'un site (nom, accroche, logo, couleurs, thème par défaut) se saisit dans l'admin de l'API, pas dans le code du front. Un même front sert ainsi plusieurs clients sans fork de configuration.
+
+**Contrat** : `GET /api/site-identity`, ressource unique `SiteIdentity` (JSON simple, `required` partout) :
+
+```json
+{
+  "name": "Oraki",
+  "tagline": "Plantes rares et tropicales, livrées chez vous.",
+  "logo": { "alt": "Oraki", "width": 400, "height": 120, "sources": [...], "src": "…" },
+  "defaultColorScheme": "dark",
+  "theme": null | {
+    "light": { "primary": "#c2410c", "primary-dark": "…", "on-primary": "#ffffff", "primary-surface-subtle": "…", "primary-surface": "…", "primary-surface-strong": "…", "secondary": "…", "secondary-dark": "…", "on-secondary": "…", "secondary-surface-subtle": "…", "secondary-surface": "…", "secondary-surface-strong": "…" },
+    "dark": { …mêmes clés… }
+  }
+}
+```
+
+- `name` (1 à 60 caractères), `tagline` (0 à 160), `logo` (objet image du contrat, section 6, ou `null`), `defaultColorScheme` (`auto`, `light` ou `dark`).
+- `theme` vaut `null` tant qu'aucune couleur de marque n'est saisie : le front garde alors les jetons de boilerplates-ui tels quels (les modèles ne changent pas). Sinon, `theme.light` et `theme.dark` portent les douze jetons de couleur de marque (noms sans le préfixe `color.`), en `#rrggbb`. **L'API les calcule** à partir des deux couleurs saisies (principale, secondaire) ; les fronts n'ont aucune règle de couleur à dupliquer.
+  - **Clair** (fond `#ffffff`, règles des chartes des maquettes, `maquettes-sites/chartes.py`) : la couleur saisie telle quelle, `-dark` = 25 % de noir, `on-*` = `#ffffff` ou `#111827` selon le meilleur contraste, surfaces = mélange de 8, 18 et 32 % de la couleur avec le fond.
+  - **Sombre** (fond `#0f141d`, celui de boilerplates-ui) : la couleur est éclaircie (mélange avec du blanc, par pas de 5 %) jusqu'à 7:1 au moins sur le fond, comme les jetons sombres de la bibliothèque ; `-dark` = 25 % de blanc en plus (plus clair, comme la bibliothèque) ; `on-*` = `#0f141d` ; surfaces = mélange de 8, 12 et 19 % de la couleur éclaircie avec le fond.
+- **Admin** : une seule fiche « Identité du site » (modification seule, pas de création ni de suppression). Champs : nom, accroche, logo (envoi d'image, texte de remplacement : le nom par défaut, case « Retirer le logo »), couleur principale et couleur secondaire (facultatives, les deux ou aucune), thème par défaut. **Validation** : la couleur principale doit contraster à 4,5:1 au moins avec `#ffffff` (elle sert de couleur de lien), sinon « La couleur principale doit contraster à 4,5:1 au moins avec le fond clair (actuellement X:1). » ; la couleur secondaire doit porter un texte lisible (`on-secondary` à 4,5:1 au moins), sinon « La couleur secondaire ne permet pas de texte lisible dessus (au mieux X:1, 4,5:1 au minimum). » ; une seule des deux couleurs saisie : « Saisir les deux couleurs, ou aucune. ». Le logo n'est encodé qu'une fois le formulaire valide. En sombre, `on-*` atteint 4,5:1 par construction (couleur à 7:1 sur le fond, texte de la couleur du fond).
+- **Logo** : usage d'image `logo` (ADR 0002) sans recadrage, ratio conservé, largeurs 200 et 400, PNG, WebP ou AVIF transparents acceptés. Pas de SVG (contenu actif).
+- **Fixtures** : nom et accroche du modèle (« Boilerplate »…), pas de logo, pas de couleurs (`theme: null`), `auto`.
+- `X-Scenario: empty` : la ressource par défaut (fixtures). `error` : 500.
+
+**Fronts** (lecture serveur, en cache comme les autres contenus éditoriaux) :
+
+- Nom : logo du header (section 8), pied de page, `<h1>` du hero, titre des pages (séparateur de la section 10), `og:site_name`, JSON-LD `Organization`/`WebSite`, manifeste (`name`, `short_name`, `theme_color` = `primary`). Accroche : texte du hero et description par défaut.
+- Logo présent : `<img>` du logo dans le lien du header (`alt` = nom du site, hauteur fixe 40 px, largeur auto, priorité haute : il est au-dessus de la ligne de flottaison), sans le pictogramme ni le nom en texte. Logo absent : pictogramme + nom en texte (section 8, inchangé).
+- Couleurs (seulement si `theme` n'est pas `null`) : un bloc `<style>` dans `<head>`, ou une feuille servie par le site et liée dans `<head>` quand la CSP est figée au build (Next, ISR) : rendu serveur, avant tout contenu, donc sans flash, qui redéfinit les variables CSS des douze jetons (`--bui-color-<clé>`) pour le clair, et pour le sombre sous les mêmes sélecteurs que boilerplates-ui (section 20). **Jamais en mode renforcé** : ses couleurs AAA restent celles de la bibliothèque. La CSP du front autorise ce bloc (empreinte, nonce ou feuille en `'self'`), sans ajouter `'unsafe-inline'` ; un front dont le framework l'exige déjà pour ses propres styles (Nuxt) le garde, justifié dans son CLAUDE.md, car une empreinte dans `style-src` désactiverait ce `'unsafe-inline'`.
+- `defaultColorScheme` : valeur de `data-color-scheme` servie quand l'utilisateur n'a rien choisi (section 20) ; le choix mémorisé l'emporte. Pour que « système » reste un choix possible quand le défaut est `light` ou `dark`, choisir « système » écrit `auto` dans la clé `color-scheme` (au lieu de la retirer) ; une clé absente signifie « défaut du site ».
+- API en erreur ou injoignable : les valeurs de la configuration du front (`site.ts` ou équivalent) servent de repli, la page reste servie.
+- **Tests** : unitaires de la traduction ; e2e, présence ET absence du logo (`X-Scenario` ou fixture), nom de l'API dans le header et le `<title>`, sans couleurs saisies, aucun bloc de style et les jetons de la bibliothèque ; avec couleurs, variable `--bui-color-primary` calculée sur `<html>` égale à `theme.light.primary` en clair, à `theme.dark.primary` en sombre, et à la valeur de la bibliothèque en mode renforcé ; axe dans les trois modes.
