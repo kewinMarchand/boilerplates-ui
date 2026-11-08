@@ -2,6 +2,16 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.12.0
+
+### Ajouté
+
+- Image en échec : classe `bui-picture` sur un `<picture>` et comportement vanilla `initImageFallback(root = document)`. Quand l'`<img>` échoue (événement `error` écouté en capture, ou image déjà en échec à l'initialisation), le `<picture>` reçoit `data-image-error` : l'image reste à ses dimensions, invisible, son `alt` exposé, sur un fond neutre en dégradés des jetons, sans URL. Le chargement d'une source retire la marque. Renvoie la fonction qui débranche.
+
+### Storybook
+
+- Carte : ligne « Image en échec » dans la grille des variantes ; `initImageFallback()` branché dans l'aperçu.
+
 ## 0.11.1
 
 ### Corrigé
