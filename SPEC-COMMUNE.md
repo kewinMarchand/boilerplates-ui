@@ -494,3 +494,25 @@ Une image servie par l'API peut échouer au chargement (fichier supprimé, API i
 - **Comportement** `initImageFallback(root = document)` (vanilla, sans dépendance) : écoute l'événement `error` en capture sur `root` pour les `<img>` d'un `.bui-picture`, et marque dès l'initialisation les images déjà en échec (`complete` et `naturalWidth === 0`), car une image du rendu serveur peut échouer avant le chargement du JavaScript. Une image qui se charge ensuite (événement `load`, nouvelle source) perd la marque. Appelé une seule fois côté client par chaque front. Sans JavaScript : comportement du navigateur (limite assumée).
 - **Fronts** : `bui-picture` sur le `<picture>` de leur composant d'image pour toutes les images de l'API (produits, galerie, carrousels, articles, logo exclu : son texte de remplacement est le nom du site, qui reste lisible si l'image échoue). `image: null` garde son traitement actuel.
 - **Tests** : unitaires du comportement dans la bibliothèque ; e2e dans chaque front : une image de l'API qui répond 404 (route interceptée) → `data-image-error` présent, aucune image cassée visible (l'`<img>` a une opacité nulle), dimensions de la carte inchangées ; axe sans violation sur la page dans les modes.
+
+## 29. Contenu multilingue (activable) et admin en français et en anglais
+
+Un site peut publier ses contenus en plusieurs langues. C'est désactivé par défaut : un site n'a qu'une langue, le français, et rien ne change pour lui (contrat, fronts, admin). L'interface de l'admin, elle, est disponible en français et en anglais pour tous.
+
+**Langues du site** (identité, section 22) : `locales`, liste ordonnée de codes BCP 47 courts (`fr`, `en`), la première étant la langue par défaut ; `["fr"]` par défaut et dans les fixtures. Administrée dans la fiche « Identité du site » : langue par défaut et langues activées (au moins une). Exposée par `GET /api/site-identity` (`locales`, requis).
+
+**Champs traduisibles** : tout texte saisi dans l'admin et servi aux fronts : nom et accroche du site ; produits (nom, description, `metaTitle`, `metaDescription`, texte de remplacement des images) ; catégories (nom) ; attributs (libellé, valeurs, unité) ; articles (titre, chapô, texte, rubrique, `metaTitle`, `metaDescription`, légende audio) ; pages légales ; titres et descriptions des pages fixes (section 26). Les slugs sont traduisibles (un slug par langue, unique dans sa langue). Les données non textuelles (prix, stock, images, dates, attributs numériques) sont communes aux langues.
+
+**API** :
+- Langue demandée par l'en-tête `Accept-Language` (première langue activée qui correspond), ou par le paramètre `locale` qui l'emporte. Langue non activée ou absente : langue par défaut. Réponse `Content-Language` sur chaque ressource.
+- Repli champ par champ : un champ non traduit dans la langue demandée prend la valeur de la langue par défaut. Un slug inconnu dans la langue demandée mais connu dans une autre langue : 404 (pas de redirection côté API).
+- Ressources détaillées (produit, article, page légale, catégorie) : champ `alternates`, `[{ locale, slug }]` pour chaque langue activée où l'élément a un slug, langue demandée comprise (`[]` sur un site monolingue). Il sert aux `hreflang` et au sélecteur de langue des fronts.
+- Un site monolingue garde exactement le contrat d'aujourd'hui, `locales` et `alternates` en plus. `make contract` compare aussi un cas bilingue (fixture de test qui active `en` avec quelques traductions).
+
+**Admin** :
+- Fiches traduisibles : un onglet par langue activée (langue par défaut en premier, champs obligatoires dans celle-ci seulement) ; un site monolingue n'affiche pas d'onglet. Le slug se calcule depuis le nom dans chaque langue, comme aujourd'hui.
+- **Interface en français et en anglais** : tous les libellés, menus, messages de validation et d'erreur de l'admin passent par des fichiers de traduction (aucun libellé en dur) ; sélecteur de langue de l'interface dans l'admin, choix mémorisé par compte (ou par session), français par défaut. Indépendant des langues du contenu.
+
+**Fronts** (phase suivante, section 29 bis à venir) : un seul `locale` → aucun changement. Plusieurs → routes préfixées par la langue (sauf la langue par défaut), sélecteur de langue, `<html lang>`, `hreflang` depuis `alternates`, sitemap par langue.
+
+**Tests** : API, repli champ par champ, `Accept-Language` et `locale`, langue non activée, `alternates`, slug par langue, site monolingue inchangé ; admin, onglets présents seulement à plus d'une langue, interface entière en anglais (aucun libellé français restant) et en français.
