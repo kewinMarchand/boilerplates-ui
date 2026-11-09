@@ -140,6 +140,48 @@ Ce tableau est la seule référence des ports. Un dépôt ne prend un port que d
 
 Disposition dans un bloc (décalage par rapport au début) : +0 e2e principal, +1 build de production stricte, +2 et +3 site bilingue (desktop, mobile), +4 et +5 bilingue en maintenance, +6 observabilité, +7 faux GlitchTip, +8 à +15 sites et API factices des scénarios (identité, vente coupée, métadonnées, saisies admin… : site puis API, desktop puis mobile), +16 et +17 libres, +18 image de production locale (`docker-up`, `test-prod`), +19 Lighthouse. Un scénario sans besoin de port fixe prend un port éphémère (0).
 
+**Ports réservés, port par port** (à tenir à jour dans le même commit que le code) :
+
+| Port | Dépôt | Usage |
+|---|---|---|
+| 4000 | next | e2e principal (build) |
+| 4002 | next | site bilingue des e2e |
+| 4004 | next | bilingue en maintenance |
+| 4006 / 4007 | next | observabilité / faux GlitchTip |
+| 4008 / 4009 | next | identité : site / API factice |
+| 4016 | next | pages de développement (`next dev`, `make test-dev`) |
+| 4018 | next | image de production locale (`docker-up`) |
+| 4019 | next | Lighthouse |
+| 4020 / 4021 | nuxt | e2e principal / production stricte |
+| 4022 / 4023 | nuxt | bilingue desktop / mobile |
+| 4024 / 4025 | nuxt | bilingue en maintenance desktop / mobile |
+| 4026 / 4027 | nuxt | observabilité / faux GlitchTip |
+| 4028-4031 | nuxt | identité : site / API factice, desktop puis mobile |
+| 4032-4035 | nuxt | vente coupée : site / API factice, desktop puis mobile |
+| 4038 | nuxt | image de production locale |
+| 4039 | nuxt | Lighthouse |
+| 4040 / 4041 | svelte | e2e principal / production stricte |
+| 4042 / 4043 | svelte | bilingue desktop / mobile |
+| 4044 / 4045 | svelte | bilingue en maintenance desktop / mobile |
+| 4046 / 4047 | svelte | observabilité / faux GlitchTip |
+| 4048-4051 | svelte | identité : site / API factice, desktop puis mobile |
+| 4052-4055 | svelte | saisies admin : site / API factice, desktop puis mobile |
+| 4058 | svelte | image de production locale |
+| 4059 | svelte | Lighthouse (vente coupée : ports éphémères) |
+| 8095 | symfony | dev, image de production et e2e (pas de +0) |
+| 4067 | symfony | faux GlitchTip |
+| 4069 | symfony | API factice de l'identité |
+| 4079 | symfony | Lighthouse |
+| 4080 | html | e2e principal |
+| 4082 | html | site bilingue des e2e |
+| 4084 | html | bilingue en maintenance |
+| 4086 / 4087 | html | observabilité / faux GlitchTip |
+| 4096 | html | image de production locale (`docker-up`, `test-prod`) |
+| 4098 | html | dev (`make up`) |
+| 4099 | html | Lighthouse |
+| 4100-4119 | astro | (à reporter lors de son passage) |
+| 4120 | boilerplates-ui | Storybook servi pour les tests axe (interne au conteneur) |
+
 **CORS des API** (dev et test) : `^http://(localhost|127\.0\.0\.1):(3000|3010|4321|5173|8095|18095|4[01][0-9]{2})$`, identique dans les deux API.
 
 **CI** : un runner par dépôt, l'API Hono sur 8091 ; les blocs évitent seulement les collisions locales, quand plusieurs suites ou un agent tournent en même temps.
