@@ -179,7 +179,15 @@ Disposition dans un bloc (décalage par rapport au début) : +0 e2e principal, +
 | 4096 | html | image de production locale (`docker-up`, `test-prod`) |
 | 4098 | html | dev (`make up`) |
 | 4099 | html | Lighthouse |
-| 4100-4119 | astro | (à reporter lors de son passage) |
+| 4100 / 4101 | astro | e2e principal / production stricte |
+| 4102 / 4103 | astro | bilingue desktop / mobile |
+| 4104 / 4105 | astro | bilingue en maintenance desktop / mobile |
+| 4106 / 4107 | astro | observabilité / faux GlitchTip |
+| 4108 / 4109 | astro | identité : site desktop / mobile (API factice sur port éphémère) |
+| 4110 / 4111 | astro | vente coupée : site desktop / mobile (API factice éphémère) |
+| 4112 / 4113 | astro | métadonnées : site desktop / mobile (API factice éphémère) |
+| 4118 | astro | image de production locale |
+| 4119 | astro | Lighthouse |
 | 4120 | boilerplates-ui | Storybook servi pour les tests axe (interne au conteneur) |
 
 **CORS des API** (dev et test) : `^http://(localhost|127\.0\.0\.1):(3000|3010|4321|5173|8095|18095|4[01][0-9]{2})$`, identique dans les deux API.
