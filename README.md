@@ -125,6 +125,7 @@ Pour montrer un état dans une charte graphique, poser une classe sur l'élémen
 
   Exemple d'anglais dans le Storybook : `Fondations/Libellés traduits`. `tests/parity/labels.test.ts` vérifie le défaut et le libellé fourni dans les quatre couches.
 
+- **Tri des tableaux (vanilla)** : `initTables(root, { locale })` et `sortTable(button, { locale })` trient selon `locale`, par défaut la langue de la page (`<html lang>`), sinon `fr`. En React, Vue et Svelte, le site trie lui-même ses lignes sur `onSort` / `onsort`.
 - **Vanilla** : déclarations TypeScript publiées dans `packages/vanilla/types`, générées depuis les JSDoc par `make vanilla-types` et vérifiées par `make qa`.
 
 ## Dépendances
