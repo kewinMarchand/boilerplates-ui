@@ -2,6 +2,18 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/). Versions en [SemVer](https://semver.org/lang/fr/).
 
+## 0.13.0
+
+### Ajouté
+
+- Libellés d'interface paramétrables, pour les sites multilingues : chaque texte lu ou affiché par un composant se remplace par une prop (option dans la référence et dans `showToast()`), le français actuel restant la valeur par défaut. Aucun changement sans prop. `requiredLabel` (champ texte, zone de texte, liste déroulante, case à cocher, `Fieldset`, groupe de boutons radio), `loadingLabel` (bouton), `newWindowLabel` (lien externe), `removeLabel` (puce), `prefix` (alerte), `prefixes` et `closeLabel` (`Toaster` ; `toaster(toasts, { prefixes, closeLabel })` dans la référence ; `prefix` et `closeLabel` par toast pour `toast()` et `showToast()`), `label` (fil d'Ariane), `label`, `previousLabel`, `nextLabel` et `pageLabel` (pagination). `closeLabel` de la modale et `label` de l'indicateur de chargement existaient déjà.
+- Tri des tableaux vanilla dans la langue du site : option `locale` de `initTables(root, { locale })` et `sortTable(button, { locale })`, par défaut la langue de la page (`<html lang>`), sinon `fr` (le tri était figé en français). Test `packages/vanilla/tests/table.test.ts`.
+- Test `tests/parity/labels.test.ts` : libellé par défaut et libellé fourni dans la référence, React, Vue et Svelte, espaces compris ; `packages/vanilla/tests/toast.test.ts` pour `showToast()`.
+
+### Storybook
+
+- Histoire `Fondations/Libellés traduits` : les composants concernés avec des libellés anglais, en HTML, React, Vue et Svelte.
+
 ## 0.12.0
 
 ### Ajouté
