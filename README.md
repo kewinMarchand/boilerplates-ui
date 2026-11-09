@@ -38,6 +38,8 @@ make storybook-build  # Storybook statique dans apps/storybook/storybook-static
 make test-a11y        # axe sur chaque histoire construite, en mode standard, renforcé et sombre
 ```
 
+Ports : registre unique de la section 7 de la spec commune (`~/Applications/boilerplates-commun/SPEC-COMMUNE.md`). Storybook de développement sur 6006 ; bloc des tests 4120-4139, dont seul 4120 sert (serveur `storybook preview` des tests axe, `make test-a11y`, interne au conteneur `node`).
+
 `make help` liste toutes les cibles. Le hook `pre-commit` lance `make lint-staged` et refuse le commit si Docker est arrêté.
 
 ## Ajouter un composant

@@ -19,6 +19,7 @@ Bibliothèque de composants personnelle, commune aux six boilerplates (Next, Nux
 - **Boîte bordée** : `base.css` pose `box-sizing: border-box` sur tout élément `bui-*`, pour ne pas dépendre d'un reset du site.
 - **États forcés** : chaque `:hover`, `:focus-visible` et `:active` des composants a son pendant `bui-is-hover`, `bui-is-focus`, `bui-is-active`. Une nouvelle règle d'état garde ce pendant.
 - **Plan de travail et vues d'ensemble** : le décorateur de `preview.ts` pose chaque histoire sur `.sb-workbench` (surface blanche sur fond `surface-muted`). Chaque famille a une histoire `Famille/Vue d’ensemble` (`stories/overview-*.stories.ts`, aide `support/overview.ts`), triée en tête. `tests/a11y/overview.a11y.ts` vérifie que ses liens visent des histoires existantes.
+- **Ports** : registre unique de la section 7 de la spec commune, pas de liste ici. Bloc 4120-4139 : 4120 serveur `storybook preview` des tests axe (`playwright.config.ts`, interne au conteneur `node`, qui ne publie que 6006). Storybook de développement sur 6006.
 - **Tests axe** : `tests/a11y/stories.a11y.ts` lit `storybook-static/index.json` et teste chaque histoire dans les deux modes. Il faut `make storybook-build` avant `make test-a11y`. L'addon a11y lance aussi axe dans l'iframe : le test relance son analyse par `expect.toPass()` tant que le passage de l'addon n'est pas fini.
 
 ## Règles de lint désactivées ou ajoutées
