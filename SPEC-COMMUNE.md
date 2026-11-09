@@ -166,6 +166,7 @@ Disposition dans un bloc (décalage par rapport au début) : +0 e2e principal, +
 | 4046 / 4047 | svelte | observabilité / faux GlitchTip |
 | 4048-4051 | svelte | identité : site / API factice, desktop puis mobile |
 | 4052-4055 | svelte | saisies admin : site / API factice, desktop puis mobile |
+| 4057 | svelte | build servi par `make start` |
 | 4058 | svelte | image de production locale |
 | 4059 | svelte | Lighthouse (vente coupée : ports éphémères) |
 | 8095 | symfony | dev, image de production et e2e (pas de +0) |
