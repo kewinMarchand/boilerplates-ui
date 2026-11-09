@@ -138,7 +138,7 @@ Ce tableau est la seule référence des ports. Un dépôt ne prend un port que d
 | 4120-4139 | boilerplates-ui |
 | 4140-4199 | réserve (futur boilerplate) |
 
-Disposition dans un bloc (décalage par rapport au début) : +0 e2e principal, +1 build de production stricte, +2 et +3 site bilingue (desktop, mobile), +4 et +5 bilingue en maintenance, +6 observabilité, +7 faux GlitchTip, +8 à +15 sites et API factices des scénarios (identité, vente coupée, métadonnées, saisies admin… : site puis API, desktop puis mobile), +16 et +17 libres, +18 image de production locale (`docker-up`, `test-prod`), +19 Lighthouse. Un scénario sans besoin de port fixe prend un port éphémère (0).
+Disposition dans un bloc (décalage par rapport au début) : +0 e2e principal, +1 build de production stricte, +2 et +3 site bilingue (desktop, mobile), +4 et +5 bilingue en maintenance, +6 observabilité, +7 faux GlitchTip, +8 à +15 sites et API factices des scénarios (identité, vente coupée, métadonnées, saisies admin… : site puis API, desktop puis mobile), +16 et +17 libres, +18 image de production locale (`docker-up`, `test-prod`), +19 Lighthouse. Un scénario sans besoin de port fixe prend un port éphémère (0). **Ports interdits** : 4045 et 4190, bloqués par les navigateurs et par `fetch` (liste des « bad ports » de la norme Fetch) ; un serveur y démarre mais aucune requête ne l'atteint.
 
 **Ports réservés, port par port** (à tenir à jour dans le même commit que le code) :
 
@@ -162,7 +162,7 @@ Disposition dans un bloc (décalage par rapport au début) : +0 e2e principal, +
 | 4039 | nuxt | Lighthouse |
 | 4040 / 4041 | svelte | e2e principal / production stricte |
 | 4042 / 4043 | svelte | bilingue desktop / mobile |
-| 4044 / 4045 | svelte | bilingue en maintenance desktop / mobile |
+| 4044 / 4056 | svelte | bilingue en maintenance desktop / mobile (4045 interdit) |
 | 4046 / 4047 | svelte | observabilité / faux GlitchTip |
 | 4048-4051 | svelte | identité : site / API factice, desktop puis mobile |
 | 4052-4055 | svelte | saisies admin : site / API factice, desktop puis mobile |
