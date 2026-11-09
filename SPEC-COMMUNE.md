@@ -513,6 +513,24 @@ Un site peut publier ses contenus en plusieurs langues. C'est désactivé par d�
 - Fiches traduisibles : un onglet par langue activée (langue par défaut en premier, champs obligatoires dans celle-ci seulement) ; un site monolingue n'affiche pas d'onglet. Le slug se calcule depuis le nom dans chaque langue, comme aujourd'hui.
 - **Interface en français et en anglais** : tous les libellés, menus, messages de validation et d'erreur de l'admin passent par des fichiers de traduction (aucun libellé en dur) ; sélecteur de langue de l'interface dans l'admin, choix mémorisé par compte (ou par session), français par défaut. Indépendant des langues du contenu.
 
-**Fronts** (phase suivante, section 29 bis à venir) : un seul `locale` → aucun changement. Plusieurs → routes préfixées par la langue (sauf la langue par défaut), sélecteur de langue, `<html lang>`, `hreflang` depuis `alternates`, sitemap par langue.
+**Fronts** : section 29 bis.
 
 **Tests** : API, repli champ par champ, `Accept-Language` et `locale`, langue non activée, `alternates`, slug par langue, site monolingue inchangé ; admin, onglets présents seulement à plus d'une langue, interface entière en anglais (aucun libellé français restant) et en français.
+
+### 29 bis. Fronts multilingues
+
+Un site à une seule langue (`locales` de longueur 1) ne change en rien : mêmes routes, même HTML, mêmes tests.
+
+**Langues** : lues dans `GET /api/site-identity` (`locales`), jamais en dur dans le front. Les fronts livrent l'interface (libellés, boutons, messages, textes d'aide, `aria-label`) en français et en anglais, dans un fichier de traduction par langue (aucun libellé en dur dans les composants, mêmes clés dans les deux langues, contrôlé par le typage ou un test). Une langue activée sans fichier de traduction prend les libellés de la langue par défaut.
+
+**Routes** : la langue par défaut n'a pas de préfixe (`/produits/monstera`) ; les autres sont préfixées (`/en/produits/monstera-plant`). Les segments fixes des routes ne se traduisent pas, les slugs viennent de l'API dans la langue de la page. Un préfixe de langue non activée → 404. Aucune redirection automatique selon le navigateur : la langue se choisit par le sélecteur.
+
+**Appels à l'API** : chaque appel passe `locale=<langue de la page>` (paramètre plutôt qu'en-tête : clé de cache explicite). Les liens internes gardent le préfixe de la page.
+
+**Sélecteur de langue** : dans l'en-tête, seulement à plus d'une langue. Liste de liens (pas un `<select>`), dans un `<nav>` nommé, chaque lien avec `lang` et `hreflang`, son intitulé dans sa propre langue (« Français », « English »), la langue courante en `aria-current="true"`. Sur une page détaillée, le lien mène à l'équivalent donné par `alternates` ; sans équivalent, à l'accueil de cette langue.
+
+**SEO** : `<html lang>` = langue de la page ; `og:locale` et `og:locale:alternate` ; `<link rel="alternate" hreflang>` pour chaque langue disponible de la page (depuis `alternates` sur les pages détaillées, toutes les langues sur les pages fixes) plus `x-default` vers la langue par défaut ; canonique dans la langue de la page. Sitemap : une entrée par URL et par langue, avec ses `xhtml:link` alternates. Données structurées avec `inLanguage`.
+
+**Rendu statique** (html, astro) : une génération par langue activée, sous son préfixe.
+
+**Tests** : e2e monolingues inchangés ; scénario bilingue (`X-Scenario: bilingual` de l'API) : routes préfixées, contenu et libellés en anglais, sélecteur (vers l'équivalent et repli vers l'accueil), `hreflang`, `<html lang>`, sitemap, 404 d'un préfixe non activé, axe sur les pages anglaises. Test qui vérifie que les deux fichiers de traduction ont les mêmes clés.
