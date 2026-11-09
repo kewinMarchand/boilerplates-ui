@@ -1,14 +1,16 @@
 <script setup lang="ts">
 defineOptions({ name: 'BuiBreadcrumb' })
 
-defineProps<{
+const { label = 'Fil d’Ariane' } = defineProps<{
   /** Le dernier élément est la page courante. */
   items: { label: string; href?: string }[]
+  /** Nom accessible de la navigation. */
+  label?: string
 }>()
 </script>
 
 <template>
-  <nav class="bui-breadcrumb" aria-label="Fil d’Ariane">
+  <nav class="bui-breadcrumb" :aria-label="label">
     <ol class="bui-breadcrumb__list">
       <li v-for="(item, index) in items" :key="item.label" class="bui-breadcrumb__item">
         <span

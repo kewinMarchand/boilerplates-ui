@@ -7,6 +7,8 @@ export interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   label: string
   hint?: string
   error?: string
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string
   type?: 'text' | 'email' | 'tel' | 'url' | 'password' | 'search'
 }
 
@@ -17,6 +19,7 @@ export const TextField = ({
   error,
   type = 'text',
   required,
+  requiredLabel = '(obligatoire)',
   ...rest
 }: TextFieldProps) => {
   const describedBy = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(' ')
@@ -25,7 +28,7 @@ export const TextField = ({
     <div className="bui-field">
       <label className="bui-field__label" htmlFor={id}>
         {label}
-        {required && <span className="bui-field__required"> (obligatoire)</span>}
+        {required && <span className="bui-field__required">{` ${requiredLabel}`}</span>}
       </label>
       {hint && (
         <p className="bui-field__hint" id={`${id}-hint`}>

@@ -5,10 +5,23 @@ import Icon from './Icon.vue'
 
 defineOptions({ name: 'BuiPagination' })
 
-const { page, count } = defineProps<{
+const {
+  page,
+  count,
+  label = 'Pagination',
+  previousLabel = 'Précédent',
+  nextLabel = 'Suivant',
+  pageLabel = 'Page',
+} = defineProps<{
   page: number
   count: number
   href: (page: number) => string
+  /** Nom accessible de la navigation. */
+  label?: string
+  previousLabel?: string
+  nextLabel?: string
+  /** Mot masqué lu avant chaque numéro de page. */
+  pageLabel?: string
 }>()
 
 /** Pages affichées : toutes jusqu'à 7, sinon la première, la dernière et les voisines de la courante. */
@@ -22,11 +35,13 @@ const items = computed((): (number | 'ellipsis')[] => {
 </script>
 
 <template>
-  <nav class="bui-pagination" aria-label="Pagination">
+  <nav class="bui-pagination" :aria-label="label">
     <ul class="bui-pagination__list">
       <li v-if="page > 1">
         <a class="bui-pagination__link" :href="href(page - 1)" rel="prev"
-          ><Icon name="chevron-left" /><span class="bui-pagination__label">Précédent</span></a
+          ><Icon name="chevron-left" /><span class="bui-pagination__label">{{
+            previousLabel
+          }}</span></a
         >
       </li>
       <template v-for="(item, index) in items" :key="`${item}-${index}`">
@@ -36,13 +51,15 @@ const items = computed((): (number | 'ellipsis')[] => {
             class="bui-pagination__link"
             :href="href(item)"
             :aria-current="item === page ? 'page' : undefined"
-            ><span class="bui-visually-hidden">Page </span>{{ item }}</a
+            ><span class="bui-visually-hidden">{{ `${pageLabel} ` }}</span
+            >{{ item }}</a
           >
         </li>
       </template>
       <li v-if="page < count">
         <a class="bui-pagination__link" :href="href(page + 1)" rel="next"
-          ><span class="bui-pagination__label">Suivant</span><Icon name="chevron-right"
+          ><span class="bui-pagination__label">{{ nextLabel }}</span
+          ><Icon name="chevron-right"
         /></a>
       </li>
     </ul>

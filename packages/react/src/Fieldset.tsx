@@ -9,14 +9,24 @@ export interface FieldsetProps {
   hint?: string | undefined
   error?: string | undefined
   required?: boolean | undefined
+  /** Mention ajoutée à la légende d'un groupe obligatoire. */
+  requiredLabel?: string | undefined
   children: ReactNode
 }
 
-export const Fieldset = ({ id, legend, hint, error, required, children }: FieldsetProps) => (
+export const Fieldset = ({
+  id,
+  legend,
+  hint,
+  error,
+  required,
+  requiredLabel = '(obligatoire)',
+  children,
+}: FieldsetProps) => (
   <fieldset className="bui-fieldset" id={id} aria-describedby={describedBy(id, hint, error)}>
     <legend className="bui-fieldset__legend">
       {legend}
-      {required && <span className="bui-fieldset__required"> (obligatoire)</span>}
+      {required && <span className="bui-fieldset__required">{` ${requiredLabel}`}</span>}
     </legend>
     {hint && (
       <p className="bui-fieldset__hint" id={`${id}-hint`}>

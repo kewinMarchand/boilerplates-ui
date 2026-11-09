@@ -21,9 +21,13 @@
   interface Props {
     toasts: ToastData[]
     onclose?: (id: string) => void
+    /** Préfixes masqués par variante ; une variante absente garde le sien. */
+    prefixes?: Partial<Record<ToastVariant, string>> | undefined
+    /** Nom accessible du bouton de fermeture de chaque toast. */
+    closeLabel?: string | undefined
   }
 
-  let { toasts, onclose }: Props = $props()
+  let { toasts, onclose, prefixes, closeLabel = 'Fermer la notification' }: Props = $props()
 </script>
 
 <!-- Pas de disparition automatique (WCAG 2.2.1) : chaque toast se ferme par son bouton. -->
@@ -32,12 +36,14 @@
     <div {id} class={['bui-toast', `bui-toast--${variant}`]} role={VARIANTS[variant].role}>
       <Icon name={VARIANTS[variant].icon} class="bui-toast__icon" />
       <p class="bui-toast__message">
-        <span class="bui-visually-hidden">{`${VARIANTS[variant].prefix} `}</span>{message}
+        <span class="bui-visually-hidden"
+          >{`${prefixes?.[variant] ?? VARIANTS[variant].prefix} `}</span
+        >{message}
       </p>
       <button
         type="button"
         class="bui-toast__close"
-        aria-label="Fermer la notification"
+        aria-label={closeLabel}
         onclick={() => onclose?.(id)}
       >
         <Icon name="x" />

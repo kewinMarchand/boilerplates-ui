@@ -14,6 +14,8 @@ const VARIANTS: Record<AlertVariant, { icon: IconName; prefix: string }> = {
 
 export interface AlertProps {
   variant?: AlertVariant
+  /** Préfixe masqué qui annonce la nature de l'alerte, celui de la variante par défaut. */
+  prefix?: string
   title?: string
   /** `alert` ou `status` seulement pour une alerte injectée après le chargement de la page. */
   role?: 'alert' | 'status'
@@ -22,11 +24,18 @@ export interface AlertProps {
   children: ReactNode
 }
 
-export const Alert = ({ variant = 'info', title, role, action, children }: AlertProps) => (
+export const Alert = ({
+  variant = 'info',
+  prefix = VARIANTS[variant].prefix,
+  title,
+  role,
+  action,
+  children,
+}: AlertProps) => (
   <div className={`bui-alert bui-alert--${variant}`} role={role}>
     <Icon name={VARIANTS[variant].icon} className="bui-alert__icon" />
     <div className="bui-alert__content">
-      <span className="bui-visually-hidden">{VARIANTS[variant].prefix}</span>
+      <span className="bui-visually-hidden">{prefix}</span>
       {title && <p className="bui-alert__title">{title}</p>}
       <div className="bui-alert__body">{children}</div>
     </div>

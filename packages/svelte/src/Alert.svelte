@@ -19,6 +19,8 @@
 
   interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'role'> {
     variant?: AlertVariant
+    /** Préfixe masqué qui annonce la nature de l'alerte, celui de la variante par défaut. */
+    prefix?: string | undefined
     title?: string | undefined
     /** `alert` ou `status` seulement pour une alerte injectée après le chargement de la page. */
     role?: 'alert' | 'status' | undefined
@@ -29,6 +31,7 @@
 
   let {
     variant = 'info',
+    prefix,
     title,
     role,
     action,
@@ -41,7 +44,7 @@
 <div {...rest} class={['bui-alert', `bui-alert--${variant}`, className]} {role}>
   <Icon name={VARIANTS[variant].icon} class="bui-alert__icon" />
   <div class="bui-alert__content">
-    <span class="bui-visually-hidden">{VARIANTS[variant].prefix}</span>
+    <span class="bui-visually-hidden">{prefix ?? VARIANTS[variant].prefix}</span>
     {#if title}<p class="bui-alert__title">{title}</p>{/if}
     <div class="bui-alert__body">{@render children()}</div>
   </div>

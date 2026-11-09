@@ -4,12 +4,14 @@ import Icon from './Icon.vue'
 
 defineOptions({ name: 'BuiFieldset' })
 
-defineProps<{
+const { requiredLabel = '(obligatoire)' } = defineProps<{
   id: string
   legend: string
   hint?: string | undefined
   error?: string | undefined
   required?: boolean | undefined
+  /** Mention ajoutée à la légende d'un groupe obligatoire. */
+  requiredLabel?: string | undefined
 }>()
 
 defineSlots<{ default(): unknown }>()
@@ -18,7 +20,8 @@ defineSlots<{ default(): unknown }>()
 <template>
   <fieldset :id="id" class="bui-fieldset" :aria-describedby="describedBy(id, hint, error)">
     <legend class="bui-fieldset__legend">
-      {{ legend }}<span v-if="required" class="bui-fieldset__required"> (obligatoire)</span>
+      {{ legend
+      }}<span v-if="required" class="bui-fieldset__required">{{ ` ${requiredLabel}` }}</span>
     </legend>
     <p v-if="hint" :id="`${id}-hint`" class="bui-fieldset__hint">{{ hint }}</p>
     <div class="bui-fieldset__content"><slot /></div>

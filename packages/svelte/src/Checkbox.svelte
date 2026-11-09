@@ -10,10 +10,21 @@
     hint?: string | undefined
     error?: string | undefined
     required?: boolean | undefined
+    /** Mention ajoutée au libellé d'un champ obligatoire. */
+    requiredLabel?: string | undefined
     checked?: boolean | undefined
   }
 
-  let { id, label, hint, error, required, checked = $bindable(), ...rest }: Props = $props()
+  let {
+    id,
+    label,
+    hint,
+    error,
+    required,
+    requiredLabel = '(obligatoire)',
+    checked = $bindable(),
+    ...rest
+  }: Props = $props()
 </script>
 
 <div class="bui-checkbox">
@@ -28,7 +39,8 @@
     {...rest}
   />
   <label class="bui-checkbox__label" for={id}
-    >{label}{#if required}<span class="bui-checkbox__required">{' (obligatoire)'}</span>{/if}</label
+    >{label}{#if required}<span class="bui-checkbox__required">{` ${requiredLabel}`}</span
+      >{/if}</label
   >
   {#if hint}<p id="{id}-hint" class="bui-checkbox__hint">{hint}</p>{/if}
   {#if error}<p id="{id}-error" class="bui-checkbox__error">

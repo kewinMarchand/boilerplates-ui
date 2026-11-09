@@ -10,6 +10,8 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
   placeholder?: string
   hint?: string
   error?: string
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string
 }
 
 export const Select = ({
@@ -20,9 +22,17 @@ export const Select = ({
   hint,
   error,
   required,
+  requiredLabel,
   ...rest
 }: SelectProps) => (
-  <Field id={id} label={label} hint={hint} error={error} required={required}>
+  <Field
+    id={id}
+    label={label}
+    hint={hint}
+    error={error}
+    required={required}
+    requiredLabel={requiredLabel}
+  >
     <div className="bui-select">
       <select
         className="bui-field__input bui-select__control"

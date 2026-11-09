@@ -28,6 +28,8 @@ interface NativeButtonProps
   href?: undefined
   /** Garde le bouton focalisable (aria-disabled) et ignore les clics pendant le chargement. */
   loading?: boolean
+  /** Mention masquée lue après le libellé pendant le chargement. */
+  loadingLabel?: string
 }
 
 interface LinkButtonProps
@@ -90,6 +92,7 @@ export const Button = (props: ButtonProps) => {
     className,
     children,
     loading = false,
+    loadingLabel = '(chargement en cours)',
     type = 'button',
     onClick,
     ...rest
@@ -113,7 +116,7 @@ export const Button = (props: ButtonProps) => {
       )}
       {children}
       {!loading && icon && iconPosition === 'end' && <Icon name={icon} />}
-      {loading && <span className="bui-visually-hidden"> (chargement en cours)</span>}
+      {loading && <span className="bui-visually-hidden">{` ${loadingLabel}`}</span>}
     </button>
   )
 }

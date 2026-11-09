@@ -7,6 +7,8 @@ export interface TextAreaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaE
   label: string
   hint?: string
   error?: string
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string
 }
 
 export const TextArea = ({
@@ -15,10 +17,18 @@ export const TextArea = ({
   hint,
   error,
   required,
+  requiredLabel,
   rows = 4,
   ...rest
 }: TextAreaProps) => (
-  <Field id={id} label={label} hint={hint} error={error} required={required}>
+  <Field
+    id={id}
+    label={label}
+    hint={hint}
+    error={error}
+    required={required}
+    requiredLabel={requiredLabel}
+  >
     <textarea
       className="bui-field__input bui-field__input--multiline"
       rows={rows}

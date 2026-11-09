@@ -10,6 +10,8 @@
     hint?: string | undefined
     error?: string | undefined
     required?: boolean | undefined
+    /** Mention ajoutée au libellé d'un champ obligatoire. */
+    requiredLabel?: string | undefined
     type?: 'text' | 'email' | 'tel' | 'url' | 'password' | 'search'
     value?: string | undefined
   }
@@ -20,13 +22,14 @@
     hint,
     error,
     required,
+    requiredLabel,
     type = 'text',
     value = $bindable(),
     ...rest
   }: Props = $props()
 </script>
 
-<Field {id} {label} {hint} {error} {required}>
+<Field {id} {label} {hint} {error} {required} {requiredLabel}>
   <input
     {id}
     bind:value

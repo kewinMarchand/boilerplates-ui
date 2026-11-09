@@ -9,15 +9,25 @@
     hint?: string | undefined
     error?: string | undefined
     required?: boolean | undefined
+    /** Mention ajoutée au libellé d'un champ obligatoire. */
+    requiredLabel?: string | undefined
     children: Snippet
   }
 
-  let { id, label, hint, error, required, children }: Props = $props()
+  let {
+    id,
+    label,
+    hint,
+    error,
+    required,
+    requiredLabel = '(obligatoire)',
+    children,
+  }: Props = $props()
 </script>
 
 <div class="bui-field">
   <label class="bui-field__label" for={id}
-    >{label}{#if required}<span class="bui-field__required">{' (obligatoire)'}</span>{/if}</label
+    >{label}{#if required}<span class="bui-field__required">{` ${requiredLabel}`}</span>{/if}</label
   >
   {#if hint}<p id="{id}-hint" class="bui-field__hint">{hint}</p>{/if}
   {@render children()}

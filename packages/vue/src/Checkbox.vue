@@ -5,12 +5,19 @@ import Icon from './Icon.vue'
 
 defineOptions({ name: 'BuiCheckbox', inheritAttrs: false })
 
-const { id, hint, error } = defineProps<{
+const {
+  id,
+  hint,
+  error,
+  requiredLabel = '(obligatoire)',
+} = defineProps<{
   id: string
   label: string
   hint?: string
   error?: string
   required?: boolean
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string
 }>()
 
 const model = defineModel<boolean>()
@@ -33,7 +40,8 @@ const describedBy = computed(
       v-bind="$attrs"
     />
     <label class="bui-checkbox__label" :for="id"
-      >{{ label }}<span v-if="required" class="bui-checkbox__required"> (obligatoire)</span></label
+      >{{ label
+      }}<span v-if="required" class="bui-checkbox__required">{{ ` ${requiredLabel}` }}</span></label
     >
     <p v-if="hint" :id="`${id}-hint`" class="bui-checkbox__hint">{{ hint }}</p>
     <p v-if="error" :id="`${id}-error`" class="bui-checkbox__error">

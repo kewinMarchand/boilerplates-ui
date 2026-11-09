@@ -12,6 +12,8 @@ defineProps<{
   hint?: string
   error?: string
   required?: boolean
+  /** Mention ajoutée à la légende d'un groupe obligatoire. */
+  requiredLabel?: string
   disabled?: boolean
 }>()
 
@@ -19,7 +21,14 @@ const model = defineModel<string>()
 </script>
 
 <template>
-  <Fieldset :id="id" :legend="legend" :hint="hint" :error="error" :required="required">
+  <Fieldset
+    :id="id"
+    :legend="legend"
+    :hint="hint"
+    :error="error"
+    :required="required"
+    :required-label="requiredLabel"
+  >
     <Radio
       v-for="option in options"
       :id="`${id}-${option.value}`"

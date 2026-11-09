@@ -10,6 +10,8 @@
     hint?: string | undefined
     error?: string | undefined
     required?: boolean | undefined
+    /** Mention ajoutée à la légende d'un groupe obligatoire. */
+    requiredLabel?: string | undefined
     disabled?: boolean | undefined
     value?: string | undefined
   }
@@ -22,12 +24,13 @@
     hint,
     error,
     required,
+    requiredLabel,
     disabled,
     value = $bindable(),
   }: Props = $props()
 </script>
 
-<Fieldset {id} {legend} {hint} {error} {required}>
+<Fieldset {id} {legend} {hint} {error} {required} {requiredLabel}>
   {#each options as option (option.value)}
     <Radio
       id="{id}-{option.value}"

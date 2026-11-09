@@ -14,6 +14,7 @@ const {
   size = 'md',
   type = 'button',
   loading = false,
+  loadingLabel = '(chargement en cours)',
   iconPosition = 'start',
   fullWidth = false,
 } = defineProps<{
@@ -26,6 +27,8 @@ const {
   type?: 'button' | 'submit' | 'reset'
   /** Garde le bouton focalisable (aria-disabled) et ignore les clics pendant le chargement. */
   loading?: boolean
+  /** Mention masquée lue après le libellé pendant le chargement. */
+  loadingLabel?: string
   icon?: IconName
   iconPosition?: 'start' | 'end'
   /** Rend un lien `<a>` à l'apparence de bouton. Désactivé, il perd son `href`. */
@@ -77,6 +80,6 @@ const classes = () => [
     <Icon v-else-if="icon && iconPosition === 'start'" :name="icon" />
     <slot />
     <Icon v-if="!loading && icon && iconPosition === 'end'" :name="icon" />
-    <span v-if="loading" class="bui-visually-hidden"> (chargement en cours)</span>
+    <span v-if="loading" class="bui-visually-hidden">{{ ` ${loadingLabel}` }}</span>
   </button>
 </template>

@@ -10,14 +10,26 @@
     hint?: string | undefined
     error?: string | undefined
     required?: boolean | undefined
+    /** Mention ajoutée au libellé d'un champ obligatoire. */
+    requiredLabel?: string | undefined
     rows?: number
     value?: string | undefined
   }
 
-  let { id, label, hint, error, required, rows = 4, value = $bindable(), ...rest }: Props = $props()
+  let {
+    id,
+    label,
+    hint,
+    error,
+    required,
+    requiredLabel,
+    rows = 4,
+    value = $bindable(),
+    ...rest
+  }: Props = $props()
 </script>
 
-<Field {id} {label} {hint} {error} {required}>
+<Field {id} {label} {hint} {error} {required} {requiredLabel}>
   <textarea
     {id}
     bind:value

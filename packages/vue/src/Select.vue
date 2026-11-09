@@ -13,13 +13,22 @@ defineProps<{
   hint?: string
   error?: string
   required?: boolean
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string
 }>()
 
 const model = defineModel<string>()
 </script>
 
 <template>
-  <Field :id="id" :label="label" :hint="hint" :error="error" :required="required">
+  <Field
+    :id="id"
+    :label="label"
+    :hint="hint"
+    :error="error"
+    :required="required"
+    :required-label="requiredLabel"
+  >
     <div class="bui-select">
       <select
         :id="id"

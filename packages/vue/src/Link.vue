@@ -3,10 +3,12 @@ import Icon from './Icon.vue'
 
 defineOptions({ name: 'BuiLink' })
 
-defineProps<{
+const { newWindowLabel = '(nouvelle fenêtre)' } = defineProps<{
   href: string
   /** Ouvre dans une nouvelle fenêtre et l'annonce (icône et texte masqué). */
   external?: boolean
+  /** Mention masquée d'un lien externe. */
+  newWindowLabel?: string
 }>()
 </script>
 
@@ -17,9 +19,9 @@ defineProps<{
     :target="external ? '_blank' : undefined"
     :rel="external ? 'noopener noreferrer' : undefined"
     ><slot /><template v-if="external"
-      ><Icon name="external-link" class="bui-link__icon" /><span class="bui-visually-hidden">
-        (nouvelle fenêtre)</span
-      ></template
+      ><Icon name="external-link" class="bui-link__icon" /><span class="bui-visually-hidden">{{
+        ` ${newWindowLabel}`
+      }}</span></template
     ></a
   >
 </template>

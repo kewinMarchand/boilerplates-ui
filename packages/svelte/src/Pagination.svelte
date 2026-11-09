@@ -5,9 +5,23 @@
     page: number
     count: number
     href: (page: number) => string
+    /** Nom accessible de la navigation. */
+    label?: string | undefined
+    previousLabel?: string | undefined
+    nextLabel?: string | undefined
+    /** Mot masqué lu avant chaque numéro de page. */
+    pageLabel?: string | undefined
   }
 
-  let { page, count, href }: Props = $props()
+  let {
+    page,
+    count,
+    href,
+    label = 'Pagination',
+    previousLabel = 'Précédent',
+    nextLabel = 'Suivant',
+    pageLabel = 'Page',
+  }: Props = $props()
 
   /** Pages affichées : toutes jusqu'à 7, sinon la première, la dernière et les voisines de la courante. */
   const items = $derived.by((): (number | 'ellipsis')[] => {
@@ -19,12 +33,12 @@
   })
 </script>
 
-<nav class="bui-pagination" aria-label="Pagination">
+<nav class="bui-pagination" aria-label={label}>
   <ul class="bui-pagination__list">
     {#if page > 1}
       <li>
         <a class="bui-pagination__link" href={href(page - 1)} rel="prev"
-          ><Icon name="chevron-left" /><span class="bui-pagination__label">Précédent</span></a
+          ><Icon name="chevron-left" /><span class="bui-pagination__label">{previousLabel}</span></a
         >
       </li>
     {/if}
@@ -37,7 +51,7 @@
             class="bui-pagination__link"
             href={href(item)}
             aria-current={item === page ? 'page' : undefined}
-            ><span class="bui-visually-hidden">{'Page '}</span>{item}</a
+            ><span class="bui-visually-hidden">{`${pageLabel} `}</span>{item}</a
           >
         </li>
       {/if}
@@ -45,7 +59,7 @@
     {#if page < count}
       <li>
         <a class="bui-pagination__link" href={href(page + 1)} rel="next"
-          ><span class="bui-pagination__label">Suivant</span><Icon name="chevron-right" /></a
+          ><span class="bui-pagination__label">{nextLabel}</span><Icon name="chevron-right" /></a
         >
       </li>
     {/if}

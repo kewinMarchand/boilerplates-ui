@@ -10,12 +10,15 @@ const {
   hint,
   error,
   type = 'text',
+  requiredLabel = '(obligatoire)',
 } = defineProps<{
   id: string
   label: string
   hint?: string
   error?: string
   required?: boolean
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string
   type?: 'text' | 'email' | 'tel' | 'url' | 'password' | 'search'
 }>()
 
@@ -29,7 +32,8 @@ const describedBy = computed(
 <template>
   <div class="bui-field">
     <label class="bui-field__label" :for="id"
-      >{{ label }}<span v-if="required" class="bui-field__required"> (obligatoire)</span></label
+      >{{ label
+      }}<span v-if="required" class="bui-field__required">{{ ` ${requiredLabel}` }}</span></label
     >
     <p v-if="hint" :id="`${id}-hint`" class="bui-field__hint">{{ hint }}</p>
     <input

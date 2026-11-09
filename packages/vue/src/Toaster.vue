@@ -14,7 +14,13 @@ const VARIANTS: Record<ToastVariant, { icon: IconName; prefix: string; role: 'st
     error: { icon: 'circle-alert', prefix: 'Erreur :', role: 'alert' },
   }
 
-defineProps<{ toasts: ToastData[] }>()
+const { closeLabel = 'Fermer la notification' } = defineProps<{
+  toasts: ToastData[]
+  /** Préfixes masqués par variante ; une variante absente garde le sien. */
+  prefixes?: Partial<Record<ToastVariant, string>>
+  /** Nom accessible du bouton de fermeture de chaque toast. */
+  closeLabel?: string
+}>()
 
 const emit = defineEmits<{ close: [id: string] }>()
 </script>
@@ -31,13 +37,15 @@ const emit = defineEmits<{ close: [id: string] }>()
     >
       <Icon :name="VARIANTS[variant].icon" class="bui-toast__icon" />
       <p class="bui-toast__message">
-        <span class="bui-visually-hidden">{{ `${VARIANTS[variant].prefix} ` }}</span
+        <span class="bui-visually-hidden">{{
+          `${prefixes?.[variant] ?? VARIANTS[variant].prefix} `
+        }}</span
         >{{ message }}
       </p>
       <button
         type="button"
         class="bui-toast__close"
-        aria-label="Fermer la notification"
+        :aria-label="closeLabel"
         @click="emit('close', id)"
       >
         <Icon name="x" />

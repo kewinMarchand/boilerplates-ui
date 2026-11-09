@@ -1,7 +1,9 @@
 export function setToastIconSprite(url: string): void;
-export function showToast(toaster: HTMLElement, { message, variant }: {
+export function showToast(toaster: HTMLElement, { message, variant, prefix, closeLabel, }: {
     message: string;
     variant?: ToastVariant;
+    prefix?: string;
+    closeLabel?: string;
 }): HTMLDivElement;
 export function initToasts(root?: Document | HTMLElement): () => void;
 export type ToastVariant = "info" | "success" | "warning" | "error";

@@ -10,20 +10,29 @@
     href?: string | undefined
     /** Filtre actif : un clic le retire, ce que l'icône montre et un texte masqué annonce. */
     removable?: boolean
+    /** Mention masquée lue avant le libellé d'une puce retirable. */
+    removeLabel?: string | undefined
     children: Snippet
   }
 
-  let { href, removable = false, class: className, children, ...rest }: Props = $props()
+  let {
+    href,
+    removable = false,
+    removeLabel = 'Retirer le filtre :',
+    class: className,
+    children,
+    ...rest
+  }: Props = $props()
 </script>
 
 {#if href !== undefined}
   <a {...rest} class={['bui-chip', className]} {href}
-    >{#if removable}<span class="bui-visually-hidden">{'Retirer le filtre : '}</span
+    >{#if removable}<span class="bui-visually-hidden">{`${removeLabel} `}</span
       >{/if}{@render children()}{#if removable}<Icon name="x" />{/if}</a
   >
 {:else}
   <button {...rest} type="button" class={['bui-chip', className]}>
-    {#if removable}<span class="bui-visually-hidden">{'Retirer le filtre : '}</span
+    {#if removable}<span class="bui-visually-hidden">{`${removeLabel} `}</span
       >{/if}{@render children()}{#if removable}<Icon name="x" />{/if}
   </button>
 {/if}

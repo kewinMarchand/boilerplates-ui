@@ -21,10 +21,19 @@ const VARIANTS: Record<ToastVariant, { icon: IconName; prefix: string; role: 'st
 export interface ToasterProps {
   toasts: ToastData[]
   onClose: (id: string) => void
+  /** Préfixes masqués par variante ; une variante absente garde le sien. */
+  prefixes?: Partial<Record<ToastVariant, string>>
+  /** Nom accessible du bouton de fermeture de chaque toast. */
+  closeLabel?: string
 }
 
 /** Pas de disparition automatique (WCAG 2.2.1) : chaque toast se ferme par son bouton. */
-export const Toaster = ({ toasts, onClose }: ToasterProps) => (
+export const Toaster = ({
+  toasts,
+  onClose,
+  prefixes,
+  closeLabel = 'Fermer la notification',
+}: ToasterProps) => (
   <div className="bui-toaster">
     {toasts.map(({ id, message, variant = 'info' }) => (
       <div
@@ -35,13 +44,13 @@ export const Toaster = ({ toasts, onClose }: ToasterProps) => (
       >
         <Icon name={VARIANTS[variant].icon} className="bui-toast__icon" />
         <p className="bui-toast__message">
-          <span className="bui-visually-hidden">{`${VARIANTS[variant].prefix} `}</span>
+          <span className="bui-visually-hidden">{`${prefixes?.[variant] ?? VARIANTS[variant].prefix} `}</span>
           {message}
         </p>
         <button
           type="button"
           className="bui-toast__close"
-          aria-label="Fermer la notification"
+          aria-label={closeLabel}
           onClick={() => onClose(id)}
         >
           <Icon name="x" />

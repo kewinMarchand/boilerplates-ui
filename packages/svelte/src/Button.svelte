@@ -17,6 +17,8 @@
     type?: 'button' | 'submit' | 'reset'
     /** Garde le bouton focalisable (aria-disabled) et ignore les clics pendant le chargement. */
     loading?: boolean
+    /** Mention masquée lue après le libellé pendant le chargement. */
+    loadingLabel?: string
     icon?: IconName | undefined
     iconPosition?: 'start' | 'end'
     /** Rend un lien `<a>` à l'apparence de bouton. Désactivé, il perd son `href`. */
@@ -32,6 +34,7 @@
     size = 'md',
     type = 'button',
     loading = false,
+    loadingLabel = '(chargement en cours)',
     icon,
     iconPosition = 'start',
     href,
@@ -82,6 +85,6 @@
     {/if}
     {@render children?.()}
     {#if !loading && icon && iconPosition === 'end'}<Icon name={icon} />{/if}
-    {#if loading}<span class="bui-visually-hidden">{' (chargement en cours)'}</span>{/if}
+    {#if loading}<span class="bui-visually-hidden">{` ${loadingLabel}`}</span>{/if}
   </button>
 {/if}

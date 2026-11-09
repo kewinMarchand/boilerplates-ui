@@ -10,15 +10,25 @@
     hint?: string | undefined
     error?: string | undefined
     required?: boolean | undefined
+    /** Mention ajoutée à la légende d'un groupe obligatoire. */
+    requiredLabel?: string | undefined
     children: Snippet
   }
 
-  let { id, legend, hint, error, required, children }: Props = $props()
+  let {
+    id,
+    legend,
+    hint,
+    error,
+    required,
+    requiredLabel = '(obligatoire)',
+    children,
+  }: Props = $props()
 </script>
 
 <fieldset {id} class="bui-fieldset" aria-describedby={describedBy(id, hint, error)}>
   <legend class="bui-fieldset__legend">
-    {legend}{#if required}<span class="bui-fieldset__required">{' (obligatoire)'}</span>{/if}
+    {legend}{#if required}<span class="bui-fieldset__required">{` ${requiredLabel}`}</span>{/if}
   </legend>
   {#if hint}<p id="{id}-hint" class="bui-fieldset__hint">{hint}</p>{/if}
   <div class="bui-fieldset__content">{@render children()}</div>

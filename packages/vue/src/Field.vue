@@ -3,12 +3,14 @@ import Icon from './Icon.vue'
 
 defineOptions({ name: 'BuiField' })
 
-defineProps<{
+const { requiredLabel = '(obligatoire)' } = defineProps<{
   id: string
   label: string
   hint?: string | undefined
   error?: string | undefined
   required?: boolean | undefined
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string | undefined
 }>()
 
 defineSlots<{ default(): unknown }>()
@@ -17,7 +19,8 @@ defineSlots<{ default(): unknown }>()
 <template>
   <div class="bui-field">
     <label class="bui-field__label" :for="id"
-      >{{ label }}<span v-if="required" class="bui-field__required"> (obligatoire)</span></label
+      >{{ label
+      }}<span v-if="required" class="bui-field__required">{{ ` ${requiredLabel}` }}</span></label
     >
     <p v-if="hint" :id="`${id}-hint`" class="bui-field__hint">{{ hint }}</p>
     <slot />

@@ -7,9 +7,17 @@ export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string
   /** Ouvre dans une nouvelle fenêtre et l'annonce (icône et texte masqué). */
   external?: boolean
+  /** Mention masquée d'un lien externe. */
+  newWindowLabel?: string
 }
 
-export const Link = ({ external = false, className, children, ...rest }: LinkProps) => (
+export const Link = ({
+  external = false,
+  newWindowLabel = '(nouvelle fenêtre)',
+  className,
+  children,
+  ...rest
+}: LinkProps) => (
   <a
     className={cx('bui-link', className)}
     target={external ? '_blank' : undefined}
@@ -20,7 +28,7 @@ export const Link = ({ external = false, className, children, ...rest }: LinkPro
     {external && (
       <>
         <Icon name="external-link" className="bui-link__icon" />
-        <span className="bui-visually-hidden"> (nouvelle fenêtre)</span>
+        <span className="bui-visually-hidden">{` ${newWindowLabel}`}</span>
       </>
     )}
   </a>

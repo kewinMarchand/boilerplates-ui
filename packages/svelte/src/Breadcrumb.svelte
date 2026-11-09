@@ -2,12 +2,14 @@
   interface Props {
     /** Le dernier élément est la page courante. */
     items: { label: string; href?: string | undefined }[]
+    /** Nom accessible de la navigation. */
+    label?: string | undefined
   }
 
-  let { items }: Props = $props()
+  let { items, label = 'Fil d’Ariane' }: Props = $props()
 </script>
 
-<nav class="bui-breadcrumb" aria-label="Fil d’Ariane">
+<nav class="bui-breadcrumb" aria-label={label}>
   <ol class="bui-breadcrumb__list">
     {#each items as item, index (item.label)}
       <li class="bui-breadcrumb__item">

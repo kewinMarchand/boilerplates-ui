@@ -7,9 +7,19 @@ export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
   label: string
   hint?: string
   error?: string
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string
 }
 
-export const Checkbox = ({ id, label, hint, error, required, ...rest }: CheckboxProps) => {
+export const Checkbox = ({
+  id,
+  label,
+  hint,
+  error,
+  required,
+  requiredLabel = '(obligatoire)',
+  ...rest
+}: CheckboxProps) => {
   const describedBy = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(' ')
 
   return (
@@ -25,7 +35,7 @@ export const Checkbox = ({ id, label, hint, error, required, ...rest }: Checkbox
       />
       <label className="bui-checkbox__label" htmlFor={id}>
         {label}
-        {required && <span className="bui-checkbox__required"> (obligatoire)</span>}
+        {required && <span className="bui-checkbox__required">{` ${requiredLabel}`}</span>}
       </label>
       {hint && (
         <p className="bui-checkbox__hint" id={`${id}-hint`}>

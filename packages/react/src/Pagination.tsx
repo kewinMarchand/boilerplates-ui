@@ -4,6 +4,12 @@ export interface PaginationProps {
   page: number
   count: number
   href: (page: number) => string
+  /** Nom accessible de la navigation. */
+  label?: string
+  previousLabel?: string
+  nextLabel?: string
+  /** Mot masqué lu avant chaque numéro de page. */
+  pageLabel?: string
 }
 
 /** Pages affichées : toutes jusqu'à 7, sinon la première, la dernière et les voisines de la courante. */
@@ -15,14 +21,22 @@ const pageItems = (page: number, count: number): (number | 'ellipsis')[] => {
   )
 }
 
-export const Pagination = ({ page, count, href }: PaginationProps) => (
-  <nav className="bui-pagination" aria-label="Pagination">
+export const Pagination = ({
+  page,
+  count,
+  href,
+  label = 'Pagination',
+  previousLabel = 'Précédent',
+  nextLabel = 'Suivant',
+  pageLabel = 'Page',
+}: PaginationProps) => (
+  <nav className="bui-pagination" aria-label={label}>
     <ul className="bui-pagination__list">
       {page > 1 && (
         <li>
           <a className="bui-pagination__link" href={href(page - 1)} rel="prev">
             <Icon name="chevron-left" />
-            <span className="bui-pagination__label">Précédent</span>
+            <span className="bui-pagination__label">{previousLabel}</span>
           </a>
         </li>
       )}
@@ -38,7 +52,7 @@ export const Pagination = ({ page, count, href }: PaginationProps) => (
               href={href(item)}
               aria-current={item === page ? 'page' : undefined}
             >
-              <span className="bui-visually-hidden">Page </span>
+              <span className="bui-visually-hidden">{`${pageLabel} `}</span>
               {item}
             </a>
           </li>
@@ -47,7 +61,7 @@ export const Pagination = ({ page, count, href }: PaginationProps) => (
       {page < count && (
         <li>
           <a className="bui-pagination__link" href={href(page + 1)} rel="next">
-            <span className="bui-pagination__label">Suivant</span>
+            <span className="bui-pagination__label">{nextLabel}</span>
             <Icon name="chevron-right" />
           </a>
         </li>

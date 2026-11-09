@@ -53,6 +53,8 @@ export interface ButtonOptions {
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
   loading?: boolean
+  /** Mention masquée lue après le libellé pendant le chargement. */
+  loadingLabel?: string
   icon?: string
   iconPosition?: 'start' | 'end'
   /** Rend un lien `<a>` à l'apparence de bouton. Désactivé, il perd son `href`. */
@@ -70,6 +72,7 @@ export const button = ({
   type = 'button',
   disabled,
   loading,
+  loadingLabel = '(chargement en cours)',
   icon: iconName,
   iconPosition = 'start',
   href,
@@ -96,7 +99,7 @@ export const button = ({
     disabled,
     'aria-disabled': loading ? 'true' : undefined,
   })}>${start}${escape(label)}${end}${
-    loading ? '<span class="bui-visually-hidden"> (chargement en cours)</span>' : ''
+    loading ? `<span class="bui-visually-hidden"> ${escape(loadingLabel)}</span>` : ''
   }</button>`
 }
 
@@ -106,11 +109,13 @@ interface FieldOptions {
   hint?: string
   error?: string
   required?: boolean
+  /** Mention ajoutée au libellé d'un champ obligatoire. */
+  requiredLabel?: string
   disabled?: boolean
 }
 
-const requiredMark = (block: string, required?: boolean) =>
-  required ? `<span class="${block}__required"> (obligatoire)</span>` : ''
+const requiredMark = (block: string, required?: boolean, label = '(obligatoire)') =>
+  required ? `<span class="${block}__required"> ${escape(label)}</span>` : ''
 
 const errorMessage = (block: string, id: string, error?: string) =>
   error
@@ -129,7 +134,7 @@ const fieldControlAttributes = ({ id, hint, error, required, disabled }: FieldOp
 })
 
 const field = (options: FieldOptions, control: string) =>
-  `<div class="bui-field"><label class="bui-field__label" for="${options.id}">${escape(options.label)}${requiredMark('bui-field', options.required)}</label>${hintMessage('bui-field', options.id, options.hint)}${control}${errorMessage('bui-field', options.id, options.error)}</div>`
+  `<div class="bui-field"><label class="bui-field__label" for="${options.id}">${escape(options.label)}${requiredMark('bui-field', options.required, options.requiredLabel)}</label>${hintMessage('bui-field', options.id, options.hint)}${control}${errorMessage('bui-field', options.id, options.error)}</div>`
 
 export interface TextFieldOptions extends FieldOptions {
   type?: 'text' | 'email' | 'tel' | 'url' | 'password' | 'search'
@@ -159,6 +164,7 @@ export const checkbox = ({
   hint,
   error,
   required,
+  requiredLabel,
   disabled,
   checked,
 }: CheckboxOptions) =>
@@ -171,7 +177,7 @@ export const checkbox = ({
     disabled,
     'aria-invalid': error ? 'true' : undefined,
     'aria-describedby': describedBy(hint && `${id}-hint`, error && `${id}-error`),
-  })}><label class="bui-checkbox__label" for="${id}">${escape(label)}${requiredMark('bui-checkbox', required)}</label>${hintMessage('bui-checkbox', id, hint)}${errorMessage('bui-checkbox', id, error)}</div>`
+  })}><label class="bui-checkbox__label" for="${id}">${escape(label)}${requiredMark('bui-checkbox', required, requiredLabel)}</label>${hintMessage('bui-checkbox', id, hint)}${errorMessage('bui-checkbox', id, error)}</div>`
 
 export const ALERT_VARIANTS = {
   info: { icon: 'info', prefix: 'Information :' },
@@ -182,6 +188,8 @@ export const ALERT_VARIANTS = {
 
 export interface AlertOptions {
   variant?: keyof typeof ALERT_VARIANTS
+  /** Préfixe masqué qui annonce la nature de l'alerte, celui de la variante par défaut. */
+  prefix?: string
   title?: string
   body: string
   role?: 'alert' | 'status'
@@ -189,8 +197,15 @@ export interface AlertOptions {
   action?: string
 }
 
-export const alert = ({ variant = 'info', title, body, role, action }: AlertOptions) =>
-  `<div${attributes({ class: `bui-alert bui-alert--${variant}`, role })}>${icon(ALERT_VARIANTS[variant].icon, 'bui-alert__icon')}<div class="bui-alert__content"><span class="bui-visually-hidden">${ALERT_VARIANTS[variant].prefix}</span>${
+export const alert = ({
+  variant = 'info',
+  prefix = ALERT_VARIANTS[variant].prefix,
+  title,
+  body,
+  role,
+  action,
+}: AlertOptions) =>
+  `<div${attributes({ class: `bui-alert bui-alert--${variant}`, role })}>${icon(ALERT_VARIANTS[variant].icon, 'bui-alert__icon')}<div class="bui-alert__content"><span class="bui-visually-hidden">${escape(prefix)}</span>${
     title ? `<p class="bui-alert__title">${escape(title)}</p>` : ''
   }<div class="bui-alert__body">${body}</div></div>${action ? `<div class="bui-alert__action">${action}</div>` : ''}</div>`
 
@@ -270,9 +285,16 @@ export interface LinkOptions {
   href: string
   label: string
   external?: boolean
+  /** Mention masquée d'un lien externe. */
+  newWindowLabel?: string
 }
 
-export const link = ({ href, label, external }: LinkOptions) =>
+export const link = ({
+  href,
+  label,
+  external,
+  newWindowLabel = '(nouvelle fenêtre)',
+}: LinkOptions) =>
   `<a${attributes({
     class: 'bui-link',
     href,
@@ -280,7 +302,7 @@ export const link = ({ href, label, external }: LinkOptions) =>
     rel: external ? 'noopener noreferrer' : undefined,
   })}>${escape(label)}${
     external
-      ? `${icon('external-link', 'bui-link__icon')}<span class="bui-visually-hidden"> (nouvelle fenêtre)</span>`
+      ? `${icon('external-link', 'bui-link__icon')}<span class="bui-visually-hidden"> ${escape(newWindowLabel)}</span>`
       : ''
   }</a>`
 
@@ -303,12 +325,20 @@ export interface ChipOptions {
   current?: boolean
   /** Filtre actif : un clic le retire, ce que l'icône montre et un texte masqué annonce. */
   removable?: boolean
+  /** Mention masquée lue avant le libellé d'une puce retirable. */
+  removeLabel?: string
 }
 
 /** Puce de filtre ou de sous-catégorie. Une suite de puces va dans une `<ul class="bui-chip-list" role="list">`. */
-export const chip = ({ label, href, current, removable }: ChipOptions) => {
+export const chip = ({
+  label,
+  href,
+  current,
+  removable,
+  removeLabel = 'Retirer le filtre :',
+}: ChipOptions) => {
   const content = removable
-    ? `<span class="bui-visually-hidden">Retirer le filtre : </span>${escape(label)}${icon('x')}`
+    ? `<span class="bui-visually-hidden">${escape(removeLabel)} </span>${escape(label)}${icon('x')}`
     : escape(label)
   if (href !== undefined)
     return `<a${attributes({ class: 'bui-chip', href, 'aria-current': current ? 'page' : undefined })}>${content}</a>`
@@ -379,15 +409,25 @@ export interface FieldsetOptions {
   hint?: string
   error?: string
   required?: boolean
+  /** Mention ajoutée à la légende d'un groupe obligatoire. */
+  requiredLabel?: string
   body: string
 }
 
-export const fieldset = ({ id, legend, hint, error, required, body }: FieldsetOptions) =>
+export const fieldset = ({
+  id,
+  legend,
+  hint,
+  error,
+  required,
+  requiredLabel,
+  body,
+}: FieldsetOptions) =>
   `<fieldset${attributes({
     class: 'bui-fieldset',
     id,
     'aria-describedby': describedBy(hint && `${id}-hint`, error && `${id}-error`),
-  })}><legend class="bui-fieldset__legend">${escape(legend)}${requiredMark('bui-fieldset', required)}</legend>${hintMessage('bui-fieldset', id, hint)}<div class="bui-fieldset__content">${body}</div>${errorMessage('bui-fieldset', id, error)}</fieldset>`
+  })}><legend class="bui-fieldset__legend">${escape(legend)}${requiredMark('bui-fieldset', required, requiredLabel)}</legend>${hintMessage('bui-fieldset', id, hint)}<div class="bui-fieldset__content">${body}</div>${errorMessage('bui-fieldset', id, error)}</fieldset>`
 
 export interface RadioGroupOptions extends Omit<FieldsetOptions, 'body'> {
   name: string
@@ -554,17 +594,43 @@ export const TOAST_VARIANTS = {
   error: { icon: 'circle-alert', prefix: 'Erreur :', role: 'alert' },
 } as const
 
+type ToastVariant = keyof typeof TOAST_VARIANTS
+
 export interface ToastOptions {
   id: string
   message: string
-  variant?: keyof typeof TOAST_VARIANTS
+  variant?: ToastVariant
+  /** Préfixe masqué qui annonce la nature du toast, celui de la variante par défaut. */
+  prefix?: string | undefined
+  /** Nom accessible du bouton de fermeture. */
+  closeLabel?: string | undefined
 }
 
-export const toast = ({ id, message, variant = 'info' }: ToastOptions) =>
-  `<div class="bui-toast bui-toast--${variant}" id="${id}" role="${TOAST_VARIANTS[variant].role}">${icon(TOAST_VARIANTS[variant].icon, 'bui-toast__icon')}<p class="bui-toast__message"><span class="bui-visually-hidden">${TOAST_VARIANTS[variant].prefix} </span>${escape(message)}</p><button type="button" class="bui-toast__close" aria-label="Fermer la notification" data-bui-toast-close>${icon('x')}</button></div>`
+export const toast = ({
+  id,
+  message,
+  variant = 'info',
+  prefix = TOAST_VARIANTS[variant].prefix,
+  closeLabel = 'Fermer la notification',
+}: ToastOptions) =>
+  `<div class="bui-toast bui-toast--${variant}" id="${id}" role="${TOAST_VARIANTS[variant].role}">${icon(TOAST_VARIANTS[variant].icon, 'bui-toast__icon')}<p class="bui-toast__message"><span class="bui-visually-hidden">${escape(prefix)} </span>${escape(message)}</p><button${attributes({ type: 'button', class: 'bui-toast__close', 'aria-label': closeLabel, 'data-bui-toast-close': true })}>${icon('x')}</button></div>`
 
-export const toaster = (toasts: ToastOptions[] = []) =>
-  `<div class="bui-toaster" data-bui-toaster>${toasts.map(toast).join('')}</div>`
+export interface ToasterLabels {
+  /** Préfixes masqués par variante ; une variante absente garde le sien. */
+  prefixes?: Partial<Record<ToastVariant, string>>
+  /** Nom accessible du bouton de fermeture de chaque toast. */
+  closeLabel?: string
+}
+
+export const toaster = (
+  toasts: ToastOptions[] = [],
+  { prefixes, closeLabel }: ToasterLabels = {},
+) =>
+  `<div class="bui-toaster" data-bui-toaster>${toasts
+    .map((options) =>
+      toast({ prefix: prefixes?.[options.variant ?? 'info'], closeLabel, ...options }),
+    )
+    .join('')}</div>`
 
 export interface TabsOptions {
   id: string
@@ -684,10 +750,12 @@ export const menu = ({
 export interface BreadcrumbOptions {
   /** Le dernier élément est la page courante. */
   items: { label: string; href?: string }[]
+  /** Nom accessible de la navigation. */
+  label?: string
 }
 
-export const breadcrumb = ({ items }: BreadcrumbOptions) =>
-  `<nav class="bui-breadcrumb" aria-label="Fil d’Ariane"><ol class="bui-breadcrumb__list">${items
+export const breadcrumb = ({ items, label = 'Fil d’Ariane' }: BreadcrumbOptions) =>
+  `<nav class="bui-breadcrumb" aria-label="${escape(label)}"><ol class="bui-breadcrumb__list">${items
     .map((item, index) =>
       index === items.length - 1
         ? `<li class="bui-breadcrumb__item"><span class="bui-breadcrumb__current" aria-current="page">${escape(item.label)}</span></li>`
@@ -708,23 +776,37 @@ export interface PaginationOptions {
   page: number
   count: number
   href: (page: number) => string
+  /** Nom accessible de la navigation. */
+  label?: string
+  previousLabel?: string
+  nextLabel?: string
+  /** Mot masqué lu avant chaque numéro de page. */
+  pageLabel?: string
 }
 
-export const pagination = ({ page, count, href }: PaginationOptions) => {
+export const pagination = ({
+  page,
+  count,
+  href,
+  label = 'Pagination',
+  previousLabel = 'Précédent',
+  nextLabel = 'Suivant',
+  pageLabel = 'Page',
+}: PaginationOptions) => {
   const link = (target: number, content: string, extra: Record<string, string> = {}) =>
     `<a${attributes({ class: 'bui-pagination__link', href: href(target), ...extra })}>${content}</a>`
   const items = pageItems(page, count).map((item) =>
     item === 'ellipsis'
       ? '<li class="bui-pagination__ellipsis" aria-hidden="true">…</li>'
-      : `<li>${link(item, `<span class="bui-visually-hidden">Page </span>${item}`, item === page ? { 'aria-current': 'page' } : {})}</li>`,
+      : `<li>${link(item, `<span class="bui-visually-hidden">${escape(pageLabel)} </span>${item}`, item === page ? { 'aria-current': 'page' } : {})}</li>`,
   )
-  return `<nav class="bui-pagination" aria-label="Pagination"><ul class="bui-pagination__list">${
+  return `<nav class="bui-pagination" aria-label="${escape(label)}"><ul class="bui-pagination__list">${
     page > 1
-      ? `<li>${link(page - 1, `${icon('chevron-left')}<span class="bui-pagination__label">Précédent</span>`, { rel: 'prev' })}</li>`
+      ? `<li>${link(page - 1, `${icon('chevron-left')}<span class="bui-pagination__label">${escape(previousLabel)}</span>`, { rel: 'prev' })}</li>`
       : ''
   }${items.join('')}${
     page < count
-      ? `<li>${link(page + 1, `<span class="bui-pagination__label">Suivant</span>${icon('chevron-right')}`, { rel: 'next' })}</li>`
+      ? `<li>${link(page + 1, `<span class="bui-pagination__label">${escape(nextLabel)}</span>${icon('chevron-right')}`, { rel: 'next' })}</li>`
       : ''
   }</ul></nav>`
 }
