@@ -534,3 +534,13 @@ Un site à une seule langue (`locales` de longueur 1) ne change en rien : mêmes
 **Rendu statique** (html, astro) : une génération par langue activée, sous son préfixe.
 
 **Tests** : e2e monolingues inchangés ; scénario bilingue (`X-Scenario: bilingual` de l'API) : routes préfixées, contenu et libellés en anglais, sélecteur (vers l'équivalent et repli vers l'accueil), `hreflang`, `<html lang>`, sitemap, 404 d'un préfixe non activé, axe sur les pages anglaises. Test qui vérifie que les deux fichiers de traduction ont les mêmes clés.
+
+## 30. Tests en développement : ciblés en local, complets en CI
+
+La suite complète (e2e desktop et mobile, a11y dans tous les modes, Lighthouse) tourne en CI à chaque push. En développement, on ne lance que ce que le changement touche.
+
+- `make e2e-vite` : Playwright, projet desktop seul, sur les fichiers e2e modifiés par rapport à `origin/main` (`--only-changed=origin/main`), ou sur `FICHIERS="tests/e2e/panier.e2e.ts …"`, ou avec `GREP="motif"`. Réutilise le build existant s'il est à jour (pas de reconstruction quand rien n'a changé dans les sources depuis le dernier build), sinon le reconstruit une fois.
+- `make qa` reste la porte de chaque commit (lint, architecture, format, types, tests unitaires) ; `test-unit` peut cibler les fichiers modifiés (`VITEST_CHANGED=1` → `vitest --changed`) quand l'outil le permet.
+- `make test-e2e`, `make test-a11y`, `make metrics` et `make qa-full` restent disponibles à la main (et sont ce que lance la CI).
+- Avant un push : `make qa` + `make e2e-vite` verts. Après : surveiller la CI ; si elle rougit, correction immédiate.
+- Exception : un changement de performance garde une mesure Lighthouse locale, limitée aux URL concernées (`URLS="/ /catalogue"`).
