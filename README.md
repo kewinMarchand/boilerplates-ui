@@ -1,6 +1,6 @@
 # boilerplates-ui
 
-Bibliothèque de composants commune aux cinq boilerplates (Next et React, Nuxt et Vue, SvelteKit et Tailwind, Symfony et Twig, HTML et CSS vanilla), sans kit de composants tiers (ADR 0003). Une source de tokens, un balisage HTML et CSS de référence, le comportement en JavaScript natif, et des composants React, Vue et Svelte qui produisent exactement ce balisage. Accessibilité WCAG 2.1 AA en mode standard et en mode renforcé, vérifiée par axe sur chaque histoire du Storybook.
+Bibliothèque de composants commune aux six boilerplates (Next et React, Nuxt et Vue, SvelteKit et Tailwind, Astro, Symfony et Twig, HTML et CSS vanilla), sans kit de composants tiers (ADR 0003). Une source de tokens, un balisage HTML et CSS de référence, le comportement en JavaScript natif, et des composants React, Vue et Svelte qui produisent exactement ce balisage. Accessibilité WCAG 2.1 AA en mode standard et en mode renforcé, vérifiée par axe sur chaque histoire du Storybook.
 
 | Paquet             | Contenu                                                                                                                                     |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
