@@ -107,22 +107,46 @@ Seconde API au **contrat identique** : `~/Applications/boilerplate-hono` (Hono +
 - **Images** (ADR 0002 de l'API Platform, adoptée par Hono) : les produits et les articles portent `image`, objet ou `null` : `{ alt, width, height, sources: [{ type: "image/avif" | "image/webp", srcset }], src }`. Adresses absolues sur l'origine de l'API (`MEDIA_BASE_URL`), fichiers immuables (`Cache-Control: immutable`). Le front pose `sources` dans un `<picture>` (AVIF puis WebP), `src`, `width`, `height` et `alt` sur l'`<img>`, et choisit lui-même `sizes`, `loading` et la priorité. Il ne construit aucun chemin et n'utilise pas d'optimiseur à la volée. `image` à `null` : pas d'image (aucun placeholder cassé). La CSP du front autorise l'origine de l'API en `img-src`. Largeurs servies : article 16:9 480 et 960, produit 1:1 400, 640 et 800 (ADR 0003).
 - Tests : la CI e2e démarre une vraie API (`boilerplate-hono`, dépôt public, `make up`) et les états d'erreur et de liste vide passent par `X-Scenario`. En local, l'API de son choix est lancée à côté, le front la joint par `API_URL`.
 
-## 7. Ports
+## 7. Ports : registre unique
 
-| Dépôt | dev | e2e Playwright | Lighthouse |
-|---|---|---|---|
-| boilerplate-next | 3000 (publié par `DEV_PORT`, ex. `DEV_PORT=3160 make up` quand un autre projet occupe 3000) | 3100 | 3200 |
-| boilerplate-nuxt | 3010 | 3110 | 3210 |
-| boilerplate-svelte | 5173 | 3120 | 3220 |
-| boilerplate-symfony | 8095 | 8095 | 3230 |
-| boilerplate-html | 3130 | 3130 | 3250 |
-| boilerplate-astro | 4321 | 3170 | 3270 |
-| boilerplate-api-platform | 8090 | | |
-| boilerplate-hono | 8091 | | |
+Ce tableau est la seule référence des ports. Un dépôt ne prend un port que dans son bloc, et l'ajoute ici dans le même passage ; son CLAUDE.md renvoie à cette section au lieu de tenir sa propre liste. Avant de réserver un port, vérifier qu'il n'est ni ici ni en écoute (`ss -ltn`).
 
-Depuis la section 18, les tests et Lighthouse tournent dans le conteneur : leurs ports (3100 à 3250, faux GlitchTip 3231) sont internes au conteneur, sauf pour Symfony, vanilla et Hono dont le service `node` ou `contract` est sur le réseau de la machine. Seul le port de dev est publié. Un port de dev pris par un autre service se déplace par variable (`DEV_PORT` en Next et Nuxt, `HTTP_PORT` en Symfony).
+**Ports de développement** (publiés, conventionnels, déplaçables par variable : `DEV_PORT` en Next et Nuxt, `HTTP_PORT` en Symfony) :
 
-Ports pris sur la machine de l'auteur par d'autres services, à ne pas réattribuer : 2283 (Immich), 3000 (autre projet), 3030 (Forgejo), 3090 (LibreChat), 3100 et 3101 (Paperclip), 4533 (Navidrome), 8000 (GlitchTip), 8010 (Kimai), 8020 (Dolibarr), 8025 (Mailpit), 8030 (Matomo), 8040 (Teable), 8065 (Mattermost), 8070 (code-server), 8080 (open-webui), 8081 (HortusFox), 8085 (Lighthouse CI), 8092 (ntfy), 8093 (IA locale), 8096 (Jellyfin), 8097 (Linkwarden), 8100 (Tolgee), 8105 (Documenso), 8110 (Formbricks), 8115 (Docmost), 8200 (Windmill), 8300 (Nextcloud), 8444 (ntfy Tailscale), 8888 (SearXNG), 9001 (Penpot), 34400 (xTeVe).
+| Dépôt | dev | API |
+|---|---|---|
+| boilerplate-next | 3000 | |
+| boilerplate-nuxt | 3010 | |
+| boilerplate-svelte | 5173 | |
+| boilerplate-astro | 4321 | |
+| boilerplate-symfony | 8095 (repli 18095) | |
+| boilerplate-html | 4098 | |
+| boilerplates-ui | 6006 (Storybook) | |
+| boilerplate-api-platform | | 8090, Mailpit 8026 |
+| boilerplate-hono | | 8091, Mailpit 8027 |
+
+**Blocs des tests et outils** (Playwright, serveurs secondaires des e2e, API factices, Lighthouse, image de production locale). Les services `node` des fronts tournent en réseau `host` : ces ports sont pris sur la machine, d'où un bloc par dépôt.
+
+| Bloc | Dépôt |
+|---|---|
+| 4000-4019 | boilerplate-next |
+| 4020-4039 | boilerplate-nuxt |
+| 4040-4059 | boilerplate-svelte |
+| 4060-4079 | boilerplate-symfony |
+| 4080-4099 | boilerplate-html |
+| 4100-4119 | boilerplate-astro |
+| 4120-4139 | boilerplates-ui |
+| 4140-4199 | réserve (futur boilerplate) |
+
+Disposition dans un bloc (décalage par rapport au début) : +0 e2e principal, +1 build de production stricte, +2 et +3 site bilingue (desktop, mobile), +4 et +5 bilingue en maintenance, +6 observabilité, +7 faux GlitchTip, +8 à +15 sites et API factices des scénarios (identité, vente coupée, métadonnées, saisies admin… : site puis API, desktop puis mobile), +16 et +17 libres, +18 image de production locale (`docker-up`, `test-prod`), +19 Lighthouse. Un scénario sans besoin de port fixe prend un port éphémère (0).
+
+**CORS des API** (dev et test) : `^http://(localhost|127\.0\.0\.1):(3000|3010|4321|5173|8095|18095|4[01][0-9]{2})$`, identique dans les deux API.
+
+**CI** : un runner par dépôt, l'API Hono sur 8091 ; les blocs évitent seulement les collisions locales, quand plusieurs suites ou un agent tournent en même temps.
+
+**Pris sur la machine de l'auteur par d'autres services, à ne pas réattribuer** :
+- agence (dépôt `~/Documents/dev/agence`) : 3030 Forgejo, 3101 Paperclip, 3102 Paperclip perso, 3130 à 3133, 3231 et 3250 (sites de l'agence dérivés de boilerplate-html, dont site-agence, lancés par les agents Paperclip), 2019 et 7100 à 7199 (Caddy et préprods, backends en +10000), 8025 et 1025 (Mailpit), 8040 Teable, 8075 gatus, 8443 et 8880 (aiguilleur), 6016 (Storybook de l'agence) ;
+- services : 2283 Immich, 3000 (autre projet, d'où `DEV_PORT`), 3080 homepage, 3090 LibreChat, 4533 Navidrome, 8000 GlitchTip, 8010 Kimai, 8020 Dolibarr, 8030 Matomo, 8050 Onyx, 8060 Laya, 8065 Mattermost, 8070 code-server, 8080 open-webui, 8081 HortusFox, 8085 Lighthouse CI, 8092 ntfy, 8093 IA locale, 8096 Jellyfin, 8097 Linkwarden, 8098 Kavita, 8099 Paperless, 8100 Tolgee, 8105 Documenso, 8110 Formbricks, 8115 Docmost, 8200 Windmill, 8300 Nextcloud, 8384 et 22000 Syncthing, 8400 Colibri, 8444 ntfy Tailscale, 8888 SearXNG, 9001 Penpot, 11434 Ollama, 18010 et 18020, 34400 xTeVe, 54329 PostgreSQL.
 
 ## 8. Logo, favicons et images de partage
 
@@ -366,7 +390,7 @@ Sixième boilerplate, pour les sites où le contenu domine (vitrine, éditorial,
 - **Amorçage** : script inline du layout (`is:inline`) pour le mode renforcé et le thème, avant le premier rendu (sections 4 et 20).
 - **Erreurs** : `src/pages/404.astro` et `src/pages/500.astro` ; route de test `/erreur-test` absente en production (Astro ignore les fichiers de `src/pages/` préfixés par `_`) ; maintenance par `MAINTENANCE=1` (middleware Astro, 503 et `Retry-After`).
 - **Observabilité** (section 16) : `@sentry/astro`, chargé seulement si `PUBLIC_GLITCHTIP_DSN` est renseigné ; Matomo sans cookie si `PUBLIC_MATOMO_URL` et `PUBLIC_MATOMO_SITE_ID` le sont. CSP Report-Only par `@kewinmarchand/csp` dans un middleware.
-- **Ports** (section 7) : dev 4321, e2e 3170, Lighthouse 3270.
+- **Ports** : dev 4321, tests dans le bloc 4100-4119 (section 7).
 - **Outillage** : identique aux autres (section 18) : Docker (image Playwright pour Node), `make`, ESLint (`eslint-plugin-astro`, règles de dépendance), Prettier (`prettier-plugin-astro`), `astro check`, Vitest, Playwright + axe, Lighthouse CI en clair et en sombre, hook Git qui appelle `make`, GitHub Actions.
 
 
