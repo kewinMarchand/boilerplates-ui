@@ -1,0 +1,52 @@
+@layer components {
+  .bui-progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bui-space-1);
+  }
+
+  .bui-progress__track {
+    overflow: hidden;
+    width: 100%;
+    height: 0.5rem;
+    border-radius: var(--bui-radius-full, 999px);
+    background: var(--bui-color-surface-2, var(--bui-color-border-subtle));
+  }
+
+  .bui-progress--sm .bui-progress__track {
+    height: 0.25rem;
+  }
+
+  .bui-progress--lg .bui-progress__track {
+    height: 0.75rem;
+  }
+
+  .bui-progress__bar {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--bui-color-primary);
+    transition: width var(--bui-motion-duration) ease;
+  }
+
+  .bui-progress__label,
+  .bui-progress__value {
+    font-size: var(--bui-font-size-body-sm);
+    color: var(--bui-color-text-muted, var(--bui-color-text));
+  }
+
+  .bui-progress__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--bui-space-2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bui-progress__bar {
+      transition: none;
+    }
+  }
+
+  [data-a11y-mode='enhanced'] .bui-progress__bar {
+    transition: none;
+  }
+}

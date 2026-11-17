@@ -830,6 +830,20 @@ const CASES: Case[] = [
     svelte: s(S.Spinner, { size: 'lg', label: 'Envoi en cours' }),
   },
   {
+    name: 'barre de progression',
+    reference: ref.progress({ value: 40, label: 'Étape 2', showValue: true }),
+    react: r(R.Progress, { value: 40, label: 'Étape 2', showValue: true }),
+    vue: () => h(V.Progress, { value: 40, label: 'Étape 2', showValue: true }),
+    svelte: s(S.Progress, { value: 40, label: 'Étape 2', showValue: true }),
+  },
+  {
+    name: 'barre de progression petite sans valeur',
+    reference: ref.progress({ value: 70, size: 'sm', label: 'Chargement' }),
+    react: r(R.Progress, { value: 70, size: 'sm', label: 'Chargement' }),
+    vue: () => h(V.Progress, { value: 70, size: 'sm', label: 'Chargement' }),
+    svelte: s(S.Progress, { value: 70, size: 'sm', label: 'Chargement' }),
+  },
+  {
     name: 'squelette texte',
     reference: ref.skeleton({ variant: 'text', width: '60%' }),
     react: r(R.Skeleton, { variant: 'text', width: '60%' }),

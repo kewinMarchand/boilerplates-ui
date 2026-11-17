@@ -520,6 +520,38 @@ export interface SpinnerOptions {
 export const spinner = ({ label = 'Chargement en cours', size = 'md' }: SpinnerOptions = {}) =>
   `<span class="${classes('bui-spinner', size !== 'md' && `bui-spinner--${size}`)}" role="status">${icon('loader-circle', 'bui-spinner__icon')}<span class="bui-visually-hidden">${escape(label)}</span></span>`
 
+export interface ProgressOptions {
+  value: number
+  max?: number
+  label?: string
+  size?: 'sm' | 'md' | 'lg'
+  showValue?: boolean
+}
+
+export const progress = ({
+  value,
+  max = 100,
+  label = 'Progression',
+  size = 'md',
+  showValue = false,
+}: ProgressOptions) => {
+  const safeMax = max > 0 ? max : 100
+  const clamped = Math.min(Math.max(value, 0), safeMax)
+  const pct = Math.round((clamped / safeMax) * 100)
+  const meta =
+    label || showValue
+      ? `<div class="bui-progress__meta">${label ? `<span class="bui-progress__label">${escape(label)}</span>` : '<span></span>'}${showValue ? `<span class="bui-progress__value">${pct}%</span>` : ''}</div>`
+      : ''
+  return `<div class="${classes('bui-progress', size !== 'md' && `bui-progress--${size}`)}">${meta}<div${attributes({
+    class: 'bui-progress__track',
+    role: 'progressbar',
+    'aria-label': label,
+    'aria-valuemin': '0',
+    'aria-valuemax': String(safeMax),
+    'aria-valuenow': String(clamped),
+  })}><div class="bui-progress__bar" style="width: ${pct}%"></div></div></div>`
+}
+
 export interface SkeletonOptions {
   variant?: 'block' | 'text' | 'circle'
   width?: string
