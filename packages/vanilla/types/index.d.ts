@@ -1,3 +1,4 @@
+export { attachParticleButtons, initParticleButtons } from "./particle-button.js";
 export { initImageFallback } from "./imageFallback.js";
 export { initTooltips } from "./tooltip.js";
 export { closeMenu, initMenus, openMenu } from "./menu.js";
