@@ -1,5 +1,7 @@
 # boilerplates-ui
 
+Monorepo des ressources communes aux boilerplates : la bibliothèque de composants et la spécification / architecture DDD (`packages/commun`), historiques fusionnés ici (ADR 0007). Le dépôt garde son nom et sa racine publiable, donc les boilerplates consommateurs ne changent pas leur dépendance git.
+
 Bibliothèque de composants commune aux six boilerplates (Next et React, Nuxt et Vue, SvelteKit et Tailwind, Astro, Symfony et Twig, HTML et CSS vanilla), sans kit de composants tiers (ADR 0003). Une source de tokens, un balisage HTML et CSS de référence, le comportement en JavaScript natif, et des composants React, Vue et Svelte qui produisent exactement ce balisage. Accessibilité WCAG 2.1 AA en mode standard et en mode renforcé, vérifiée par axe sur chaque histoire du Storybook.
 
 | Paquet             | Contenu                                                                                                                                     |
@@ -10,6 +12,7 @@ Bibliothèque de composants commune aux six boilerplates (Next et React, Nuxt et
 | `packages/react`   | Composants React typés                                                                                                                      |
 | `packages/vue`     | Composants Vue typés                                                                                                                        |
 | `packages/svelte`  | Composants Svelte 5 typés (runes, snippets), même liste et même API que Vue aux conventions de Svelte près (ADR 0004)                       |
+| `packages/commun`  | Spécification commune, architecture DDD (`ARCHITECTURE-DDD.md`), ADRs historiques et médias partagés (`shared-assets/`)                     |
 | `apps/storybook`   | Storybook de démonstration et documentation des tokens                                                                                      |
 
 Composants disponibles : bouton, bouton icône, lien, bouton-lien, puce, champ texte, zone de texte, liste déroulante, case à cocher, bouton radio et groupe de boutons radio, interrupteur, groupe de champs, alerte, badge, carte, modale, tiroir, toast, onglets, accordéon, info-bulle, menu déroulant, fil d'Ariane, pagination, tableau, séparateur, indicateur de chargement, squelette, avatar, icône. Briques de mise en page : empilement, rangée, grille et conteneur de page, avec un espacement pris dans l'échelle des jetons.
@@ -38,7 +41,7 @@ make storybook-build  # Storybook statique dans apps/storybook/storybook-static
 make test-a11y        # axe sur chaque histoire construite, en mode standard, renforcé et sombre
 ```
 
-Ports : registre unique de la section 7 de la spec commune (`~/Applications/boilerplates-commun/SPEC-COMMUNE.md`). Storybook de développement sur 6006 ; bloc des tests 4120-4139, dont seul 4120 sert (serveur `storybook preview` des tests axe, `make test-a11y`, interne au conteneur `node`).
+Ports : registre unique de la section 7 de la spec commune (`packages/commun/SPEC-COMMUNE.md`). Storybook de développement sur 6006 ; bloc des tests 4120-4139, dont seul 4120 sert (serveur `storybook preview` des tests axe, `make test-a11y`, interne au conteneur `node`).
 
 `make help` liste toutes les cibles. Le hook `pre-commit` lance `make lint-staged` et refuse le commit si Docker est arrêté.
 

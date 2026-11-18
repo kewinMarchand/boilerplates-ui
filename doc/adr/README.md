@@ -8,3 +8,4 @@
 | [0004](0004-couche-svelte.md)                   | Couche de composants Svelte     | Acceptée |
 | [0005](0005-depots-modeles-renommes.md)         | Dépôts modèles renommés         | Acceptée |
 | [0006](0006-api-de-test-renommees.md)           | API de test renommées           | Acceptée |
+| [0007](0007-fusion-boilerplates-commun.md)     | Fusion de `boilerplates-commun` | Acceptée |

@@ -1,0 +1,6 @@
+{
+  "name": "@kewinmarchand/boilerplates-commun",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Spécification commune, architecture DDD et ressources partagées des boilerplates"
+}

@@ -4,7 +4,7 @@ Architecture : voir `ARCHITECTURE-DDD.md` (décisions D1 à D12 acceptées). Voc
 
 S'applique à : boilerplate-next, boilerplate-nuxt, boilerplate-svelte, boilerplate-symfony, boilerplate-html et boilerplate-astro (section 21), tous dans `~/Applications/`. Même contenu, mêmes routes, mêmes `data-testid` partout, pour que les suites e2e se ressemblent d'un dépôt à l'autre. Chaque stack l'implémente avec ses conventions natives. Aucune dépendance ajoutée sans justification dans le CLAUDE.md du dépôt.
 
-Médias partagés : `~/Applications/boilerplates-commun/shared-assets/` (photos de Kewin, EXIF et GPS retirés, et illustrations), chacune en `.avif` et `.webp`.
+Médias partagés : `packages/commun/shared-assets/` (photos de Kewin, EXIF et GPS retirés, et illustrations), chacune en `.avif` et `.webp`.
 
 - **Identité du front**, copiée dans ses assets publics sous `images/` : `hero-{640,1280,1920}` (jardin tropical, 16:9), l'image de partage et `brand/` (section 8). Servir AVIF puis WebP (`<picture>` ou composant image du framework, `srcset`/`sizes`).
 - **Photos de contenu**, servies par l'API (ADR 0002 de l'API Platform, section 6) : `slide-{1..5}` (heliconia, anthurium, calliandra, strelitzia, nénuphar), `blog-{1..3}` (illustrations isométriques), `products/product-{1..12}`. Elles sont la source des photos de démonstration que les deux API importent par leur admin (`fixtures/images`). Un front ne les copie pas et ne construit aucun chemin d'image : il lit l'objet `image` du contrat.
